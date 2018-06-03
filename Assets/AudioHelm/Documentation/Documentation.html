@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta property="og:title" content="Audio Helm for Unity" />
+    <meta property="og:site_name" content="Helm" />
+    <meta property="og:url" content="http://tytel.org/audiohelm/" />
+    <meta property="og:image" content="http://tytel.org/static/images/helm_og_image_small.png" />
+    <meta property="og:description" name="description" content="Audio Helm is a live audio synthesizer, sequencer and sampler for Unity that gives you the tools to create dynamic sound effects and generative music for your game." />
+
+    <title>Audio Helm for Unity</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="canonical" href="http://tytel.org/audiohelm/">
+    <link rel="alternate" type="application/rss+xml" title="Matt Tytel" href="http://tytel.org/feed.xml" />
+    <link rel="image_src" href="http://tytel.org/static/images/helm_og_image.png" />
+
+    <script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-38450508-1', 'auto');
+ga('send', 'pageview');
+    </script>
+  </head>
+
+
+  <body class="synth">
+
+    <header class="synth-header">
+    </header>
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="home synth">
+          <img id="helm-logo" src="images/helm_logo.png">
+
+          <div class="big-header">
+            <div class="tagline">
+              <h2 id="product-name" class="product-name">Audio Helm</h2>
+              <div id="catch-phrase" class="catch-phrase">
+                Live Audio Synthesis, Sequencing and Sampling for Unity
+              </div>
+            </div>
+          </div>
+
+          <div class="division-bar">
+            <div class="binary-description">
+              <h2>Links</h2>
+              <ul>
+                <li><a href="https://www.assetstore.unity3d.com/#!/content/86984">
+                  Audio Helm in the Unity Asset Store
+                </a></li>
+
+                <li><a href="http://tytel.org/audiohelm/manual/index.html">
+                  Component Manual
+                </a></li>
+
+                <li><a href="http://tytel.org/audiohelm/scripting/index.html">
+                  Scripting Reference
+                </a></li>
+
+                <li><a href="https://www.youtube.com/playlist?list=PLyQHewKAoFRKldoPGM6foug1g7RZTkPeO">
+                  Video Tutorials
+                </a></li>
+
+                <li><a href="http://tytel.org/helm">
+                  Standalone Helm Synth Editor Download (for synth programming)
+                </a></li>
+
+                <li><a href="mailto:matthewtytel@gmail.com">
+                  Email Developer: matthewtytel@gmail.com
+                </a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="division-bar">
+            <div class="binary-description">
+              <h2>Introduction</h2>
+              <p>Thank you for purchasing Audio Helm! Audio Helm is a live audio synthesizer, sequencer and sampler for Unity that gives you the tools to create dynamic sound effects and generative music for your game.</p>
+            </div>
+          </div>
+
+          <div class="division-bar">
+            <div class="binary-description">
+              <h2>Overview</h2>
+              <p>There are three main components of Audio Helm. The native synthesizer, the sampler and the sequencer.</p>
+              <h3>The Synthesizer</h3>
+              <p>The synthesizer generates dynamic audio live, no samples or recordings required. It runs as a native plugin to ensure low latency, high performance, mobile ready audio. <a href="http://tytel.org/helm/">Download the standalone synth now (free or pay what you want)</a> to browse and create synth patches you can import into your game.</p>
+              <h3>The Sampler</h3>
+              <p>The sampler takes an audio sample or recording and can play it back at different speeds to create musical pitches. Using different keyzones you can create a full spectrum piano sampler with Audio Helm comes with 4 drum machines each with a separate sample bank.</p>
+              <h3>The Sequencer</h3>
+              <p>The sequencer is a tool for creating musical patterns and rhythms by playing synthesizer or sampler notes over time. You can create your own patterns inside Unity's Inspector or create them live from code to generate procedural music.</p>
+            </div>
+          </div>
+
+          <div class="division-bar">
+            <div class="binary-description">
+              <h2>Synthesizer Setup</h2>
+              <p>The best way to get started is by looking at the demos in the Assets/Helm/Demos folder. If you want to setup Helm from an empty Scene and Audio Mixer, follow along!</p>
+              <h3>Create a Synth instance</h3>
+              <p>Since the synthesizer is a native audio plugin, you create a synth instance on an Audio Mixer Group. In the Audio Mixer window, create an Audio Mixer Group by clicking the + icon next to the Groups section. Call it <b>AudioMixerGroup</b>. Now in the Inspector window, click <b>Add Effect</b> and select <b>Helm</b> in the drop down to create the synth instance.</p>
+            </div>
+          </div>
+          <div class="screenshot-section">
+            <img src="images/helm_setup.png">
+          </div>
+
+          <div class="division-bar">
+            <div class="binary-description">
+              <p>Once Helm is initialized you'll see a graphical piano and a Folder/Patch browser in the Inspector window. To hear how it sounds we'll need to connect it to an AudioSource in our scene.
+            </div>
+          </div>
+
+          <div class="screenshot-section">
+            <img src="images/helm_audio_plugin.png">
+          </div>
+
+          <div class="division-bar">
+            <div class="binary-description">
+              <h3>Playing the new synth in a scene</h3>
+              <p>Open a new scene and create a new object, call it <b>Synth</b>. Click on the <b>Synth</b> object and in the Inspector window, click on Add Component. Select <b>Audio Helm</b> - <b><a href="manual/class_audio_helm_1_1_helm_controller.html">Helm Controller</a></b>.</p>
+            </div>
+          </div>
+
+          <div class="screenshot-section">
+            <img src="images/helm_controller_init.png">
+          </div>
+
+          <div class="division-bar">
+            <div class="binary-description">
+              <p>When the <a href="manual/class_audio_helm_1_1_helm_controller.html">HelmController</a> component is created, you will see another graphical keyboard. It also added and initialized an AudioSource component to the Synth object.</p>
+            </div>
+          </div>
+
+          <div class="screenshot-section">
+            <img src="images/helm_controller.png">
+          </div>
+
+          <div class="division-bar">
+            <div class="binary-description">
+              <p>We now set the <b>Output</b> of this AudioSource to the AudioMixerGroup that our synth is running on.</p>
+            </div>
+          </div>
+
+          <div class="screenshot-section">
+            <img src="images/select_audio_mixer_group.png">
+          </div>
+
+          <div class="division-bar">
+            <div class="binary-description">
+              <p>Now play the scene! If the <b>Synth</b> object is selected, you can click on the graphical keyboard in the <a href="manual/class_audio_helm_1_1_helm_controller.html">HelmController</a> component to play the synth. While your scene is playing, go click on the AudioMixerGroup that has your Helm instance. In the inspector, click <b>Edit in Playmode</b> and you can now select other patches from the browser below.</p>
+            </div>
+          </div>
+
+          <div class="division-bar">
+            <div class="binary-description">
+      <h2>Changing and customizing synth patches</h2>
+      <p>To create your own custom sounds you use the <a href="http://tytel.org/helm">standalone version of Helm</a>. Standalone Helm is to synth patches as Photoshop is to images or Maya is to 3D models. Standalone Helm is pay what you want (so you can pay nothing). <a href="http://tytel.org/helm">Download standalone Helm to get started creating custom patches</a></p>
+            </div>
+          </div>
+
+          <div class="screenshot-section">
+            <img src="images/helm_screenshot.png">
+          </div>
+
+          <div class="division-bar">
+            <div class="binary-description">
+              <p>Once standalone Helm is installed. You can double click on any of the patches in the Unity Project window at: Assets - Helm - Presets. This will open the standalone Helm with that patch loaded. You can change knobs and sliders on the window to change how the patch sounds. You can press Cmd+s(Mac) or Ctrl+s(Windows) to resave the patch or click the "Export" button in the top left to export the patch as a different file.</p>
+              <p>To learn how to create patches in Helm you can read the <a href="http://tytel.org/static/docs/helm_manual.pdf">standalone Helm manual</a> or <a href="https://www.youtube.com/playlist?list=PLyQHewKAoFRKldoPGM6foug1g7RZTkPeO">watch the standalone Helm tutorial videos</a>.
+            </div>
+          </div>
+
+          <div class="division-bar">
+            <div class="binary-description">
+              <h2>Sampler Setup</h2>
+              <p>The sampler is not a native plugin and thus is a little easier to setup. In an empty scene, create a new object called <b><a href="manual/class_audio_helm_1_1_sampler.html">Sampler</a></b>. In the Inspector window, click on Add Component. Select <b>Audio Helm</b> - <b><a href="manual/class_audio_helm_1_1_sampler.html">Sampler</a></b>. When the Sampler is added, you will see a graphical piano, a keyzone section and some parameters at the bottom.</p>
+            </div>
+          </div>
+
+          <div class="screenshot-section">
+            <img src="images/sampler_single.png">
+          </div>
+
+          <div class="division-bar">
+            <div class="binary-description">
+              <p>Drop any Audio Clip into the empty Audio Clip field in the keyzon area, then play the scene. You can play the graphical piano in the inspector to hear how the Audio Clip is pitch shifted for different notes. You can add more Keyzones to play different samples for different keys. In this way you can create instruments like pianos, stringed instruments or drum kit. Here's a drum kit example:</p>
+            </div>
+          </div>
+
+          <div class="screenshot-section">
+            <img src="images/sampler_drum_kit.png">
+          </div>
+
+          <div class="division-bar">
+            <div class="binary-description">
+              <h2>Sequencer Setup</h2>
+              <p>There is a <a href="manual/class_audio_helm_1_1_helm_sequencer.html">Helm Sequencer</a> component to sequence notes for Helm instances and a <a href="manual/class_audio_helm_1_1_sample_sequencer.html">Sample Sequencer</a> component to sequence notes for Sampler instances. These behave mostly the same but have slightly different functionality.</p>
+              <p>The <a href="manual/class_audio_helm_1_1_helm_sequencer.html">Helm Sequencer</a> connects to the native Helm audio plugin the same way the <a href="manual/class_audio_helm_1_1_helm_controller.html">Helm Controller</a> does. The <a href="manual/class_audio_helm_1_1_sample_sequencer.html">Sample Sequencer</a> looks for the Sampler component on the same game object. Once your sequencer is setup you can click to create notes. When you play the scene, the sequencer automatically plays and you'll see what note is currently played in the progress bar.</p>
+              <p>Look at the <a href="manual/class_audio_helm_1_1_helm_sequencer.html">Helm Sequencer</a> or <a href="manual/class_audio_helm_1_1_sample_sequencer.html">Sample Sequencer</a> manual docs to more info on how to add and remove notes.
+            </div>
+          </div>
+
+          <div class="screenshot-section">
+            <img src="images/helm_sequencer.png">
+          </div>
+
+          <div class="screenshot-section">
+            <img src="images/sample_sequencer.png">
+          </div>
+          <div class="division-bar">
+            <div class="binary-description">
+              <h2>Troubleshooting</h2>
+              <p><i>I'm not getting any sounds through the native synthesizer.</i></p>
+              <p>Make sure the <a href="manual/class_audio_helm_1_1_helm_controller.html">HelmController</a> in your scene is active, the AudioSource is pointing to the correct AudioMixerGroup and that the channel on the HelmController/Sequencer matches the channel on the Helm instance on your AudioMixerGroup.</p>
+              <p><i>The synth plugin is using up too much CPU, what do I do?</i></p>
+              <p>The synthesizer is a native plugin for speed and low latency. That said it is still possible to drive up the CPU usage with many instances or many concurrently running voices. First thing to try is lowering the polyphony setting in the patches your are using as low as you can go with getting the right effect you want. This is especially true on mobile. Next thing to try is make sure there are no extraneous instances running. If there are still issues please email me at: <a href="mailto:matthewtytel@gmail.com">matthewtytel@gmail.com</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

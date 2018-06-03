@@ -1,0 +1,16 @@
+2018-02-02
+- url for current AQI data: https://taqm.epa.gov.tw/taqm/aqi-map.aspx
+- can't see how to get access to the data only, so we'll scrape it out of the html from above url
+- two main sonification techniques: dynamic mixing and generative music
+- ideas re. generative music 
+	- major triad for green aqi values
+	- minor triad for yellow
+	- diminished triad for orange
+	- from there on adding more notes in the diminished scale as the values get higher
+	- maybe use arpeggiator for this, or generate notes with unique rhythm after each time the data set loops
+	- switching keys after a set numbers of bars
+	- it might add to the musicality to have ritardandos mark county boundaries or data set loop points
+	- hmmm, with rits probably no drum loops in support, but could work nicely to emulate a minimalist composition
+	- allow the user to change synth patch
+	- possibly layer data types (eg. add temperature or wind data to aqi) with different sounds or in different octaves
+	- possibly do wind as synth noise with peak at the middle of the musical bar according to wind speed

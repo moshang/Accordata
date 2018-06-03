@@ -1,0 +1,265 @@
+{
+  "license": "Patch (c) by Umut Gokcen.  This patch is licensed under a Creative Commons Attribution 4.0 International License.  You should have received a copy of the license along with this work.  If not, see <http://creativecommons.org/licenses/by/4.0/>.",
+  "synth_version": "0.9.0",
+  "patch_name": "UG Let's Build a Replicant",
+  "folder_name": "Lead",
+  "author": "Umut Gokcen",
+  "settings": {
+    "amp_attack": 1.2541360294117647189,
+    "amp_decay": 1.9990808823529411242,
+    "amp_release": 2.0032169117647060652,
+    "amp_sustain": 0.80853630514705887578,
+    "arp_frequency": 2,
+    "arp_gate": 0.5,
+    "arp_octaves": 1,
+    "arp_on": 0,
+    "arp_pattern": 0,
+    "arp_sync": 1,
+    "arp_tempo": 9,
+    "beats_per_minute": 2,
+    "cross_modulation": 0,
+    "cutoff": 58.765263918067233817,
+    "delay_dry_wet": 0.088468750000000012657,
+    "delay_feedback": 0.40940624999999974953,
+    "delay_frequency": 2,
+    "delay_on": 1,
+    "delay_sync": 2,
+    "delay_tempo": 8,
+    "distortion_drive": 0,
+    "distortion_mix": 1,
+    "distortion_on": 0,
+    "distortion_type": 0,
+    "fil_attack": 1.3354779411764705621,
+    "fil_decay": 1.9790900735294116863,
+    "fil_env_depth": 31.384000000000014552,
+    "fil_release": 1.1702665441176469674,
+    "fil_sustain": 0.52688419117647056211,
+    "filter_blend": 0,
+    "filter_drive": 0.93150000000000154898,
+    "filter_on": 1,
+    "filter_shelf": 0,
+    "filter_style": 0,
+    "formant_on": 0,
+    "formant_x": 0.5,
+    "formant_y": 0.5,
+    "keytrack": 0.68803879310344817632,
+    "legato": 0,
+    "mod_attack": 0.16980698529411764053,
+    "mod_decay": 1.3345588235294116863,
+    "mod_release": 1.1941636029411764053,
+    "mod_sustain": 0.057732077205882352533,
+    "mono_lfo_1_amplitude": 0.61630721830985901732,
+    "mono_lfo_1_frequency": 0.81109375000000227818,
+    "mono_lfo_1_retrigger": 2,
+    "mono_lfo_1_sync": 0,
+    "mono_lfo_1_tempo": 7,
+    "mono_lfo_1_waveform": 0,
+    "mono_lfo_2_amplitude": 1,
+    "mono_lfo_2_frequency": 1,
+    "mono_lfo_2_retrigger": 2,
+    "mono_lfo_2_sync": 1,
+    "mono_lfo_2_tempo": 7,
+    "mono_lfo_2_waveform": 0,
+    "noise_volume": 0,
+    "num_steps": 32,
+    "osc_1_transpose": 0,
+    "osc_1_tune": 0,
+    "osc_1_unison_detune": 9.2671875000000074607,
+    "osc_1_unison_voices": 3,
+    "osc_1_volume": 0.4716481854838710519,
+    "osc_1_waveform": 4,
+    "osc_2_transpose": 38,
+    "osc_2_tune": -0.15621874999999985079,
+    "osc_2_unison_detune": 10,
+    "osc_2_unison_voices": 1,
+    "osc_2_volume": 0,
+    "osc_2_waveform": 0,
+    "osc_feedback_amount": 0,
+    "osc_feedback_transpose": 0,
+    "osc_feedback_tune": 0,
+    "pitch_bend_range": 7,
+    "poly_lfo_amplitude": 1,
+    "poly_lfo_frequency": 1,
+    "poly_lfo_sync": 1,
+    "poly_lfo_tempo": 4,
+    "poly_lfo_waveform": 4,
+    "polyphony": 7,
+    "portamento": -7,
+    "portamento_type": 0,
+    "resonance": 0.10750105574324320123,
+    "reverb_damping": 0.38054687500000006217,
+    "reverb_dry_wet": 0.40968749999999998224,
+    "reverb_feedback": 0.9455468750000001199,
+    "reverb_on": 1,
+    "step_frequency": 2,
+    "step_seq_00": 0,
+    "step_seq_01": 0,
+    "step_seq_02": 0,
+    "step_seq_03": 0,
+    "step_seq_04": 0.13253009319305419922,
+    "step_seq_05": 0.22891569137573239412,
+    "step_seq_06": 0.34939759969711303711,
+    "step_seq_07": 0.43975901603698730469,
+    "step_seq_08": 0.51807224750518798828,
+    "step_seq_09": 0.61445784568786621094,
+    "step_seq_10": 0.69352412223815917969,
+    "step_seq_11": 0.7831325531005859375,
+    "step_seq_12": 0.83132529258728027344,
+    "step_seq_13": 0.89909636974334716797,
+    "step_seq_14": 0.90361446142196655273,
+    "step_seq_15": 0.85542166233062755243,
+    "step_seq_16": 0.7831325531005859375,
+    "step_seq_17": 0.70632529258728027344,
+    "step_seq_18": 0.61445784568786621094,
+    "step_seq_19": 0.54216867685317993164,
+    "step_seq_20": 0.47326809167861938477,
+    "step_seq_21": 0.39759033918380737305,
+    "step_seq_22": 0.30120480060577392578,
+    "step_seq_23": 0.22891569137573239412,
+    "step_seq_24": 0.20481926202774047852,
+    "step_seq_25": 0.13253009319305419922,
+    "step_seq_26": 0.10843372344970704513,
+    "step_seq_27": 0.10843372344970704513,
+    "step_seq_28": 0,
+    "step_seq_29": 0,
+    "step_seq_30": 0,
+    "step_seq_31": 0,
+    "step_sequencer_retrigger": 1,
+    "step_sequencer_sync": 1,
+    "step_sequencer_tempo": 8,
+    "step_smoothing": 0.24040670955882351145,
+    "stutter_frequency": 3,
+    "stutter_on": 0,
+    "stutter_resample_frequency": 1,
+    "stutter_resample_sync": 1,
+    "stutter_resample_tempo": 6,
+    "stutter_softness": 0.2000000000000000111,
+    "stutter_sync": 1,
+    "stutter_tempo": 8,
+    "sub_octave": 0,
+    "sub_shuffle": 0,
+    "sub_volume": 0.58688256048387099639,
+    "sub_waveform": 4,
+    "unison_1_harmonize": 0,
+    "unison_2_harmonize": 0,
+    "velocity_track": 0.35112499999999990941,
+    "volume": 0.70976880834009736798,
+    "modulations": [
+      {
+        "source": "mod_wheel",
+        "destination": "osc_1_tune",
+        "amount": -2
+      },
+      {
+        "source": "note",
+        "destination": "osc_2_transpose",
+        "amount": -7
+      },
+      {
+        "source": "velocity",
+        "destination": "amp_attack",
+        "amount": -0.62756712035826955898
+      },
+      {
+        "source": "mono_lfo_1",
+        "destination": "osc_1_tune",
+        "amount": 0.14737499582767465967
+      },
+      {
+        "source": "step_sequencer",
+        "destination": "sub_shuffle",
+        "amount": 0.55798437499999997691
+      },
+      {
+        "source": "amp_envelope",
+        "destination": "mono_lfo_1_amplitude",
+        "amount": 0.52409137880060008285
+      },
+      {
+        "source": "note",
+        "destination": "mod_decay",
+        "amount": -0.43640423364888336621
+      },
+      {
+        "source": "velocity",
+        "destination": "fil_attack",
+        "amount": -0.3922687292973208173
+      },
+      {
+        "source": "note",
+        "destination": "sub_volume",
+        "amount": -0.38176269514510113856
+      },
+      {
+        "source": "velocity",
+        "destination": "amp_release",
+        "amount": -0.61747654944984287084
+      },
+      {
+        "source": "note",
+        "destination": "fil_decay",
+        "amount": -0.39157985280618801127
+      },
+      {
+        "source": "note",
+        "destination": "osc_1_volume",
+        "amount": 0.2309502670817826786
+      },
+      {
+        "source": "note",
+        "destination": "amp_attack",
+        "amount": -0.47983568122161823766
+      },
+      {
+        "source": "mod_wheel",
+        "destination": "noise_volume",
+        "amount": -0.13535691604205712935
+      },
+      {
+        "source": "mod_wheel",
+        "destination": "reverb_dry_wet",
+        "amount": 0.41520313787460327859
+      },
+      {
+        "source": "mod_wheel",
+        "destination": "cutoff",
+        "amount": -2.456315440091358937
+      },
+      {
+        "source": "mod_envelope",
+        "destination": "cross_modulation",
+        "amount": 0.25070312500000002665
+      },
+      {
+        "source": "mod_wheel",
+        "destination": "amp_release",
+        "amount": 0.62271079483636171403
+      },
+      {
+        "source": "mod_wheel",
+        "destination": "osc_1_unison_detune",
+        "amount": 10.856250000000017053
+      },
+      {
+        "source": "velocity",
+        "destination": "noise_volume",
+        "amount": 0.085843082921306809729
+      },
+      {
+        "source": "velocity",
+        "destination": "fil_decay",
+        "amount": 0.10457303815159592342
+      },
+      {
+        "source": "velocity",
+        "destination": "fil_env_depth",
+        "amount": 25.408001358032208827
+      },
+      {
+        "source": "fil_envelope",
+        "destination": "mono_lfo_1_frequency",
+        "amount": 1.1466405911445622934
+      }
+    ]
+  }
+}
