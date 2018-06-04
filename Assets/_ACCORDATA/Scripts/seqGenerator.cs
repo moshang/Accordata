@@ -13,8 +13,9 @@ public class seqGenerator : MonoBehaviour
     // WWW
     string aqiData;
     string[] splitData;
-    string[] stringSeparators = new string[] { "SiteId\":" };
+    string[] stringSeparators = new string[] { "SiteId:", "SiteName:", "AreaKey:", "AQI:" };
     public readonly string[] stations = { "菜寮", "富貴角", "林口", "永和", "淡水", "汐止", "新莊", "新店", "松山", "大同", "士林", "萬華", "古亭", "忠明", "沙鹿", "大里", "豐原", "西屯", "安南", "善化", "新營", "臺南", "橋頭", "楠梓", "美濃", "仁武", "左營", "鳳山", "前金", "林園", "大寮", "前鎮", "復興", "小港", "冬山", "宜蘭", "桃園", "龍潭", "平鎮", "觀音", "竹東", "三義", "頭份", "苗栗", "彰化", "二林", "南投", "埔里", "竹山", "麥寮", "臺西", "崙背", "斗六", "新港", "朴子", "屏東", "潮州", "恆春", "關山", "臺東", "花蓮", "馬公", "中山", "新竹", "嘉義", "金門", "馬祖" };
+    public readonly string[] siteID = { "FugueiCape", "Yangming", "Wanli", "Tamsui", "Keelung", "Shilin", "Linkou", "Sanchong", "Cailiao", "Xizhi", "Datong", "Zhongshan", "Dayuan", "Songshan", "Wanhua", "EPA", "Xinzhuang", "Guanyin", "Guting", "Yonghe", "Banqiao", "Taoyuan", "Tucheng", "Xindian", "Pingzhen", "Zhongli", "Longtan", "Hukou", "Hsinchu", "Zhudong", "Toufen", "Miaoli", "Sanyi", "Fengyuan", "Shalu", "Xitun", "Zhongming", "Xianxi", "Dali", "Changhua", "Puli", "Erlin", "Nantou", "Zhushan", "Lunbei", "Mailiao", "Taixi", "Douliu", "Xingang", "Alishan", "Lulin", "Puzi", "Chiayi", "Xinying", "Shanhua", "Annan", "Tainan", "Meinong", "Qiaotou", "Nanzi", "Renwu", "Zuoying", "Pingtung", "Qianjin", "Fengshan", "Fuxing", "Qianzhen", "Xiaogang", "Daliao", "Chaozhou", "Linyuan", "Hengchun", "Yilan", "Dongshan", "Hualien", "Guanshan", "Taitung", "Matsu", "Kinmen", "Magong", "Sanmin", "Chonglun" };
     //public int[] pm25values;
 
     WWW www = null;
@@ -64,7 +65,10 @@ public class seqGenerator : MonoBehaviour
         else
         {
             aqiData = www.downloadHandler.text;
-            splitData = aqiData.Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
+            string aqiDataNoQuotes = aqiData.Replace("\"", ""); // remove quotation marks
+            Debug.Log(aqiDataNoQuotes);
+            splitData = aqiDataNoQuotes.Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
+            Debug.Log("Number of sites: " + siteID.Length);
             foreach (string str in splitData)
                 Debug.Log(str);
         }

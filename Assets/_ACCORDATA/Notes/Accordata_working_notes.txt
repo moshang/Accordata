@@ -14,3 +14,14 @@
 	- allow the user to change synth patch
 	- possibly layer data types (eg. add temperature or wind data to aqi) with different sounds or in different octaves
 	- possibly do wind as synth noise with peak at the middle of the musical bar according to wind speed
+2018-02-03
+- after some serious wrestling with building the required url, finally coaxed the server into giving up current AQI data
+2018-02-04
+- more ideas re. generative music
+	- still thinking of minimalist composers, how Philip Glass lets phrases elliptically trail off on a reverb tail in the beginning of Powaqqatsi - 13. The Unutterable 
+	- the above instead of or in addition to rits to mark significant data boundaries?
+	- think minimal, though more Reich than Glass 
+	- instead of arpeggios, let the machine come up with a 1/2 bar phrase (melody and rhythm) that can be looped and cross-polinated with variations of itself
+	- maybe use progressively "bad" values to push the phrase progressively more out of shape
+	- Electric Counterpoint III, Fast
+
