@@ -54,7 +54,7 @@ MonoBehaviour:
   NeverDestroy: 0
   UserAgreesToHaveItOnTheScene: 0
   UserAgreesToHaveItInsideThePluginsFolder: 0
-  Spreadsheet_LocalFileName: 
+  Spreadsheet_LocalFileName: _ACCORDATA/LocalizationData/Localization.csv
   Spreadsheet_LocalCSVSeparator: ','
   Spreadsheet_LocalCSVEncoding: utf-8
   Spreadsheet_SpecializationAsRows: 1
@@ -66,9 +66,23 @@ MonoBehaviour:
   GoogleUpdateFrequency: 3
   GoogleInEditorCheckFrequency: 2
   GoogleUpdateDelay: 5
-  mLanguages: []
+  mLanguages:
+  - Name: English
+    Code: en
+    Flags: 0
+  - Name: Chinese (Traditional)
+    Code: zh-TW
+    Flags: 0
   IgnoreDeviceLanguage: 0
-  mTerms: []
+  mTerms:
+  - Term: UI/Settings
+    TermType: 0
+    Description: 
+    Languages:
+    - Settings
+    - "\u8A2D\u7F6E"
+    Flags: 0000
+    Languages_Touch: []
   CaseInsensitiveTerms: 0
   OnMissingTranslation: 1
   mTerm_AppName: 

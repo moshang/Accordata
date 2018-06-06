@@ -21,7 +21,10 @@
 	- still thinking of minimalist composers, how Philip Glass lets phrases elliptically trail off on a reverb tail in the beginning of Powaqqatsi - 13. The Unutterable 
 	- the above instead of or in addition to rits to mark significant data boundaries?
 	- think minimal, though more Reich than Glass 
-	- instead of arpeggios, let the machine come up with a 1/2 bar phrase (melody and rhythm) that can be looped and cross-polinated with variations of itself
+	- instead of arpeggios, let the machine come up with a 1/2 bar phrase (melody and rhythm) that can be looped and cross-pollinated with variations of itself
 	- maybe use progressively "bad" values to push the phrase progressively more out of shape
 	- Electric Counterpoint III, Fast
+2018-02-06
+- more slicing and dicing of the raw data into easily digestible bite-sized chunks
+- hmmm, this was just one data stream (AQI and lots of info on pollutants) - how many will we need? Hopefully we've got the hang of it now and additional data streams will offer up their pearls of wisdom faster
 
