@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using AudioHelm;
 using UnityEngine.UI;
-using System.Text.RegularExpressions;
 using System;
 using UnityEngine.Networking;
 
@@ -14,8 +13,9 @@ public class dataLoader : MonoBehaviour
     string aqiData;
     string[] splitData;
     string[] stringSeparators = new string[] { "{Result:ok, Data:[{", "SiteId:", ",SiteName:", ",SiteKey:", ",AreaKey:", ",MonobjName:", ",Address:", ",lat:", ",lng:", ",AQI:", ",MainPollutant:" }; //, ",MainPollutantKey:", ",CityCode:", ",PM10:", ",PM10_AVG:", ",PM25:", ",PM25_AVG:" }; //  "{Result:ok, Data:[{", 
-    //public readonly string[] siteID = { "FugueiCape", "Yangming", "Wanli", "Tamsui", "Keelung", "Shilin", "Linkou", "Sanchong", "Cailiao", "Xizhi", "Datong", "Zhongshan", "Dayuan", "Songshan", "Wanhua", "EPA", "Xinzhuang", "Guanyin", "Guting", "Yonghe", "Banqiao", "Taoyuan", "Tucheng", "Xindian", "Pingzhen", "Zhongli", "Longtan", "Hukou", "Hsinchu", "Zhudong", "Toufen", "Miaoli", "Sanyi", "Fengyuan", "Shalu", "Xitun", "Zhongming", "Xianxi", "Dali", "Changhua", "Puli", "Erlin", "Nantou", "Zhushan", "Lunbei", "Mailiao", "Taixi", "Douliu", "Xingang", "Alishan", "Lulin", "Puzi", "Chiayi", "Xinying", "Shanhua", "Annan", "Tainan", "Meinong", "Qiaotou", "Nanzi", "Renwu", "Zuoying", "Pingtung", "Qianjin", "Fengshan", "Fuxing", "Qianzhen", "Xiaogang", "Daliao", "Chaozhou", "Linyuan", "Hengchun", "Yilan", "Dongshan", "Hualien", "Guanshan", "Taitung", "Matsu", "Kinmen", "Magong", "Sanmin", "Chonglun" };
+
     public int[] aqi;
+    private userSettings settings;
 
     public struct Sites
     {
@@ -39,7 +39,8 @@ public class dataLoader : MonoBehaviour
 
     void Start()
     {
-        switch (userSettings.language)
+        settings = GetComponent<userSettings>();
+        switch (settings.language)
         {
             case languages.eng:
                 url = "https://taqm.epa.gov.tw/taqm/aqs.ashx?lang=en&act=aqi-epa";
@@ -49,11 +50,14 @@ public class dataLoader : MonoBehaviour
                 break;
         }
 
+        // wait, do we need any of this?
+        /*
         //time = "&time=" + System.DateTime.Now.ToString("HH:mm:ss");
         time = ""; // setting this to the time above returns empty data ;^(
         url += time;
         ts = "&ts=" + GetTime().ToString();
         url += ts;
+        */
         Debug.Log(url);
         StartCoroutine("GetText");
     }

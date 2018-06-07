@@ -5,7 +5,7 @@ AudioMixerController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: HelmDemo_GenerativeMusic
+  m_Name: Accordata
   m_OutputGroup: {fileID: 0}
   m_MasterGroup: {fileID: 24300001}
   m_Snapshots:
@@ -51,7 +51,7 @@ AudioMixerGroupController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: GenerativeMusic
+  m_Name: Seq1
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: aa40f6e00ab1378459663e605e3d3a7c
   m_Children: []
@@ -239,7 +239,7 @@ AudioMixerSnapshotController:
     0f5f6e92899dd7141aeb4b0751857eba: 0
     665f6f923c644204fa354860a034a10f: 8
     b44315a2d317b4744b44c74120d887d6: 1.9411764
-    bdd835a29b5a0654289b5a39d649e2ee: -3.8468575
+    bdd835a29b5a0654289b5a39d649e2ee: -80
     37e4e5a28b27ed24e8f92cd0e36744da: 1
     b2bd38a2e1ee0a942ac204acaee09b7b: 8
     4caa2da2a08033c49967dd0fdc2f8659: 9
@@ -369,7 +369,7 @@ AudioMixerSnapshotController:
     5f07640503745ea4bb052b108dd9f54e: 0
     65ae87051b223c448aa769fb0d49036e: 11
     bb0fce05f20332e499ea0fb1a780dfb8: 3.0000002
-    5f927f051cb13dc48bf6dcfc38ac5ade: 1
+    5f927f051cb13dc48bf6dcfc38ac5ade: 3
     cc0abf054e6bb7a4fa5f64c93b83e5bc: 0.39999998
     b734c115fdce7244199406d3b5a51f40: 0
     60af841536b7662408a5b3dd7805efdc: 0.032000065
@@ -412,7 +412,7 @@ AudioMixerSnapshotController:
     63ccabb5a5894da46a665d2f6e5f2aab: -0.08433735
     fe4beec5bca9f8f4cb72c2a630b6936b: 0
     8619d8d5c1212be408d7469c8472a612: 0
-    510352e5df09b4e4abad03f909748efa: -3.8468575
+    510352e5df09b4e4abad03f909748efa: -0.43201196
     b0f533e56d538964099fbf67847351f4: 11
     f14c43e59885a3545b746f211c9de6e3: 0
     bc5647e5f596a2a4ba14eeebf62d9386: 0
@@ -425,7 +425,7 @@ AudioMixerSnapshotController:
     9729f30628040914e9803ca3679c35e9: 0
     c6a8740602993f747b593203cd16202e: 1.1176213
     c537650661218a042a90c549379a0fb4: 0
-    e6ab9606ebab1ea49aa0751b128540f1: -3.8468575
+    e6ab9606ebab1ea49aa0751b128540f1: -0.58106005
     4eefcb06d1b6def4f9b6ab1cae45b517: 6
     e6e56c06ca344614797e9235123b78be: 2
     4f6b64166e37d054fb6feeb0ccde2b3e: 0.40140846
@@ -529,7 +529,7 @@ AudioMixerSnapshotController:
     fc62fea708b490940b95904befeb74c8: 1.9879999
     040ee1b7ab722e4488c88de49cdf3bc0: 0
     5ab829b78e029234daa5ff33daa4a3c2: 0
-    00a2b9b73a794a747a703c1e3c4ea807: 1
+    00a2b9b73a794a747a703c1e3c4ea807: 0
     e5361cb7056828c4781f68d3df4fd584: 0.77961457
     5df43eb78992ad34d974b114473cacfd: 58
     590910c793bab0640bc3691ebeb1cee2: 0
@@ -785,8 +785,8 @@ AudioMixerSnapshotController:
     0aab34eb89e3fa24984d82ca485041c4: 0
     882f74eb01c097d40a0c6bf384b3333b: 10
     52fecbeb1f98f8d47ae4cb1d9dc3461a: 0
-    f07e4febc17c25a4d88fa0288064c50b: 1
-    d372a4fb5fdf9d449ad5c2182ee31014: -3.8468575
+    f07e4febc17c25a4d88fa0288064c50b: 2
+    d372a4fb5fdf9d449ad5c2182ee31014: -80
     2c35c6fbb01edc2438b348ed6a8733ef: 6
     1a75d6fb6b55d0648ae8b8f52f556953: 0
     6de0a8fbbf6eb9f46bfb8c5003f336ae: 0
@@ -1035,7 +1035,7 @@ AudioMixerGroupController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: GenerativeMusic - Copy - Copy
+  m_Name: Seq3
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: a21d153431b368f4b8de77a61dd7883b
   m_Children: []
@@ -1053,7 +1053,7 @@ AudioMixerGroupController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: GenerativeMusic - Copy - Copy - Copy
+  m_Name: Seq4
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: f01607255a8278b4e87ab9e56d537a1a
   m_Children: []
@@ -1071,7 +1071,7 @@ AudioMixerGroupController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: GenerativeMusic - Copy
+  m_Name: Seq2
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 9b981bf71d49a0e47a19519140269002
   m_Children: []

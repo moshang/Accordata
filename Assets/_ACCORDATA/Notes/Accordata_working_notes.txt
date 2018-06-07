@@ -27,4 +27,6 @@
 2018-02-06
 - more slicing and dicing of the raw data into easily digestible bite-sized chunks
 - hmmm, this was just one data stream (AQI and lots of info on pollutants) - how many will we need? Hopefully we've got the hang of it now and additional data streams will offer up their pearls of wisdom faster
-
+2018-02-06
+- windchimes: the original weather data sonification device
+- made progress with minimalMelody
