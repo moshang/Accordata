@@ -8,7 +8,7 @@ public class seqGenerator : MonoBehaviour
 {
     [Header("--> ACCORDATA <--")]
     readonly int[,] triads = { { 0, 4, 7 }, { 0, 3, 7 }, { 0, 3, 6 } };
-    readonly int[,] scales = { { 0, 2, 4, 5, 7, 9, 11, 12 }, { 0, 2, 3, 5, 7, 9, 11, 12 }, { 0, 2, 3, 5, 6, 8, 9, 11 } };
+    readonly int[,] scales = { { 0, 2, 4, 5, 7, 9, 11, 12 }, { 0, 2, 3, 5, 7, 9, 11, 12 }, { 0, 2, 3, 5, 6, 8, 9, 11 }, { 0, 2, 4, 7, 9, 12, 14, 16 } };
     int scale = 0;
     public Sequencer[] seq;
     public SampleSequencer sampleSeq;
@@ -122,9 +122,9 @@ public class seqGenerator : MonoBehaviour
             for (int i = 0; i < seq[0].length; i++)
             {
                 int noteNum = 0;
-                if (Random.Range(0, 100) <= note16thLikelyhood)
+                if (Random.Range(0, 100) <= 20)  // use a fixed low value for teh bass line // note16thLikelyhood)
                 {
-                    noteNum = originalRootNote + scales[1, Random.Range(0, 5)];
+                    noteNum = originalRootNote + scales[3, Random.Range(0, 7)];
                     seq[0].AddNote(noteNum, i, i + 1);
                     seq[0].AddNote(noteNum - 24, i, i + 1); // add bass
                 }
@@ -153,7 +153,7 @@ public class seqGenerator : MonoBehaviour
             {
                 while (rmNoteNum[melodyIndex] == 0)
                     melodyIndex = (melodyIndex + 1) % seq[0].length;
-                seq[1].AddNote(rmNoteNum[melodyIndex] + 7, i, i + 1);
+                seq[1].AddNote(rmNoteNum[melodyIndex] + 5, i, i + 1);
                 melodyIndex = (melodyIndex + 1) % seq[0].length; // advance melodyIndex, otherwise it will keep returning true and not go to the next note
             }
         }
