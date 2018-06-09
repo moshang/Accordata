@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using AudioHelm;
 
 public enum style { arp, minimalMelody };
 public class seqGenerator : MonoBehaviour
@@ -10,9 +9,9 @@ public class seqGenerator : MonoBehaviour
     readonly int[,] triads = { { 0, 4, 7 }, { 0, 3, 7 }, { 0, 3, 6 } };
     readonly int[,] scales = { { 0, 2, 4, 5, 7, 9, 11, 12 }, { 0, 2, 3, 5, 7, 9, 11, 12 }, { 0, 2, 3, 5, 6, 8, 9, 11 }, { 0, 2, 4, 7, 9, 12, 14, 16 } };
     int scale = 0;
-    public Sequencer[] seq;
-    public SampleSequencer sampleSeq;
-    public HelmController ctrl;
+    //public Sequencer[] seq;
+    //public SampleSequencer sampleSeq;
+    //public HelmController ctrl;
     public int originalRootNote = 48;
     private int rootNote;
     public int barCounter;
@@ -25,10 +24,10 @@ public class seqGenerator : MonoBehaviour
     int[] rmNoteNum;
     bool melodyExists = false;
 
-
+    /*
     void Start()
     {
-        seq[0].OnBeat += everyBeat;
+        //seq[0].OnBeat += everyBeat;
         makeSeq();
         rootNote = originalRootNote;
 
@@ -76,6 +75,7 @@ public class seqGenerator : MonoBehaviour
             barCounter++;
         }
     }
+
 
     // --> STYLES <--
     void arp()
@@ -192,4 +192,5 @@ public class seqGenerator : MonoBehaviour
         foreach (Sequencer sequ in seq)
             sequ.Clear();
     }
+    */
 }

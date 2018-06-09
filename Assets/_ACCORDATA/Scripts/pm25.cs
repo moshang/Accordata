@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
-using DG.Tweening;
 using UnityEngine.Audio;
 
 public class pm25 : MonoBehaviour
@@ -21,8 +20,6 @@ public class pm25 : MonoBehaviour
     public Text valueText;
 
     uint stationIndex = 0;
-
-    public LowPolyWater.LowPolyWater ocean;
 
     public Transform info;
 
@@ -78,11 +75,11 @@ public class pm25 : MonoBehaviour
             int value = pm25values[stationIndex % stations.Length];
             valueText.text = value.ToString();
             valueText.color = getColor(value);
-            float lastWaveHeight = ocean.waveHeight;
+            //float lastWaveHeight = ocean.waveHeight;
             float newWaveHeight = pm25values[stationIndex % stations.Length] / 2;
             // animate in 1s
             info.localScale = new Vector3(0, 0, 0);
-            info.DOScale(new Vector3(1, 1, 1), 2);
+            //info.DOScale(new Vector3(1, 1, 1), 2);
             // mixer snapshots
             int snapshotIndex = (int)map(Mathf.Clamp(value, 0, 80), 0, 80, 0, mSnapshot.Length);
             /*
@@ -118,7 +115,7 @@ public class pm25 : MonoBehaviour
             mSnapshot[snapshotIndex].TransitionTo(2);
 
             // morph the wave height
-            StartCoroutine(morphWaveHeight(lastWaveHeight, newWaveHeight, 1.0f));
+            //StartCoroutine(morphWaveHeight(lastWaveHeight, newWaveHeight, 1.0f));
 
             yield return new WaitForSeconds(4);
             stationIndex++;
@@ -131,7 +128,7 @@ public class pm25 : MonoBehaviour
         float t = 0.0f;
         while (t < 1)
         {
-            ocean.waveHeight = Mathf.Lerp(startVal, endVal, t);
+            //ocean.waveHeight = Mathf.Lerp(startVal, endVal, t);
 
             // .. and increate the t interpolater
             t += (Time.deltaTime / duration);
