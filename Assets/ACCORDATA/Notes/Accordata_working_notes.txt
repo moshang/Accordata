@@ -1,0 +1,40 @@
+2018-02-02
+- url for current AQI data: https://taqm.epa.gov.tw/taqm/aqi-map.aspx
+- can't see how to get access to the data only, so we'll scrape it out of the html from above url
+- two main sonification techniques: dynamic mixing and generative music
+- ideas re. generative music 
+	- major triad for green aqi values
+	- minor triad for yellow
+	- diminished triad for orange
+	- from there on adding more notes in the diminished scale as the values get higher
+	- maybe use arpeggiator for this, or generate notes with unique rhythm after each time the data set loops
+	- switching keys after a set numbers of bars
+	- it might add to the musicality to have ritardandos mark county boundaries or data set loop points
+	- hmmm, with rits probably no drum loops in support, but could work nicely to emulate a minimalist composition
+	- allow the user to change synth patch
+	- possibly layer data types (eg. add temperature or wind data to aqi) with different sounds or in different octaves
+	- possibly do wind as synth noise with peak at the middle of the musical bar according to wind speed
+2018-02-03
+- after some serious wrestling with building the required url, finally coaxed the server into giving up current AQI data
+2018-02-04
+- more ideas re. generative music
+	- still thinking of minimalist composers, how Philip Glass lets phrases elliptically trail off on a reverb tail in the beginning of Powaqqatsi - 13. The Unutterable 
+	- the above instead of or in addition to rits to mark significant data boundaries?
+	- think minimal, though more Reich than Glass 
+	- instead of arpeggios, let the machine come up with a 1/2 bar phrase (melody and rhythm) that can be looped and cross-pollinated with variations of itself
+	- maybe use progressively "bad" values to push the phrase progressively more out of shape
+	- Electric Counterpoint III, Fast
+2018-02-06
+- more slicing and dicing of the raw data into easily digestible bite-sized chunks
+- hmmm, this was just one data stream (AQI and lots of info on pollutants) - how many will we need? Hopefully we've got the hang of it now and additional data streams will offer up their pearls of wisdom faster
+2018-02-07
+- windchimes: the original weather data sonification device
+- made progress with minimalMelody
+2018-02-08
+- I've realized that if I use 2rd party assets in Unity, I won't be able to open source the complete Unity project on github
+- it would be a lot less useful if the project contains references to assets and libraries that are not included
+- I would be open sourcing a Unity project in a non-working state ;^/
+- the answer is to remove all 3rd party assets (gulp)
+- biggest loss here is Helm synth (sob)
+- also losing the use of dotween, and I2 localization (groan)
+- now looking into options to roll own sampler
