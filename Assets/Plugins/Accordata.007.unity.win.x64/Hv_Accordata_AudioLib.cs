@@ -75,12 +75,28 @@ public class Hv_Accordata_Editor : Editor {
       _dsp.SendEvent(Hv_Accordata_AudioLib.Event.Stop);
     }
     
+    // test
+    if (GUILayout.Button("test")) {
+      _dsp.SendEvent(Hv_Accordata_AudioLib.Event.Test);
+    }
+    
     GUILayout.EndVertical();
 
     // parameters
     GUI.enabled = true;
     GUILayout.BeginVertical();
     EditorGUILayout.Space();
+    EditorGUI.indentLevel++;
+    
+    // bpm
+    GUILayout.BeginHorizontal();
+    float bpm = _dsp.GetFloatParameter(Hv_Accordata_AudioLib.Parameter.Bpm);
+    float newBpm = EditorGUILayout.Slider("bpm", bpm, 40.0f, 200.0f);
+    if (bpm != newBpm) {
+      _dsp.SetFloatParameter(Hv_Accordata_AudioLib.Parameter.Bpm, newBpm);
+    }
+    GUILayout.EndHorizontal();
+    EditorGUI.indentLevel--;
   }
 }
 #endif // UNITY_EDITOR
@@ -99,6 +115,21 @@ public class Hv_Accordata_AudioLib : MonoBehaviour {
   public enum Event : uint {
     Start = 0x6FF57CB4,
     Stop = 0x7A5B032D,
+    Test = 0x1812752E,
+  }
+  
+  // Parameters are used to send float messages into the patch context (thread-safe).
+  // Example usage:
+  /*
+    void Start () {
+        Hv_Accordata_AudioLib script = GetComponent<Hv_Accordata_AudioLib>();
+        // Get and set a parameter
+        float bpm = script.GetFloatParameter(Hv_Accordata_AudioLib.Parameter.Bpm);
+        script.SetFloatParameter(Hv_Accordata_AudioLib.Parameter.Bpm, bpm + 0.1f);
+    }
+  */
+  public enum Parameter : uint {
+    Bpm = 0x7BB9803A,
   }
   
   // Delegate method for receiving float messages from the patch context (thread-safe).
@@ -125,6 +156,7 @@ public class Hv_Accordata_AudioLib : MonoBehaviour {
   }
   public delegate void FloatMessageReceived(FloatMessage message);
   public FloatMessageReceived FloatReceivedCallback;
+  public float bpm = 100.0f;
 
   // internal state
   private Hv_Accordata_Context _context;
@@ -140,6 +172,26 @@ public class Hv_Accordata_AudioLib : MonoBehaviour {
   // see Hv_Accordata_AudioLib.Event for definitions
   public void SendEvent(Hv_Accordata_AudioLib.Event e) {
     if (IsInstantiated()) _context.SendBangToReceiver((uint) e);
+  }
+  
+  // see Hv_Accordata_AudioLib.Parameter for definitions
+  public float GetFloatParameter(Hv_Accordata_AudioLib.Parameter param) {
+    switch (param) {
+      case Parameter.Bpm: return bpm;
+      default: return 0.0f;
+    }
+  }
+
+  public void SetFloatParameter(Hv_Accordata_AudioLib.Parameter param, float x) {
+    switch (param) {
+      case Parameter.Bpm: {
+        x = Mathf.Clamp(x, 40.0f, 200.0f);
+        bpm = x;
+        break;
+      }
+      default: return;
+    }
+    if (IsInstantiated()) _context.SendFloatToReceiver((uint) param, x);
   }
   
   public void FillTableWithMonoAudioClip(string tableName, AudioClip clip) {
@@ -159,6 +211,10 @@ public class Hv_Accordata_AudioLib : MonoBehaviour {
 
   private void Awake() {
     _context = new Hv_Accordata_Context((double) AudioSettings.outputSampleRate);
+  }
+  
+  private void Start() {
+    _context.SendFloatToReceiver((uint) Parameter.Bpm, bpm);
   }
   
   private void Update() {

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum style { arp, minimalMelody };
 public class seqGenerator : MonoBehaviour
@@ -9,33 +10,35 @@ public class seqGenerator : MonoBehaviour
     readonly int[,] triads = { { 0, 4, 7 }, { 0, 3, 7 }, { 0, 3, 6 } };
     readonly int[,] scales = { { 0, 2, 4, 5, 7, 9, 11, 12 }, { 0, 2, 3, 5, 7, 9, 11, 12 }, { 0, 2, 3, 5, 6, 8, 9, 11 }, { 0, 2, 4, 7, 9, 12, 14, 16 } };
     int scale = 0;
-    //public Sequencer[] seq;
-    //public SampleSequencer sampleSeq;
-    //public HelmController ctrl;
+    public Sequencer[] seq;
     public int originalRootNote = 48;
     private int rootNote;
     public int barCounter;
     public style genStyle = style.minimalMelody;
+    public bool playLoop = true;
+    public AudioSource loop;
+    private int nextSiteAtBar = 0;
+    private int thisSiteIndex = 0;
+    private int nextSiteIndex = 1;
+    private dataLoader data;
+    public Text siteText;
+    [Header("Debug")]
+    public bool aqiDebug;
+    [Range(0, 500)]
+    public int aqi;
 
     // STYLES
     [Header("Minimal Melody")]
     [Range(0, 100)]
-    public int note16thLikelyhood = 25;
+    public int noteDensity = 25; // likelyhood of this 16th note containing a note
     int[] rmNoteNum;
     bool melodyExists = false;
 
-    /*
     void Start()
     {
-        //seq[0].OnBeat += everyBeat;
-        makeSeq();
+        data = GetComponent<dataLoader>();
+        clock.OnBar += everyBar;
         rootNote = originalRootNote;
-
-    }
-
-    private void Update()
-    {
-
     }
 
     void makeSeq(int aqiValue = 0)
@@ -44,50 +47,49 @@ public class seqGenerator : MonoBehaviour
         switch (genStyle)
         {
             case style.arp:
-                arp();
+                arp(aqi);
                 break;
 
             case style.minimalMelody:
-                minimalMelody();
+                minimalMelody(aqi);
                 break;
         }
     }
 
     void everyBeat(int beat)
     {
-        //ctrl.SetParameterValue(Param.kFilterCutoff, Random.Range(28, 127));
-        if (beat == 0)
-        {
 
-            if (barCounter % 4 == 0)
-            {
-                rootNote -= 3;
-                scale = (scale + 1) % 3;
-            }
-            else
-                rootNote = originalRootNote;
-        }
-        //Debug.Log("----------> " + beat);
-        if (beat == 15)
-        {
-            //Invoke("makeSeq", 0.1f);
-            makeSeq();
-            barCounter++;
-        }
     }
 
+    void everyBar(int bar)
+    {
+        if (bar % 4 == 0)
+            loop.PlayOneShot(loop.clip, 0.5f);
+        if (nextSiteAtBar == bar)
+        {
+            thisSiteIndex = nextSiteIndex;
+            nextSiteIndex = (thisSiteIndex + 1) % data.sites.Length;
+            if (!aqiDebug)
+                aqi = data.sites[thisSiteIndex].aqi;
+            siteText.text = data.sites[thisSiteIndex].name + ": " + aqi;
+            nextSiteAtBar = bar + getSiteBarDuration(aqi);
+            regenMinimalMelody();
+        }
+        makeSeq(aqi);
 
+        //minimalMelody();
+        //arp();
+    }
     // --> STYLES <--
-    void arp()
+    void arp(int aqiVal)
     {
         clearSeqs();
-        sampleSeq.Clear();
 
         // ARP
         int scaleIndex = 0;
         for (int i = 0; i < seq[0].length; i++)
         {
-            seq[0].AddNote(rootNote + triads[scale, scaleIndex % 3], i, i + 1);
+            seq[0].addNote(rootNote + triads[scale, scaleIndex % 3], 0.5f, i);
             scaleIndex++;
         }
 
@@ -101,7 +103,7 @@ public class seqGenerator : MonoBehaviour
             //if (newNoteIndex >= scales.GetLength(1) || newNoteIndex < 0)
             //    newNoteIndex = Random.Range(0, scales.GetLength(1));
             int newNoteIndex = UnityEngine.Random.Range(0, 5);
-            seq[0].AddNote(rootNote + 12 + scales[scale, newNoteIndex], scaleIndex, scaleIndex + 1);
+            seq[0].addNote(rootNote + 12 + scales[scale, newNoteIndex], 0.5f, scaleIndex);
             lastNoteIndex = newNoteIndex;
             scaleIndex += (UnityEngine.Random.Range(2, 5) * 2);
         }
@@ -122,67 +124,96 @@ public class seqGenerator : MonoBehaviour
             for (int i = 0; i < seq[0].length; i++)
             {
                 int noteNum = 0;
-                if (Random.Range(0, 100) <= 20)  // use a fixed low value for teh bass line // note16thLikelyhood)
+                if (i == 0 || Random.Range(0, 100) <= 20)  // use a fixed low value for teh bass line // noteDensity)
                 {
                     noteNum = originalRootNote + scales[3, Random.Range(0, 7)];
-                    seq[0].AddNote(noteNum, i, i + 1);
-                    seq[0].AddNote(noteNum - 24, i, i + 1); // add bass
+                    if (aqiVal <= 100)
+                        seq[0].addNote(noteNum, 0f, i); // add it but silent
+                    else if (aqiVal <= 150)
+                        seq[0].addNote(noteNum, 0.5f, i);
+
+                    if (aqiVal > 200)
+                        seq[0].addNote(noteNum - 24, 0.5f, i); // add bass 2 octave below
+                    else if (aqiVal > 150)
+                        seq[0].addNote(noteNum - 12, 0.5f, i); // add bass 1 octave below
                 }
                 rmNoteNum[i] = noteNum;
             }
             melodyExists = true;
         }
+
         else
         {
             for (int i = 0; i < seq[0].length; i++)
             {
                 if (rmNoteNum[i] != 0)
                 {
-                    seq[0].AddNote(rmNoteNum[i], i, i + 1);
-                    seq[0].AddNote(rmNoteNum[i] - 12, i, i + 1);
+                    if (aqiVal <= 100)
+                        seq[0].addNote(rmNoteNum[i], 0f, i); // add it but silent
+                    else if (aqiVal <= 150)
+                        seq[0].addNote(rmNoteNum[i], 0.5f, i);
+
+                    if (aqiVal > 200)
+                        seq[0].addNote(rmNoteNum[i] - 24, 0.5f, i); // add bass 2 octave below
+                    else if (aqiVal > 150)
+                        seq[0].addNote(rmNoteNum[i] - 12, 0.5f, i); // add bass 1 octave below
                 }
             }
         }
+
+        // set note likelyhood
+        if (aqiVal <= 50)
+            noteDensity = 35;
+        else if (aqiVal <= 100)
+            noteDensity = 65;
+        else if (aqiVal <= 150)
+            noteDensity = 85;
 
         // seq_1
         int melodyIndex = 0;
         for (int i = 0; i < seq[0].length; i++)
         {
             // place a note on this step?
-            if (Random.Range(0, 100) <= note16thLikelyhood)
+            if (Random.Range(0, 100) <= noteDensity)
             {
                 while (rmNoteNum[melodyIndex] == 0)
                     melodyIndex = (melodyIndex + 1) % seq[0].length;
-                seq[1].AddNote(rmNoteNum[melodyIndex] + 5, i, i + 1);
+                seq[1].addNote(rmNoteNum[melodyIndex] + 12, 0.5f, i);
                 melodyIndex = (melodyIndex + 1) % seq[0].length; // advance melodyIndex, otherwise it will keep returning true and not go to the next note
             }
         }
 
-        // seq_2
-        melodyIndex = 0;
-        for (int i = 0; i < seq[0].length; i++)
+        if (aqiVal > 50)
         {
-            // place a note on this step?
-            if (Random.Range(0, 100) <= note16thLikelyhood)
+            // seq_2
+            melodyIndex = 0;
+            for (int i = 0; i < seq[0].length; i++)
             {
-                while (rmNoteNum[melodyIndex] == 0)
-                    melodyIndex = (melodyIndex + 1) % seq[0].length;
-                seq[2].AddNote(rmNoteNum[melodyIndex] + 12, i, i + 1);
-                melodyIndex = (melodyIndex + 1) % seq[0].length; // advance melodyIndex, otherwise it will keep returning true and not go to the next note
+                // place a note on this step?
+                if (Random.Range(0, 100) <= noteDensity)
+                {
+                    while (rmNoteNum[melodyIndex] == 0)
+                        melodyIndex = (melodyIndex + 1) % seq[0].length;
+                    seq[2].addNote(rmNoteNum[melodyIndex] + 17, 0.5f, i);
+                    melodyIndex = (melodyIndex + 1) % seq[0].length; // advance melodyIndex, otherwise it will keep returning true and not go to the next note
+                }
             }
         }
 
-        // seq_3
-        melodyIndex = 0;
-        for (int i = 0; i < seq[0].length; i++)
+        if (aqiVal > 100)
         {
-            // place a note on this step?
-            if (Random.Range(0, 100) <= note16thLikelyhood)
+            // seq_3
+            melodyIndex = 0;
+            for (int i = 0; i < seq[0].length; i++)
             {
-                while (rmNoteNum[melodyIndex] == 0)
-                    melodyIndex = (melodyIndex + 1) % seq[0].length;
-                seq[3].AddNote(rmNoteNum[melodyIndex] + 17, i, i + 1);
-                melodyIndex = (melodyIndex + 1) % seq[0].length; // advance melodyIndex, otherwise it will keep returning true and not go to the next note
+                // place a note on this step?
+                if (Random.Range(0, 100) <= noteDensity)
+                {
+                    while (rmNoteNum[melodyIndex] == 0)
+                        melodyIndex = (melodyIndex + 1) % seq[0].length;
+                    seq[3].addNote(rmNoteNum[melodyIndex] + 24, 0.5f, i);
+                    melodyIndex = (melodyIndex + 1) % seq[0].length; // advance melodyIndex, otherwise it will keep returning true and not go to the next note
+                }
             }
         }
     }
@@ -190,7 +221,18 @@ public class seqGenerator : MonoBehaviour
     private void clearSeqs()
     {
         foreach (Sequencer sequ in seq)
-            sequ.Clear();
+            sequ.clearAll();
     }
-    */
+
+    int getSiteBarDuration(int aqiVal)
+    {
+        int duration = 1;
+        if (aqiVal < 51) // good
+            duration = 2;
+        else if (aqiVal < 101) // moderate
+            duration = 2;
+        else // unhealthy for sensitive groups and above
+            duration = 4;
+        return duration;
+    }
 }

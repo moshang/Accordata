@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 94dbaa9f1dc4e194684d97384defe4f9
+guid: a1f2bda6c1ac26840af6cb056f82db36
 PluginImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -20,7 +20,7 @@ PluginImporter:
         Exclude LinuxUniversal: 0
         Exclude OSXUniversal: 0
         Exclude WebGL: 1
-        Exclude Win: 1
+        Exclude Win: 0
         Exclude Win64: 0
   - first:
       Android: Android
@@ -46,7 +46,7 @@ PluginImporter:
     second:
       enabled: 0
       settings:
-        CPU: None
+        CPU: AnyCPU
   - first:
       Facebook: Win64
     second:
@@ -69,8 +69,7 @@ PluginImporter:
       Standalone: LinuxUniversal
     second:
       enabled: 1
-      settings:
-        CPU: AnyCPU
+      settings: {}
   - first:
       Standalone: OSXUniversal
     second:
@@ -80,9 +79,9 @@ PluginImporter:
   - first:
       Standalone: Win
     second:
-      enabled: 0
+      enabled: 1
       settings:
-        CPU: None
+        CPU: AnyCPU
   - first:
       Standalone: Win64
     second:

@@ -9,6 +9,7 @@ public class clock : MonoBehaviour
     public float bpm = 98;
     private float currentBpm;
     double dur16th; // duration of a 16th note
+    public bool metronome = true;
     [Header("Time")]
     public string time;
     int pulses;
@@ -26,6 +27,9 @@ public class clock : MonoBehaviour
     // PD HEAVY
     Hv_Accordata_AudioLib pd;
 
+    // TEMP
+    public samplePlayer sampler;
+
     void Start()
     {
         pulses = 0;
@@ -36,31 +40,40 @@ public class clock : MonoBehaviour
         pd.FloatReceivedCallback += OnPdPulse;
     }
 
-    void Update()
-    {
-
-    }
-
     void OnPdPulse(Hv_Accordata_AudioLib.FloatMessage message)
     {
+        // PULSES
         if (OnPulse != null)
             OnPulse(pulses);
+
+        // BEATS
         if (pulses % 4 == 0)
         {
             beats = (pulses / 4) % 4;
             if (OnBeat != null)
                 OnBeat(beats);
+            if (metronome && metro != null)
+            {
+                metro.pitch = 1;
+                metro.PlayOneShot(metro.clip);
+            }
         }
+
+        // BARS
         if (pulses % 16 == 0)
         {
             bars = (pulses / 16);
             if (OnBar != null)
                 OnBar(bars);
+            if (metronome && metro != null)
+            {
+                metro.pitch = 1.5f;
+                metro.PlayOneShot(metro.clip);
+            }
         }
         time = bars.ToString() + ":0" + beats + ":" + pulses;
         pulses++;
-        if (metro != null)
-            metro.PlayOneShot(metro.clip);
+
     }
 
     public void startPlayback()
