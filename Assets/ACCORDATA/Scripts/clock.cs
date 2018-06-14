@@ -80,4 +80,9 @@ public class clock : MonoBehaviour
     {
         pd.SendEvent(Hv_Accordata_AudioLib.Event.Start);
     }
+
+    public void testAudio()
+    {
+        pd.SendEvent(Hv_Accordata_AudioLib.Event.Test);
+    }
 }

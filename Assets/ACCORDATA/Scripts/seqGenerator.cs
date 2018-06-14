@@ -4,12 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public enum style { arp, minimalMelody };
+public enum scale { major, minor, dimished, pentatonic };
 public class seqGenerator : MonoBehaviour
 {
     [Header("--> ACCORDATA <--")]
     readonly int[,] triads = { { 0, 4, 7 }, { 0, 3, 7 }, { 0, 3, 6 } };
     readonly int[,] scales = { { 0, 2, 4, 5, 7, 9, 11, 12 }, { 0, 2, 3, 5, 7, 9, 11, 12 }, { 0, 2, 3, 5, 6, 8, 9, 11 }, { 0, 2, 4, 7, 9, 12, 14, 16 } };
-    int scale = 0;
+    public scale scale = 0;
     public Sequencer[] seq;
     public int originalRootNote = 48;
     private int rootNote;
@@ -89,7 +90,7 @@ public class seqGenerator : MonoBehaviour
         int scaleIndex = 0;
         for (int i = 0; i < seq[0].length; i++)
         {
-            seq[0].addNote(rootNote + triads[scale, scaleIndex % 3], 0.5f, i);
+            seq[0].addNote(rootNote + triads[(int)scale, scaleIndex % 3], 0.5f, i);
             scaleIndex++;
         }
 
@@ -103,7 +104,7 @@ public class seqGenerator : MonoBehaviour
             //if (newNoteIndex >= scales.GetLength(1) || newNoteIndex < 0)
             //    newNoteIndex = Random.Range(0, scales.GetLength(1));
             int newNoteIndex = UnityEngine.Random.Range(0, 5);
-            seq[0].addNote(rootNote + 12 + scales[scale, newNoteIndex], 0.5f, scaleIndex);
+            seq[0].addNote(rootNote + 12 + scales[(int)scale, newNoteIndex], 0.5f, scaleIndex);
             lastNoteIndex = newNoteIndex;
             scaleIndex += (UnityEngine.Random.Range(2, 5) * 2);
         }
@@ -126,7 +127,7 @@ public class seqGenerator : MonoBehaviour
                 int noteNum = 0;
                 if (i == 0 || Random.Range(0, 100) <= 20)  // use a fixed low value for teh bass line // noteDensity)
                 {
-                    noteNum = originalRootNote + scales[3, Random.Range(0, 7)];
+                    noteNum = originalRootNote + scales[(int)scale, Random.Range(0, 7)];
                     if (aqiVal <= 100)
                         seq[0].addNote(noteNum, 0f, i); // add it but silent
                     else if (aqiVal <= 150)

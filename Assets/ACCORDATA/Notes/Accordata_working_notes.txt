@@ -1,4 +1,4 @@
-2018-02-02
+2018-06-02
 - url for current AQI data: https://taqm.epa.gov.tw/taqm/aqi-map.aspx
 - can't see how to get access to the data only, so we'll scrape it out of the html from above url
 - two main sonification techniques: dynamic mixing and generative music
@@ -14,9 +14,9 @@
 	- allow the user to change synth patch
 	- possibly layer data types (eg. add temperature or wind data to aqi) with different sounds or in different octaves
 	- possibly do wind as synth noise with peak at the middle of the musical bar according to wind speed
-2018-02-03
+2018-06-03
 - after some serious wrestling with building the required url, finally coaxed the server into giving up current AQI data
-2018-02-04
+2018-06-04
 - more ideas re. generative music
 	- still thinking of minimalist composers, how Philip Glass lets phrases elliptically trail off on a reverb tail in the beginning of Powaqqatsi - 13. The Unutterable 
 	- the above instead of or in addition to rits to mark significant data boundaries?
@@ -24,17 +24,35 @@
 	- instead of arpeggios, let the machine come up with a 1/2 bar phrase (melody and rhythm) that can be looped and cross-pollinated with variations of itself
 	- maybe use progressively "bad" values to push the phrase progressively more out of shape
 	- Electric Counterpoint III, Fast
-2018-02-06
+2018-06-06
 - more slicing and dicing of the raw data into easily digestible bite-sized chunks
 - hmmm, this was just one data stream (AQI and lots of info on pollutants) - how many will we need? Hopefully we've got the hang of it now and additional data streams will offer up their pearls of wisdom faster
-2018-02-07
+2018-06-07
 - windchimes: the original weather data sonification device
 - made progress with minimalMelody
-2018-02-08
+2018-06-08
 - I've realized that if I use 2rd party assets in Unity, I won't be able to open source the complete Unity project on github
 - it would be a lot less useful if the project contains references to assets and libraries that are not included
-- I would be open sourcing a Unity project in a non-working state ;^/
+- open sourcing a Unity project in a non-working state is less than ideal ;^/
 - the answer is to remove all 3rd party assets (gulp)
 - biggest loss here is Helm synth (sob)
 - also losing the use of dotween, and I2 localization (groan)
 - now looking into options to roll own sampler
+2018-06-14
+- Tech:
+- so days later still stuck on finding a good solution for replacing Helm
+- fact: Unity is terrible at keeping musical time
+- I've had fairly good results using a Pure Data patch via Enzien Audio Heavy as a "pacemaker"
+- so clock comes from PD but sequencer is in C# Unity and samples are also triggered in Unity
+- this went well until I tested on Android where timing was dreadful again
+- matters are somewhat improved by reducing polyphony and latency in Unity's audio settings, but still not acceptable
+- the last two days have been spent exploring the other option of doing all of the audio in PD via Heavy
+- note generation will happen in C# Unity, but will be communicated to a PD patch that has the sequencer and samples
+- current hangup is a 1MB limit on PD patches via Heavy, so all audio data will need to be sent to the PD patch at run-time
+- alternatively find a good sounding PD synth patch, and then mix it with loops in native Unity?
+- Creative:
+- currently, the minimalMelody patch increases in complexity and note density as AQI values rise higher
+- problem is you need a fairly high note density for it to sound good... 
+- and (at least for AQI) lower values are definitely "good" and high values "bad"
+- will need to rethink
+
