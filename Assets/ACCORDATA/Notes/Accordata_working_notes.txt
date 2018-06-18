@@ -3,7 +3,7 @@
 - can't see how to get access to the data only, so we'll scrape it out of the html from above url
 - two main sonification techniques: dynamic mixing and generative music
 - ideas re. generative music 
-	- major triad for green aqi values
+	- major triad for green AQI values
 	- minor triad for yellow
 	- diminished triad for orange
 	- from there on adding more notes in the diminished scale as the values get higher
@@ -12,7 +12,7 @@
 	- it might add to the musicality to have ritardandos mark county boundaries or data set loop points
 	- hmmm, with rits probably no drum loops in support, but could work nicely to emulate a minimalist composition
 	- allow the user to change synth patch
-	- possibly layer data types (eg. add temperature or wind data to aqi) with different sounds or in different octaves
+	- possibly layer data types (eg. add temperature or wind data to AQI) with different sounds or in different octaves
 	- possibly do wind as synth noise with peak at the middle of the musical bar according to wind speed
 2018-06-03
 - after some serious wrestling with building the required url, finally coaxed the server into giving up current AQI data
@@ -59,3 +59,11 @@
 - spent most of the session getting to know Unity's UI layout tools again
 - is there always going to be some measure of training required for users to parse the audio data?
 - I think this will be something you become better at the more time you spend with the selected scheme
+2018-06-17
+- UI related work
+2018-06-18
+- finished implementing map of Taiwan with counties selectable
+- thinking of Brian Eno's Music For Airports 1/2 and windchimes
+	- instead of notes in a scale playing at random time intervals (windchimes), how about notes in a melody playing in sequence at different time intervals / clusters
+	- listening to Kai Schumacher's album Beauty In Simplicity [2017] for inspiration whilst working on UI
+	- implementing map zooming and scrolling with mouse input (need to do the same for touch input)
