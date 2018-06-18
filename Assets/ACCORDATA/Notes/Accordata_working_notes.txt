@@ -55,4 +55,7 @@
 - problem is you need a fairly high note density for it to sound good... 
 - and (at least for AQI) lower values are definitely "good" and high values "bad"
 - will need to rethink
-
+2018-06-16
+- spent most of the session getting to know Unity's UI layout tools again
+- is there always going to be some measure of training required for users to parse the audio data?
+- I think this will be something you become better at the more time you spend with the selected scheme

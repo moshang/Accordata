@@ -1,2 +1,4 @@
-Map source:
+Map SVG source:
 https://simplemaps.com/resources/svg-tw
+County reference:
+https://en.wikipedia.org/wiki/List_of_administrative_divisions_of_Taiwan

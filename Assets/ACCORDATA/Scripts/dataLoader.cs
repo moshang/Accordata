@@ -36,6 +36,11 @@ public class dataLoader : MonoBehaviour
     string time;
     string ts;
 
+    float minLat = 200;
+    float maxLat = 0;
+    float minLng = 200;
+    float maxLng = 0;
+
     void Start()
     {
         settings = GetComponent<userSettings>();
@@ -92,8 +97,21 @@ public class dataLoader : MonoBehaviour
                 int.TryParse(splitData[(i * numSplits) + 8 + splitdataOffset], out sites[i].aqi);
 
                 Debug.Log(sites[i].name + ": " + sites[i].aqi);
-            }
 
+                // find min max values for lat lng
+                if (sites[i].lat < minLat)
+                    minLat = sites[i].lat;
+                if (sites[i].lat > maxLat)
+                    maxLat = sites[i].lat;
+                if (sites[i].lng < minLng)
+                    minLng = sites[i].lng;
+                if (sites[i].lng > maxLng)
+                    maxLng = sites[i].lng;
+            }
+            Debug.Log("minLat: " + minLat);
+            Debug.Log("maxLat: " + maxLat);
+            Debug.Log("minLng: " + minLng);
+            Debug.Log("maxLng: " + maxLng);
         }
     }
 
