@@ -47,7 +47,13 @@ public class inputController : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
+            /*
+            float scaleFactor = mapScale.x;
+            float minX = utils.map(scaleFactor, 0.8f, 3, 0, 1000);
+            float maxX = utils.map(scaleFactor, 0.8f, 0, 0, -500);
+            */
             Vector2 newMapPos;
+            //newMapPos.x = Mathf.Clamp(mapStartPos.x + (Input.mousePosition.x - mouseDownPos.x), minX, maxX);
             newMapPos.x = mapStartPos.x + (Input.mousePosition.x - mouseDownPos.x);
             newMapPos.y = mapStartPos.y + (Input.mousePosition.y - mouseDownPos.y);
             mapPanel.anchoredPosition = newMapPos;

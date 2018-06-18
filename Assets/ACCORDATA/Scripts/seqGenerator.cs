@@ -8,10 +8,11 @@ public enum scale { major, minor, dimished, pentatonic };
 public class seqGenerator : MonoBehaviour
 {
     [Header("--> ACCORDATA <--")]
-    readonly int[,] triads = { { 0, 4, 7 }, { 0, 3, 7 }, { 0, 3, 6 } };
+    readonly int[] triad = { 0, 2, 4, 6, 7 };
     readonly int[,] scales = { { 0, 2, 4, 5, 7, 9, 11, 12 }, { 0, 2, 3, 5, 7, 9, 11, 12 }, { 0, 2, 3, 5, 6, 8, 9, 11 }, { 0, 2, 4, 7, 9, 12, 14, 16 } };
     public scale scale = 0;
     public Sequencer[] seq;
+    public int numScales;
     public int originalRootNote = 48;
     private int rootNote;
     public int barCounter;
@@ -35,7 +36,8 @@ public class seqGenerator : MonoBehaviour
     [Range(0, 100)]
     public int noteDensity = 25; // likelyhood of this 16th note containing a note
     int[] rmNoteNum;
-    bool melodyExists = false;
+    private bool melodyExists = false;
+
 
     void Start()
     {
@@ -43,6 +45,7 @@ public class seqGenerator : MonoBehaviour
         clock.OnBar += everyBar;
         rootNote = originalRootNote;
         siteCardBG = siteCard.GetComponent<Image>();
+        numScales = scale.GetNames(typeof(scale)).Length;
     }
 
     void makeSeq(int aqiValue = 0)
@@ -51,6 +54,7 @@ public class seqGenerator : MonoBehaviour
         switch (genStyle)
         {
             case style.arp:
+
                 arp(aqi);
                 break;
 
@@ -67,6 +71,9 @@ public class seqGenerator : MonoBehaviour
 
     void everyBar(int bar)
     {
+        if (genStyle == style.arp && (bar % 2) == 0)
+            scale = (scale)((int)(scale + 1) % numScales);
+
         if (bar % 4 == 0)
             loop.PlayOneShot(loop.clip, 0.5f);
         if (nextSiteAtBar == bar)
@@ -96,7 +103,7 @@ public class seqGenerator : MonoBehaviour
         int scaleIndex = 0;
         for (int i = 0; i < seq[0].length; i++)
         {
-            seq[0].addNote(rootNote + triads[(int)scale, scaleIndex % 3], 0.5f, i);
+            seq[0].addNote(rootNote + scales[(int)scale, triad[scaleIndex % 5]], 0.5f, i);
             scaleIndex++;
         }
 
@@ -119,6 +126,10 @@ public class seqGenerator : MonoBehaviour
     public void regenMinimalMelody()
     {
         melodyExists = false;
+        if (originalRootNote == 48)
+            originalRootNote = 55;
+        else
+            originalRootNote = 48;
     }
 
     void minimalMelody(int aqiVal = 0)
@@ -168,13 +179,16 @@ public class seqGenerator : MonoBehaviour
             }
         }
 
+        noteDensity = (int)utils.map(aqiVal % 50, 0, 50, 40, 90);
         // set note likelyhood
+        /*
         if (aqiVal <= 50)
             noteDensity = 35;
         else if (aqiVal <= 100)
             noteDensity = 65;
         else if (aqiVal <= 150)
             noteDensity = 85;
+*/
 
         // seq_1
         int melodyIndex = 0;
@@ -260,4 +274,5 @@ public class seqGenerator : MonoBehaviour
             newColor = new Color32(104, 159, 56, 255);
         return newColor;
     }
+
 }

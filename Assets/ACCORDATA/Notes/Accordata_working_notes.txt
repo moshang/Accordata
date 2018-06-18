@@ -63,7 +63,7 @@
 - UI related work
 2018-06-18
 - finished implementing map of Taiwan with counties selectable
-- thinking of Brian Eno's Music For Airports 1/2 and windchimes
+- thinking of Brian Eno's Music for Airports 1/2 and windchimes
 	- instead of notes in a scale playing at random time intervals (windchimes), how about notes in a melody playing in sequence at different time intervals / clusters
 	- listening to Kai Schumacher's album Beauty In Simplicity [2017] for inspiration whilst working on UI
 	- implementing map zooming and scrolling with mouse input (need to do the same for touch input)
