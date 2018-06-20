@@ -61,7 +61,7 @@ public class uiController : MonoBehaviour
         siteCardBG.color = getAqiColor(aqiVal);
     }
 
-    Color32 getAqiColor(int aqiVal)
+    public Color32 getAqiColor(int aqiVal)
     {
         Color32 newColor = new Color32();
         if (aqiVal > 300)

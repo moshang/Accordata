@@ -3013,6 +3013,7 @@ MonoBehaviour:
   siteMarkers: {fileID: 354807748}
   markerPrefab: {fileID: 1553718777926190, guid: 75f9694530269114c8bd1125ac6ff5d5,
     type: 2}
+  uiCtrl: {fileID: 839908679}
 --- !u!4 &995543012
 Transform:
   m_ObjectHideFlags: 0

@@ -17,6 +17,7 @@ public class dataLoader : MonoBehaviour
     private userSettings settings;
     public Transform siteMarkers;
     public GameObject markerPrefab;
+    public uiController uiCtrl;
 
     public struct Sites
     {
@@ -107,6 +108,7 @@ public class dataLoader : MonoBehaviour
                 sites[i].marker.transform.localPosition = markerPos;
                 sites[i].marker.transform.localScale = new Vector3(2, 2, 1);
                 sites[i].marker.name = sites[i].name;
+                sites[i].marker.GetComponent<SpriteRenderer>().color = uiCtrl.getAqiColor(sites[i].aqi);
                 //Debug.Log(sites[i].name + ": " + sites[i].aqi);
 
                 // find min max values for lat lng
