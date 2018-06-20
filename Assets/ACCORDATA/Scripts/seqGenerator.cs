@@ -13,6 +13,7 @@ public class seqGenerator : MonoBehaviour
     public scale scale = 0;
     public Sequencer[] seq;
     public int numScales;
+    public int numStyles;
     public int originalRootNote = 48;
     private int rootNote;
     public int barCounter;
@@ -23,14 +24,12 @@ public class seqGenerator : MonoBehaviour
     private int thisSiteIndex = 0;
     private int nextSiteIndex = 1;
     private dataLoader data;
-    public Text siteNameTxt;
-    public Text siteAqiTxt;
+    public uiController uiCtrl;
+
     [Header("Debug")]
     public bool aqiDebug;
     [Range(0, 500)]
     public int aqi;
-    public RectTransform siteCard;
-    Image siteCardBG;
     // STYLES
     [Header("Minimal Melody")]
     [Range(0, 100)]
@@ -44,8 +43,9 @@ public class seqGenerator : MonoBehaviour
         data = GetComponent<dataLoader>();
         clock.OnBar += everyBar;
         rootNote = originalRootNote;
-        siteCardBG = siteCard.GetComponent<Image>();
+
         numScales = scale.GetNames(typeof(scale)).Length;
+        numStyles = style.GetNames(typeof(style)).Length;
     }
 
     void makeSeq(int aqiValue = 0)
@@ -82,9 +82,7 @@ public class seqGenerator : MonoBehaviour
             nextSiteIndex = (thisSiteIndex + 1) % data.sites.Length;
             if (!aqiDebug)
                 aqi = data.sites[thisSiteIndex].aqi;
-            siteNameTxt.text = data.sites[thisSiteIndex].name;
-            siteAqiTxt.text = "AQI: " + aqi;
-            siteCardBG.color = getAqiColor(aqi);
+            uiCtrl.updateCard(data.sites[thisSiteIndex].name, aqi);
 
             nextSiteAtBar = bar + getSiteBarDuration(aqi);
             regenMinimalMelody();
@@ -98,12 +96,12 @@ public class seqGenerator : MonoBehaviour
     void arp(int aqiVal)
     {
         clearSeqs();
-
+        int notesInArp = Mathf.Clamp((int)utils.map(aqiVal % 100, 0, 50, 2, 6), 2, 5);
         // ARP
         int scaleIndex = 0;
         for (int i = 0; i < seq[0].length; i++)
         {
-            seq[0].addNote(rootNote + scales[(int)scale, triad[scaleIndex % 5]], 0.5f, i);
+            seq[0].addNote(rootNote + scales[(int)scale, triad[scaleIndex % notesInArp]], 0.5f, i);
             scaleIndex++;
         }
 
@@ -256,23 +254,4 @@ public class seqGenerator : MonoBehaviour
             duration = 4;
         return duration;
     }
-
-    Color32 getAqiColor(int aqiVal)
-    {
-        Color32 newColor = new Color32();
-        if (aqi > 300)
-            newColor = new Color32(136, 14, 79, 255);
-        else if (aqi > 200)
-            newColor = new Color32(173, 20, 87, 255);
-        else if (aqi > 150)
-            newColor = new Color32(197, 57, 41, 255);
-        else if (aqi > 100)
-            newColor = new Color32(245, 124, 0, 255);
-        else if (aqi > 50)
-            newColor = new Color32(251, 192, 45, 255);
-        else
-            newColor = new Color32(104, 159, 56, 255);
-        return newColor;
-    }
-
 }

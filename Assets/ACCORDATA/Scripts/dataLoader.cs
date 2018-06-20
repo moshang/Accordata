@@ -15,6 +15,8 @@ public class dataLoader : MonoBehaviour
 
     public int[] aqi;
     private userSettings settings;
+    public Transform siteMarkers;
+    public GameObject markerPrefab;
 
     public struct Sites
     {
@@ -27,6 +29,7 @@ public class dataLoader : MonoBehaviour
         public float lat;
         public float lng;
         public int aqi;
+        public GameObject marker;
     }
     public Sites[] sites;
 
@@ -96,7 +99,15 @@ public class dataLoader : MonoBehaviour
                 float.TryParse(splitData[(i * numSplits) + 7 + splitdataOffset], out sites[i].lng);
                 int.TryParse(splitData[(i * numSplits) + 8 + splitdataOffset], out sites[i].aqi);
 
-                Debug.Log(sites[i].name + ": " + sites[i].aqi);
+                Vector3 markerPos = Vector3.zero;
+                markerPos.x = utils.map(sites[i].lng, 120, 122, -193.6f, 384);
+                markerPos.y = utils.map(sites[i].lat, 21.9f, 25.3f, -542, 542);
+                sites[i].marker = Instantiate(markerPrefab);
+                sites[i].marker.transform.parent = siteMarkers;
+                sites[i].marker.transform.localPosition = markerPos;
+                sites[i].marker.transform.localScale = new Vector3(2, 2, 1);
+                sites[i].marker.name = sites[i].name;
+                //Debug.Log(sites[i].name + ": " + sites[i].aqi);
 
                 // find min max values for lat lng
                 if (sites[i].lat < minLat)
