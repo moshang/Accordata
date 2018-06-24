@@ -1,1 +1,1 @@
-This is the pure data patch we use to create the plugin in Heavy https://enzienaudio.com/
+This is the Pure Data patch we use to create the plugin in Heavy https://enzienaudio.com/

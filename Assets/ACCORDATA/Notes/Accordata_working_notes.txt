@@ -67,3 +67,10 @@
 	- instead of notes in a scale playing at random time intervals (windchimes), how about notes in a melody playing in sequence at different time intervals / clusters
 	- listening to Kai Schumacher's album Beauty In Simplicity [2017] for inspiration whilst working on UI
 	- implementing map zooming and scrolling with mouse input (need to do the same for touch input)
+2018-06-24
+- spent the last number of days building a polyphonic sample player in PureData
+- the PD synth I was hoping to use works on PC, but not Android for some reason
+- if we can only have one instrument for generative music, piano will be best
+- almost done with the sample player, but ominously the Enzien Audio website is down
+- need Enzien Audio's Heavy to build the sample player for Unity and we're stuck again if Heavy is not available
+- best work on some more UI things and generative algorithms with the existing sample player in the meantime 

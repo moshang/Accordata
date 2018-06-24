@@ -5,6 +5,8 @@ using UnityEngine;
 public class Sequencer : MonoBehaviour
 {
     [Header("--> ACCORDATA <--")]
+    // PD HEAVY
+    public Hv_AccordataSynth_AudioLib pd;
     public samplePlayer sampler;
     private int[,] _note;
     private float[,] _velocity;
@@ -54,6 +56,7 @@ public class Sequencer : MonoBehaviour
             if (_note[i, seqIndex] != 0)
             {
                 sampler.playNote(_note[i, seqIndex], _velocity[i, seqIndex], _instrument);
+                //pd.SetFloatParameter(Hv_AccordataSynth_AudioLib.Parameter.Notenum, _note[i, seqIndex]);
             }
         }
 

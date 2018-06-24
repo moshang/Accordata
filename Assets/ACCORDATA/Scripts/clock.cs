@@ -25,7 +25,7 @@ public class clock : MonoBehaviour
     public static event BarAction OnBar;
 
     // PD HEAVY
-    Hv_Accordata_AudioLib pd;
+    Hv_AccordataSynth_AudioLib pd;
 
     // TEMP
     public samplePlayer sampler;
@@ -35,12 +35,12 @@ public class clock : MonoBehaviour
         pulses = 0;
         dur16th = (60000 / bpm) / 1000 / 4;
 
-        pd = GetComponent<Hv_Accordata_AudioLib>();
+        pd = GetComponent<Hv_AccordataSynth_AudioLib>();
         pd.RegisterSendHook();
         pd.FloatReceivedCallback += OnPdPulse;
     }
 
-    void OnPdPulse(Hv_Accordata_AudioLib.FloatMessage message)
+    void OnPdPulse(Hv_AccordataSynth_AudioLib.FloatMessage message)
     {
         // PULSES
         if (OnPulse != null)
@@ -78,11 +78,11 @@ public class clock : MonoBehaviour
 
     public void startPlayback()
     {
-        pd.SendEvent(Hv_Accordata_AudioLib.Event.Start);
+        pd.SendEvent(Hv_AccordataSynth_AudioLib.Event.Start);
     }
 
     public void testAudio()
     {
-        pd.SendEvent(Hv_Accordata_AudioLib.Event.Test);
+        //pd.SendEvent(Hv_AccordataSynth_AudioLib.Event.Test);
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class uiController : MonoBehaviour
 {
-    [Header("-> ACCRODATA <-")]
+    [Header("-> ACCORDATA <-")]
     public seqGenerator seqGen;
     // BUTTONS
     public Text scaleButtonTxt;
