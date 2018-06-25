@@ -7,6 +7,7 @@ public class uiController : MonoBehaviour
 {
     [Header("-> ACCORDATA <-")]
     public seqGenerator seqGen;
+    public dataLoader data;
     // BUTTONS
     public Text scaleButtonTxt;
     public Text styleButtonTxt;
@@ -15,13 +16,27 @@ public class uiController : MonoBehaviour
 
     // SITECARD
     public RectTransform siteCard;
+    public RectTransform siteCardDetails;
     Image siteCardBG;
+    Image siteCardDetailsBG;
     public Text siteNameTxt;
     public Text siteAqiTxt;
+    public Text mainPollutant;
+    public Text pm10;
+    public Text pm10_avg;
+    public Text pm25;
+    public Text pm25_avg;
+    public Text o3;
+    public Text o3_8h;
+    public Text so2;
+    public Text co;
+    public Text co_8h;
+    public Text no2;
 
     private void Start()
     {
         siteCardBG = siteCard.GetComponent<Image>();
+        siteCardDetailsBG = siteCardDetails.GetComponent<Image>();
     }
 
     // FUNCTIONS
@@ -50,32 +65,52 @@ public class uiController : MonoBehaviour
         if (seqGen.aqiDebug)
         {
             seqGen.aqi = (int)aqiSlider.value;
-            updateCard(siteNameTxt.text, seqGen.aqi);
+            siteAqiTxt.text = "AQI: " + ((int)aqiSlider.value).ToString();
+            updateBGColors((int)aqiSlider.value);
         }
     }
 
-    public void updateCard(string nameTxt, int aqiVal)
+    public void updateCard(int siteIndex)
     {
-        siteNameTxt.text = nameTxt;
-        siteAqiTxt.text = "AQI: " + aqiVal;
+        siteNameTxt.text = data.sites[siteIndex].name;
+
+        siteAqiTxt.text = "AQI: " + data.sites[siteIndex].aqi;
+        mainPollutant.text = "Main Pollutant: " + data.sites[siteIndex].mainPollutant;
+        pm10.text = "PM10: " + data.sites[siteIndex].PM10;
+        pm10_avg.text = "PM10 Avg: " + data.sites[siteIndex].PM10_AVG;
+        pm25.text = "PM2.5: " + data.sites[siteIndex].PM25;
+        pm25_avg.text = "PM2.5 Avg: " + data.sites[siteIndex].PM25_AVG;
+        o3.text = "O3: " + data.sites[siteIndex].O3;
+        o3_8h.text = "O3 8h: " + data.sites[siteIndex].O3_8;
+        so2.text = "SO2: " + data.sites[siteIndex].SO2;
+        co.text = "CO: " + data.sites[siteIndex].CO;
+        co_8h.text = "CO 8h: " + data.sites[siteIndex].CO_8;
+        no2.text = "NO2: " + data.sites[siteIndex].NO2;
+
+        updateBGColors(data.sites[siteIndex].aqi);
+    }
+
+    void updateBGColors(int aqiVal)
+    {
         siteCardBG.color = getAqiColor(aqiVal);
+        siteCardDetailsBG.color = getAqiColor(aqiVal);
     }
 
     public Color32 getAqiColor(int aqiVal)
     {
         Color32 newColor = new Color32();
         if (aqiVal > 300)
-            newColor = new Color32(136, 14, 79, 255);
+            newColor = new Color32(136, 14, 79, 200);
         else if (aqiVal > 200)
-            newColor = new Color32(173, 20, 87, 255);
+            newColor = new Color32(173, 20, 87, 200);
         else if (aqiVal > 150)
-            newColor = new Color32(197, 57, 41, 255);
+            newColor = new Color32(197, 57, 41, 200);
         else if (aqiVal > 100)
-            newColor = new Color32(245, 124, 0, 255);
+            newColor = new Color32(245, 124, 0, 200);
         else if (aqiVal > 50)
-            newColor = new Color32(251, 192, 45, 255);
+            newColor = new Color32(251, 192, 45, 200);
         else
-            newColor = new Color32(104, 159, 56, 255);
+            newColor = new Color32(104, 159, 56, 200);
         return newColor;
     }
 }

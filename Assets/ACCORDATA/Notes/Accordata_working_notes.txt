@@ -74,3 +74,5 @@
 - almost done with the sample player, but ominously the Enzien Audio website is down
 - need Enzien Audio's Heavy to build the sample player for Unity and we're stuck again if Heavy is not available
 - best work on some more UI things and generative algorithms with the existing sample player in the meantime 
+2018-06-25
+- whoohoo, Enzien's site is back up so yes Heavy!

@@ -82,7 +82,7 @@ public class seqGenerator : MonoBehaviour
             nextSiteIndex = (thisSiteIndex + 1) % data.sites.Length;
             if (!aqiDebug)
                 aqi = data.sites[thisSiteIndex].aqi;
-            uiCtrl.updateCard(data.sites[thisSiteIndex].name, aqi);
+            uiCtrl.updateCard(thisSiteIndex);
 
             nextSiteAtBar = bar + getSiteBarDuration(aqi);
             regenMinimalMelody();
