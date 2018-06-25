@@ -33,10 +33,15 @@ public class uiController : MonoBehaviour
     public Text co_8h;
     public Text no2;
 
+    // TARGET HIGHLIGHT
+    public SpriteRenderer highlight;
+    private Vector3 highlightOriginalScale = new Vector3(10, 10, 1);
+
     private void Start()
     {
         siteCardBG = siteCard.GetComponent<Image>();
         siteCardDetailsBG = siteCardDetails.GetComponent<Image>();
+        clock.OnBeat += everyBeat;
     }
 
     // FUNCTIONS
@@ -72,9 +77,10 @@ public class uiController : MonoBehaviour
 
     public void updateCard(int siteIndex)
     {
+        //fill the card with data
         siteNameTxt.text = data.sites[siteIndex].name;
-
         siteAqiTxt.text = "AQI: " + data.sites[siteIndex].aqi;
+
         mainPollutant.text = "Main Pollutant: " + data.sites[siteIndex].mainPollutant;
         pm10.text = "PM10: " + data.sites[siteIndex].PM10;
         pm10_avg.text = "PM10 Avg: " + data.sites[siteIndex].PM10_AVG;
@@ -87,7 +93,11 @@ public class uiController : MonoBehaviour
         co_8h.text = "CO 8h: " + data.sites[siteIndex].CO_8;
         no2.text = "NO2: " + data.sites[siteIndex].NO2;
 
+        // change the colors
         updateBGColors(data.sites[siteIndex].aqi);
+
+        // move the target highlight
+        highlight.transform.position = data.sites[siteIndex].marker.transform.position;
     }
 
     void updateBGColors(int aqiVal)
@@ -112,5 +122,26 @@ public class uiController : MonoBehaviour
         else
             newColor = new Color32(104, 159, 56, 200);
         return newColor;
+    }
+
+    public void everyBeat(int beatNum)
+    {
+        if (beatNum % 2 == 0)
+            StartCoroutine(bounceHighlight());
+    }
+
+    IEnumerator bounceHighlight()
+    {
+        float startTime = Time.time;
+        float targetDurMillis = 60000 / clock.bpm; // for 1 beat
+        float linearProgress = 0;
+        Vector3 highlightNewScale;
+        while (linearProgress < 1)
+        {
+            highlightNewScale = Vector3.Lerp(highlightOriginalScale * 3, highlightOriginalScale, Easings.QuarticEaseIn(linearProgress));
+            linearProgress = (Time.time - startTime) * 1000 / targetDurMillis;
+            highlight.transform.localScale = highlightNewScale;
+            yield return null;
+        }
     }
 }

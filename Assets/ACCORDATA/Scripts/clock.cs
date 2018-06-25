@@ -6,7 +6,7 @@ using UnityEngine;
 public class clock : MonoBehaviour
 {
     [Header("--> ACCORDATA <--")]
-    public float bpm = 98;
+    public static float bpm = 98;
     private float currentBpm;
     double dur16th; // duration of a 16th note
     public bool metronome = true;
