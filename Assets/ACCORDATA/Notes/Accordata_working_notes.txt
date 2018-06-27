@@ -76,3 +76,18 @@
 - best work on some more UI things and generative algorithms with the existing sample player in the meantime 
 2018-06-25
 - whoohoo, Enzien's site is back up so yes Heavy!
+2018-06-26
+- ui improvements
+	- detailed card now shows all current air quality measurements
+	- we have a current site indicater showing the location of the relevant site on the map
+2018-06-28
+- engaged more seriously with weather data
+- I now know the URLs to get to the data, but still have to figure out how to match weather sites to air quality sites
+- we'll only show weather data for the available air quality sites (this is not strictly a weather app)
+- need to decide how to handle aq sites that don't have weather data - just find a weather site close by?
+- brushed up on unity data serialization for loading and saving
+- still deciding but will probably not bother figuring out how to load historical data from source sites
+- instead save a data set every time the app is run (for that day)
+- this helps us out in cases where the source site may be unavailable
+- also gives the user a personal history with the app
+- NOTE: Unity (or rather generic C#) serialization is not available in-browser, but will work on PC, Android, iOS
