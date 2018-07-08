@@ -85,7 +85,10 @@ public class dataLoader : MonoBehaviour
         using (www = new WWW(url))
         {
             while (!www.isDone)
+            {
+                //Debug.Log(www.progress);
                 yield return null;
+            }
             StartCoroutine(parseAqiData(www));
         }
 
