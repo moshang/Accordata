@@ -19,6 +19,8 @@ public class dataLoader : MonoBehaviour
     public GameObject markerPrefab;
     public uiController uiCtrl;
 
+    public GameObject loadingWheel;
+
     public struct Sites
     {
         public int id;
@@ -52,11 +54,6 @@ public class dataLoader : MonoBehaviour
     string time;
     string ts;
 
-    float minLat = 200;
-    float maxLat = 0;
-    float minLng = 200;
-    float maxLng = 0;
-
     void Start()
     {
         settings = GetComponent<userSettings>();
@@ -78,78 +75,68 @@ public class dataLoader : MonoBehaviour
         ts = "&ts=" + GetTime().ToString();
         url += ts;
         */
-        Debug.Log(url);
-        StartCoroutine("GetText");
+        //Debug.Log(url);
+        StartCoroutine(loadAqiData());
     }
 
-    IEnumerator GetText() // https://docs.unity3d.com/Manual/UnityWebRequest-RetrievingTextBinaryData.html
+    IEnumerator loadAqiData()
     {
-        UnityWebRequest www = UnityWebRequest.Get(url);
-        yield return www.SendWebRequest();
-        if (www.isNetworkError || www.isHttpError)
-        {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            aqiData = www.downloadHandler.text;
-            Debug.Log(aqiData);
-            string aqiDataNoQuotes = aqiData.Replace("\"", ""); // remove quotation marks
-            splitData = aqiDataNoQuotes.Split(stringSeparators, StringSplitOptions.None); //, StringSplitOptions.RemoveEmptyEntries);
-                                                                                          //Debug.Log("Number of sites: " + siteID.Length);
-            int numSplits = 23; // 10 here for 10 split strings (and ignoring the initial split string that will return empties)
-            sites = new Sites[splitData.Length / numSplits];
-            int splitdataOffset = 2; // through testing we know the first two strings in splitdata will be empty
-            for (int i = 0; i < sites.Length; i++)
-            {
-                int.TryParse(splitData[(i * numSplits) + splitdataOffset], out sites[i].id);
-                sites[i].name = splitData[(i * numSplits) + 1 + splitdataOffset];
-                sites[i].key = splitData[(i * numSplits) + 2 + splitdataOffset];
-                sites[i].areakey = splitData[(i * numSplits) + 3 + splitdataOffset];
-                sites[i].monobjName = splitData[(i * numSplits) + 4 + splitdataOffset];
-                sites[i].address = splitData[(i * numSplits) + 5 + splitdataOffset];
-                float.TryParse(splitData[(i * numSplits) + 6 + splitdataOffset], out sites[i].lat);
-                float.TryParse(splitData[(i * numSplits) + 7 + splitdataOffset], out sites[i].lng);
-                int.TryParse(splitData[(i * numSplits) + 8 + splitdataOffset], out sites[i].aqi);
-                sites[i].mainPollutant = splitData[(i * numSplits) + 9 + splitdataOffset];
-                // skip 2
-                int.TryParse(splitData[(i * numSplits) + 12 + splitdataOffset], out sites[i].PM10);
-                int.TryParse(splitData[(i * numSplits) + 13 + splitdataOffset], out sites[i].PM10_AVG);
-                int.TryParse(splitData[(i * numSplits) + 14 + splitdataOffset], out sites[i].PM25);
-                int.TryParse(splitData[(i * numSplits) + 15 + splitdataOffset], out sites[i].PM25_AVG);
-                int.TryParse(splitData[(i * numSplits) + 16 + splitdataOffset], out sites[i].O3);
-                int.TryParse(splitData[(i * numSplits) + 17 + splitdataOffset], out sites[i].O3_8);
-                float.TryParse(splitData[(i * numSplits) + 18 + splitdataOffset], out sites[i].SO2);
-                float.TryParse(splitData[(i * numSplits) + 19 + splitdataOffset], out sites[i].CO);
-                float.TryParse(splitData[(i * numSplits) + 20 + splitdataOffset], out sites[i].CO_8);
-                float.TryParse(splitData[(i * numSplits) + 21 + splitdataOffset], out sites[i].NO2);
 
-                Vector3 markerPos = Vector3.zero;
-                markerPos.x = utils.map(sites[i].lng, 120, 122, -193.6f, 384);
-                markerPos.y = utils.map(sites[i].lat, 21.9f, 25.3f, -542, 542);
-                sites[i].marker = Instantiate(markerPrefab);
-                sites[i].marker.transform.parent = siteMarkers;
-                sites[i].marker.transform.localPosition = markerPos;
-                sites[i].marker.transform.localScale = new Vector3(2, 2, 1);
-                sites[i].marker.name = sites[i].name;
-                sites[i].marker.GetComponent<SpriteRenderer>().color = uiCtrl.getAqiColor(sites[i].aqi);
-                //Debug.Log(sites[i].name + ": " + sites[i].aqi);
-
-                // find min max values for lat lng
-                if (sites[i].lat < minLat)
-                    minLat = sites[i].lat;
-                if (sites[i].lat > maxLat)
-                    maxLat = sites[i].lat;
-                if (sites[i].lng < minLng)
-                    minLng = sites[i].lng;
-                if (sites[i].lng > maxLng)
-                    maxLng = sites[i].lng;
-            }
-            Debug.Log("minLat: " + minLat);
-            Debug.Log("maxLat: " + maxLat);
-            Debug.Log("minLng: " + minLng);
-            Debug.Log("maxLng: " + maxLng);
+        using (www = new WWW(url))
+        {
+            while (!www.isDone)
+                yield return null;
+            StartCoroutine(parseAqiData(www));
         }
+
+    }
+
+    IEnumerator parseAqiData(WWW w)
+    {
+        aqiData = w.text;
+        //Debug.Log(aqiData);
+        string aqiDataNoQuotes = aqiData.Replace("\"", ""); // remove quotation marks
+        splitData = aqiDataNoQuotes.Split(stringSeparators, StringSplitOptions.None); //, StringSplitOptions.RemoveEmptyEntries);
+                                                                                      //Debug.Log("Number of sites: " + siteID.Length);
+        int numSplits = 23; // 10 here for 10 split strings (and ignoring the initial split string that will return empties)
+        sites = new Sites[splitData.Length / numSplits];
+        int splitdataOffset = 2; // through testing we know the first two strings in splitdata will be empty
+        for (int i = 0; i < sites.Length; i++)
+        {
+            int.TryParse(splitData[(i * numSplits) + splitdataOffset], out sites[i].id);
+            sites[i].name = splitData[(i * numSplits) + 1 + splitdataOffset];
+            sites[i].key = splitData[(i * numSplits) + 2 + splitdataOffset];
+            sites[i].areakey = splitData[(i * numSplits) + 3 + splitdataOffset];
+            sites[i].monobjName = splitData[(i * numSplits) + 4 + splitdataOffset];
+            sites[i].address = splitData[(i * numSplits) + 5 + splitdataOffset];
+            float.TryParse(splitData[(i * numSplits) + 6 + splitdataOffset], out sites[i].lat);
+            float.TryParse(splitData[(i * numSplits) + 7 + splitdataOffset], out sites[i].lng);
+            int.TryParse(splitData[(i * numSplits) + 8 + splitdataOffset], out sites[i].aqi);
+            sites[i].mainPollutant = splitData[(i * numSplits) + 9 + splitdataOffset];
+            // skip 2
+            int.TryParse(splitData[(i * numSplits) + 12 + splitdataOffset], out sites[i].PM10);
+            int.TryParse(splitData[(i * numSplits) + 13 + splitdataOffset], out sites[i].PM10_AVG);
+            int.TryParse(splitData[(i * numSplits) + 14 + splitdataOffset], out sites[i].PM25);
+            int.TryParse(splitData[(i * numSplits) + 15 + splitdataOffset], out sites[i].PM25_AVG);
+            int.TryParse(splitData[(i * numSplits) + 16 + splitdataOffset], out sites[i].O3);
+            int.TryParse(splitData[(i * numSplits) + 17 + splitdataOffset], out sites[i].O3_8);
+            float.TryParse(splitData[(i * numSplits) + 18 + splitdataOffset], out sites[i].SO2);
+            float.TryParse(splitData[(i * numSplits) + 19 + splitdataOffset], out sites[i].CO);
+            float.TryParse(splitData[(i * numSplits) + 20 + splitdataOffset], out sites[i].CO_8);
+            float.TryParse(splitData[(i * numSplits) + 21 + splitdataOffset], out sites[i].NO2);
+
+            Vector3 markerPos = Vector3.zero;
+            markerPos.x = utils.map(sites[i].lng, 120, 122, -193.6f, 384);
+            markerPos.y = utils.map(sites[i].lat, 21.9f, 25.3f, -542, 542);
+            sites[i].marker = Instantiate(markerPrefab);
+            sites[i].marker.transform.parent = siteMarkers;
+            sites[i].marker.transform.localPosition = markerPos;
+            sites[i].marker.transform.localScale = new Vector3(2, 2, 1);
+            sites[i].marker.name = sites[i].name;
+            sites[i].marker.GetComponent<Image>().color = uiCtrl.getAqiColor(sites[i].aqi);
+            yield return null;
+        }
+        loadingWheel.SetActive(false);
     }
 
     private Int64 GetTime()

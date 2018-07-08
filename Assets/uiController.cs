@@ -75,6 +75,18 @@ public class uiController : MonoBehaviour
         }
     }
 
+    public void showSelectedSite(GameObject selectedSite)
+    {
+        for (int i = 0; i < data.sites.Length; i++)
+        {
+            if (selectedSite == data.sites[i].marker)
+            {
+                updateCard(i);
+                break;
+            }
+        }
+    }
+
     public void updateCard(int siteIndex)
     {
         //fill the card with data

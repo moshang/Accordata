@@ -91,3 +91,5 @@
 - this helps us out in cases where the source site may be unavailable
 - also gives the user a personal history with the app
 - NOTE: Unity (or rather generic C#) serialization is not available in-browser, but will work on PC, Android, iOS
+2018-07-02
+- made some progress unblocking the main thread while data loads (we want to show at least a spinning loading wheel)
