@@ -16,8 +16,10 @@ public class uiController : MonoBehaviour
 
     // SITECARD
     public RectTransform siteCard;
+    public RectTransform siteCardAqi;
     public RectTransform siteCardDetails;
     Image siteCardBG;
+    Image siteCardAqiBG;
     Image siteCardDetailsBG;
     public Text siteNameTxt;
     public Text siteAqiTxt;
@@ -39,8 +41,9 @@ public class uiController : MonoBehaviour
 
     private void Start()
     {
-        siteCardBG = siteCard.GetComponent<Image>();
-        siteCardDetailsBG = siteCardDetails.GetComponent<Image>();
+        //siteCardBG = siteCard.GetComponent<Image>();
+        siteCardAqiBG = siteCardAqi.GetComponent<Image>();
+        //siteCardDetailsBG = siteCardDetails.GetComponent<Image>();
         clock.OnBeat += everyBeat;
     }
 
@@ -114,8 +117,9 @@ public class uiController : MonoBehaviour
 
     void updateBGColors(int aqiVal)
     {
-        siteCardBG.color = getAqiColor(aqiVal);
-        siteCardDetailsBG.color = getAqiColor(aqiVal);
+        siteCardAqiBG.color = getAqiColor(aqiVal);
+        //siteCardBG.color = getAqiColor(aqiVal);
+        //siteCardDetailsBG.color = getAqiColor(aqiVal);
     }
 
     public Color32 getAqiColor(int aqiVal)
