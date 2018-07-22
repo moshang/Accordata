@@ -11,7 +11,6 @@ public class seqGenerator : MonoBehaviour
     readonly int[] triad = { 0, 2, 4, 6, 7 };
     readonly int[,] scales = { { 0, 2, 4, 5, 7, 9, 11, 12 }, { 0, 2, 3, 5, 7, 9, 11, 12 }, { 0, 2, 3, 5, 6, 8, 9, 11 }, { 0, 2, 4, 7, 9, 12, 14, 16 } };
     public scale scale = 0;
-    public Sequencer[] seq;
     public int numScales;
     public int numStyles;
     public int originalRootNote = 48;
@@ -25,6 +24,7 @@ public class seqGenerator : MonoBehaviour
     private int nextSiteIndex = 1;
     private dataLoader data;
     public uiController uiCtrl;
+    private int seqLength = 16;
 
     [Header("Debug")]
     public bool aqiDebug;
@@ -50,7 +50,11 @@ public class seqGenerator : MonoBehaviour
 
     void makeSeq(int aqiValue = 0)
     {
-
+        seq.clear();
+        int startNote = Random.Range(50, 70);
+        for (int i = 0; i < 16; i++)
+            seq.addNote(i, startNote + i, 127);
+        /*
         switch (genStyle)
         {
             case style.arp:
@@ -62,6 +66,7 @@ public class seqGenerator : MonoBehaviour
                 minimalMelody(aqi);
                 break;
         }
+        */
     }
 
     void everyBeat(int beat)
@@ -76,6 +81,7 @@ public class seqGenerator : MonoBehaviour
 
         if (bar % 4 == 0)
             loop.PlayOneShot(loop.clip, 0.5f);
+
         if (nextSiteAtBar == bar)
         {
             thisSiteIndex = nextSiteIndex;
@@ -88,20 +94,16 @@ public class seqGenerator : MonoBehaviour
             regenMinimalMelody();
         }
         makeSeq(aqi);
-
-        //minimalMelody();
-        //arp();
     }
     // --> STYLES <--
     void arp(int aqiVal)
     {
-        clearSeqs();
         int notesInArp = Mathf.Clamp((int)utils.map(aqiVal % 100, 0, 50, 2, 6), 2, 5);
         // ARP
         int scaleIndex = 0;
-        for (int i = 0; i < seq[0].length; i++)
+        for (int i = 0; i < 16; i++)
         {
-            seq[0].addNote(rootNote + scales[(int)scale, triad[scaleIndex % notesInArp]], 0.5f, i);
+            seq.addNote(i, rootNote + scales[(int)scale, triad[scaleIndex % notesInArp]], 128);
             scaleIndex++;
         }
 
@@ -109,13 +111,13 @@ public class seqGenerator : MonoBehaviour
         scaleIndex = 0;
         int lastNoteIndex = UnityEngine.Random.Range(0, scales.GetLength(1));
         //lastNoteNum = scales[scale, lastNoteIndex)];
-        while (scaleIndex < seq[0].length)
+        while (scaleIndex < 16)
         {
             //int newNoteIndex = lastNoteIndex + Random.Range(-2, 3);
             //if (newNoteIndex >= scales.GetLength(1) || newNoteIndex < 0)
             //    newNoteIndex = Random.Range(0, scales.GetLength(1));
             int newNoteIndex = UnityEngine.Random.Range(0, 5);
-            seq[0].addNote(rootNote + 12 + scales[(int)scale, newNoteIndex], 0.5f, scaleIndex);
+            seq.addNote(scaleIndex, rootNote + 12 + scales[(int)scale, newNoteIndex], 127);
             lastNoteIndex = newNoteIndex;
             scaleIndex += (UnityEngine.Random.Range(2, 5) * 2);
         }
@@ -132,26 +134,26 @@ public class seqGenerator : MonoBehaviour
 
     void minimalMelody(int aqiVal = 0)
     {
-        clearSeqs();
+
         // seq_0
         if (!melodyExists)
         {
-            rmNoteNum = new int[seq[0].length];
-            for (int i = 0; i < seq[0].length; i++)
+            rmNoteNum = new int[seqLength];
+            for (int i = 0; i < seqLength; i++)
             {
                 int noteNum = 0;
                 if (i == 0 || Random.Range(0, 100) <= 20)  // use a fixed low value for teh bass line // noteDensity)
                 {
                     noteNum = originalRootNote + scales[(int)scale, Random.Range(0, 7)];
                     if (aqiVal <= 100)
-                        seq[0].addNote(noteNum, 0f, i); // add it but silent
+                        seq.addNote(i, noteNum, 0); // add it but silent
                     else if (aqiVal <= 150)
-                        seq[0].addNote(noteNum, 0.5f, i);
+                        seq.addNote(i, noteNum, 127);
 
                     if (aqiVal > 200)
-                        seq[0].addNote(noteNum - 24, 0.5f, i); // add bass 2 octave below
+                        seq.addNote(i, noteNum - 24, 127); // add bass 2 octave below
                     else if (aqiVal > 150)
-                        seq[0].addNote(noteNum - 12, 0.5f, i); // add bass 1 octave below
+                        seq.addNote(i, noteNum - 12, 127); // add bass 1 octave below
                 }
                 rmNoteNum[i] = noteNum;
             }
@@ -160,19 +162,19 @@ public class seqGenerator : MonoBehaviour
 
         else
         {
-            for (int i = 0; i < seq[0].length; i++)
+            for (int i = 0; i < seqLength; i++)
             {
                 if (rmNoteNum[i] != 0)
                 {
                     if (aqiVal <= 100)
-                        seq[0].addNote(rmNoteNum[i], 0f, i); // add it but silent
+                        seq.addNote(i, rmNoteNum[i], 127); // add it but silent
                     else if (aqiVal <= 150)
-                        seq[0].addNote(rmNoteNum[i], 0.5f, i);
+                        seq.addNote(i, rmNoteNum[i], 127);
 
                     if (aqiVal > 200)
-                        seq[0].addNote(rmNoteNum[i] - 24, 0.5f, i); // add bass 2 octave below
+                        seq.addNote(i, rmNoteNum[i] - 24, 127); // add bass 2 octave below
                     else if (aqiVal > 150)
-                        seq[0].addNote(rmNoteNum[i] - 12, 0.5f, i); // add bass 1 octave below
+                        seq.addNote(i, rmNoteNum[i] - 12, 127); // add bass 1 octave below
                 }
             }
         }
@@ -190,15 +192,15 @@ public class seqGenerator : MonoBehaviour
 
         // seq_1
         int melodyIndex = 0;
-        for (int i = 0; i < seq[0].length; i++)
+        for (int i = 0; i < seqLength; i++)
         {
             // place a note on this step?
             if (Random.Range(0, 100) <= noteDensity)
             {
                 while (rmNoteNum[melodyIndex] == 0)
-                    melodyIndex = (melodyIndex + 1) % seq[0].length;
-                seq[1].addNote(rmNoteNum[melodyIndex] + 12, 0.5f, i);
-                melodyIndex = (melodyIndex + 1) % seq[0].length; // advance melodyIndex, otherwise it will keep returning true and not go to the next note
+                    melodyIndex = (melodyIndex + 1) % seqLength;
+                seq.addNote(i, rmNoteNum[melodyIndex] + 12, 127);
+                melodyIndex = (melodyIndex + 1) % seqLength; // advance melodyIndex, otherwise it will keep returning true and not go to the next note
             }
         }
 
@@ -206,15 +208,15 @@ public class seqGenerator : MonoBehaviour
         {
             // seq_2
             melodyIndex = 0;
-            for (int i = 0; i < seq[0].length; i++)
+            for (int i = 0; i < seqLength; i++)
             {
                 // place a note on this step?
                 if (Random.Range(0, 100) <= noteDensity)
                 {
                     while (rmNoteNum[melodyIndex] == 0)
-                        melodyIndex = (melodyIndex + 1) % seq[0].length;
-                    seq[2].addNote(rmNoteNum[melodyIndex] + 17, 0.5f, i);
-                    melodyIndex = (melodyIndex + 1) % seq[0].length; // advance melodyIndex, otherwise it will keep returning true and not go to the next note
+                        melodyIndex = (melodyIndex + 1) % seqLength;
+                    seq.addNote(i, rmNoteNum[melodyIndex] + 17, 127);
+                    melodyIndex = (melodyIndex + 1) % seqLength; // advance melodyIndex, otherwise it will keep returning true and not go to the next note
                 }
             }
         }
@@ -223,24 +225,18 @@ public class seqGenerator : MonoBehaviour
         {
             // seq_3
             melodyIndex = 0;
-            for (int i = 0; i < seq[0].length; i++)
+            for (int i = 0; i < seqLength; i++)
             {
                 // place a note on this step?
                 if (Random.Range(0, 100) <= noteDensity)
                 {
                     while (rmNoteNum[melodyIndex] == 0)
-                        melodyIndex = (melodyIndex + 1) % seq[0].length;
-                    seq[3].addNote(rmNoteNum[melodyIndex] + 24, 0.5f, i);
-                    melodyIndex = (melodyIndex + 1) % seq[0].length; // advance melodyIndex, otherwise it will keep returning true and not go to the next note
+                        melodyIndex = (melodyIndex + 1) % seqLength;
+                    seq.addNote(i, rmNoteNum[melodyIndex] + 24, 127);
+                    melodyIndex = (melodyIndex + 1) % seqLength; // advance melodyIndex, otherwise it will keep returning true and not go to the next note
                 }
             }
         }
-    }
-
-    private void clearSeqs()
-    {
-        foreach (Sequencer sequ in seq)
-            sequ.clearAll();
     }
 
     int getSiteBarDuration(int aqiVal)

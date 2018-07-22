@@ -83,7 +83,7 @@ public class clock : MonoBehaviour
     {
         if (!_dataLoader.dataFinishedLoading)
             return;
-
+        seq.setBPM(98);
         pd.SendEvent(Hv_AccoPlayer_AudioLib.Event.Start);
     }
 
