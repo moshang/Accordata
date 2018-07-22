@@ -726,7 +726,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 542e822ca64a6f1459cb38043b4e4b04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pd: {fileID: 2056665327}
+  pd: {fileID: 0}
   sampler: {fileID: 1256902331}
 --- !u!1 &165940471
 GameObject:
@@ -3505,6 +3505,7 @@ MonoBehaviour:
     type: 2}
   uiCtrl: {fileID: 839908679}
   loadingWheel: {fileID: 1580897369}
+  dataFinishedLoading: 0
 --- !u!4 &995543012
 Transform:
   m_ObjectHideFlags: 0
@@ -4468,7 +4469,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 542e822ca64a6f1459cb38043b4e4b04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pd: {fileID: 2056665327}
+  pd: {fileID: 0}
   sampler: {fileID: 1256902331}
 --- !u!1 &1114870706
 GameObject:
@@ -4503,7 +4504,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -320.0402, y: 329.69992}
+  m_AnchoredPosition: {x: -337.3822, y: 329.69992}
   m_SizeDelta: {x: -470.8732, y: 659.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1222366844
@@ -4538,7 +4539,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -316.6, y: 75.3}
+  m_AnchoredPosition: {x: -316.6, y: 75.29999}
   m_SizeDelta: {x: 643.8, y: 158}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1222366846
@@ -5298,7 +5299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 542e822ca64a6f1459cb38043b4e4b04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pd: {fileID: 2056665327}
+  pd: {fileID: 0}
   sampler: {fileID: 1256902331}
 --- !u!1 &1376253063
 GameObject:
@@ -5332,7 +5333,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -256, y: 60.199997}
+  m_AnchoredPosition: {x: -256, y: 60.200012}
   m_SizeDelta: {x: 500, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1376253065
@@ -5970,7 +5971,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 542e822ca64a6f1459cb38043b4e4b04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pd: {fileID: 2056665327}
+  pd: {fileID: 0}
   sampler: {fileID: 1256902331}
 --- !u!1 &1550388099
 GameObject:
@@ -6618,7 +6619,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2056665324}
+      - m_Target: {fileID: 2056665327}
         m_MethodName: startPlayback
         m_Mode: 1
         m_Arguments:
@@ -7020,7 +7021,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 542e822ca64a6f1459cb38043b4e4b04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pd: {fileID: 2056665327}
+  pd: {fileID: 0}
   sampler: {fileID: 1256902331}
 --- !u!1 &1978381607
 GameObject:
@@ -7365,9 +7366,10 @@ GameObject:
   - component: {fileID: 2056665325}
   - component: {fileID: 2056665326}
   - component: {fileID: 2056665324}
+  - component: {fileID: 2056665329}
   - component: {fileID: 2056665327}
   m_Layer: 0
-  m_Name: Clock
+  m_Name: AccoPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7381,13 +7383,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2056665323}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 045589a65ae0d3547a51194a79c2d237, type: 3}
+  m_Script: {fileID: 11500000, guid: a15092ca8481d944498ae1200cdf1d6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  metronome: 0
-  time: 
-  metro: {fileID: 2109481901}
-  sampler: {fileID: 1256902331}
+  bpm: 100
+  seqNoteNum: 0
+  seqNoteVelo: 0
+  seqStepNum: 0
+  seqVoiceNum: 0
 --- !u!4 &2056665325
 Transform:
   m_ObjectHideFlags: 0
@@ -7411,7 +7414,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: f823c6054412d964b99a9d44ecad4bee, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -7505,50 +7508,54 @@ MonoBehaviour:
   m_GameObject: {fileID: 2056665323}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38e0b3a51270e7841ab9c2b35baf19d0, type: 3}
+  m_Script: {fileID: 11500000, guid: 045589a65ae0d3547a51194a79c2d237, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  adsr_attack: 30
-  adsr_decay: 30
-  adsr_release: 1000
-  adsr_sustain: 0.5
-  amp_lfo1_depth: 0
-  amp_lfo2_depth: 0
-  bpm: 100
-  delayFeedback: 0.4
-  delayLevel: 0.5
-  delayTimeMS: 250
-  flangerDepth: 0.2
-  flangerFeedback: 0.5
-  flangerMix: 0
-  flangerSpeed: 1
-  lfo1Retrig: 0
-  lfo1_rate: 1
-  lfo1_wave: 2
-  lfo2Retrig: 0
-  lfo2_rate: 1
-  lfo2_wave: 2
-  lpf_freq: 0
-  lpf_lfo1_depth: 0
-  lpf_lfo2_depth: 0
-  lpf_q: 0
-  noteNum: 64
-  noteVelo: 64
-  notenumber: 60
-  osc1_pitchmod_lfo1_depth: 0
-  osc1_pitchmod_lfo2_depth: 0
-  osc1_wave: 1
-  osc2_offset: 0
-  osc2_pitchmod_lfo1_depth: 0
-  osc2_pitchmod_lfo2_depth: 0
-  osc2_wave: 2
-  oscMix: 0.5
-  oscMix_Lfo1_Depth: 0
-  reverbLvl_depth: 50
-  ringmod_depth: 0
-  ringmod_lfo1_depth: 0
-  ringmod_lfo2_depth: 0
-  veloToFiltFreq: 0
+  metronome: 0
+  _dataLoader: {fileID: 995543011}
+  time: 
+  metro: {fileID: 2109481901}
+  sampler: {fileID: 1256902331}
+--- !u!114 &2056665329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2056665323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c6b5dc36bb48c147ba21f3df5d11c2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 842986ec287a65f42b1f0ae66f549a4f, type: 3}
+  - {fileID: 8300000, guid: 84b87213e9a13f048a36f9ed5198ed1c, type: 3}
+  - {fileID: 8300000, guid: 55b8f7b0491e62143b04632aa8cbd5ad, type: 3}
+  - {fileID: 8300000, guid: 9dcd4b3b07d847f4e9db89cace43bfd4, type: 3}
+  - {fileID: 8300000, guid: 685c8655df4dca84d95e0d5f1c38a69b, type: 3}
+  - {fileID: 8300000, guid: e76c1a72f01044b4bb0ca18f4d7564eb, type: 3}
+  - {fileID: 8300000, guid: f30bb6f5274ea3842b8ea6bbe97ad8b8, type: 3}
+  - {fileID: 8300000, guid: 2691beae8e2e26146af796a44bb7d94b, type: 3}
+  - {fileID: 8300000, guid: a84b92cb4bde4e64f9572ea4d6d496b7, type: 3}
+  - {fileID: 8300000, guid: 4f8405e27af328b4ea9b448b983a2fea, type: 3}
+  - {fileID: 8300000, guid: 2df5d73850beb5e41b4b32c6744c59cb, type: 3}
+  - {fileID: 8300000, guid: 4bd0abde7f24ab141bc7ed46c27c0995, type: 3}
+  - {fileID: 8300000, guid: 6c9c442b39b7050409e9957d3e7a43cb, type: 3}
+  - {fileID: 8300000, guid: 3ba1949a6a920484188adb184512385f, type: 3}
+  - {fileID: 8300000, guid: 8be1c5ff25a314f4099ddafb43cdc694, type: 3}
+  - {fileID: 8300000, guid: 826c82f395a42d141a6414b2dce2d084, type: 3}
+  - {fileID: 8300000, guid: 6b480d6b697906346828f045408e6ccf, type: 3}
+  - {fileID: 8300000, guid: 482f2ce9964273c42911d3a1112ef16c, type: 3}
+  - {fileID: 8300000, guid: 340acaa082b522747844d2e2d5f5dc53, type: 3}
+  - {fileID: 8300000, guid: 087070d53d319784382bb62d6f33e2a0, type: 3}
+  - {fileID: 8300000, guid: 62fa032ff7171d847964c14d84dc0115, type: 3}
+  - {fileID: 8300000, guid: c95c7221b54af2b49b012738708edf72, type: 3}
+  - {fileID: 8300000, guid: 7f4e1e5ede47a9c46b25466a85a920a2, type: 3}
+  - {fileID: 8300000, guid: c3666b57957a3de48811a7aac6d216f0, type: 3}
+  - {fileID: 8300000, guid: ce0b01043f7d9574594fe94eb6aa1e7f, type: 3}
+  - {fileID: 8300000, guid: 5c6c44f54cd76d241bc8ae2ad14389a7, type: 3}
+  - {fileID: 8300000, guid: 06e6e7d629501c64bb82dbef656df170, type: 3}
+  - {fileID: 8300000, guid: cf5594a4e8b2db44ea1737ac2b54be45, type: 3}
 --- !u!1 &2066684194
 GameObject:
   m_ObjectHideFlags: 0

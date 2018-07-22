@@ -6,7 +6,7 @@ public class Sequencer : MonoBehaviour
 {
     [Header("--> ACCORDATA <--")]
     // PD HEAVY
-    public Hv_AccordataSynth_AudioLib pd;
+    public Hv_AccoPlayer_AudioLib pd;
     public samplePlayer sampler;
     private int[,] _note;
     private float[,] _velocity;

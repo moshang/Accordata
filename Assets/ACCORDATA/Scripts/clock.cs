@@ -6,16 +6,18 @@ using UnityEngine;
 public class clock : MonoBehaviour
 {
     [Header("--> ACCORDATA <--")]
-    public static float bpm = 98;
-    private float currentBpm;
-    double dur16th; // duration of a 16th note
     public bool metronome = true;
+    public dataLoader _dataLoader;
+
     [Header("Time")]
     public string time;
     int pulses;
     int beats;
     int bars;
     public AudioSource metro;
+    public static float bpm = 98;
+    private float currentBpm;
+    double dur16th; // duration of a 16th note
 
     public delegate void PulseAction(int pulseNum); // a pulse event is sent every 16th note
     public static event PulseAction OnPulse;
@@ -25,7 +27,7 @@ public class clock : MonoBehaviour
     public static event BarAction OnBar;
 
     // PD HEAVY
-    Hv_AccordataSynth_AudioLib pd;
+    Hv_AccoPlayer_AudioLib pd;
 
     // TEMP
     public samplePlayer sampler;
@@ -35,13 +37,14 @@ public class clock : MonoBehaviour
         pulses = 0;
         dur16th = (60000 / bpm) / 1000 / 4;
 
-        pd = GetComponent<Hv_AccordataSynth_AudioLib>();
+        pd = GetComponent<Hv_AccoPlayer_AudioLib>();
         pd.RegisterSendHook();
         pd.FloatReceivedCallback += OnPdPulse;
     }
 
-    void OnPdPulse(Hv_AccordataSynth_AudioLib.FloatMessage message)
+    void OnPdPulse(Hv_AccoPlayer_AudioLib.FloatMessage message)
     {
+        Debug.Log("Ping!");
         // PULSES
         if (OnPulse != null)
             OnPulse(pulses);
@@ -78,7 +81,10 @@ public class clock : MonoBehaviour
 
     public void startPlayback()
     {
-        pd.SendEvent(Hv_AccordataSynth_AudioLib.Event.Start);
+        if (!_dataLoader.dataFinishedLoading)
+            return;
+
+        pd.SendEvent(Hv_AccoPlayer_AudioLib.Event.Start);
     }
 
     public void testAudio()

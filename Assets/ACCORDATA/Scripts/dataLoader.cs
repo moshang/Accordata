@@ -21,6 +21,9 @@ public class dataLoader : MonoBehaviour
 
     public GameObject loadingWheel;
 
+    [HideInInspector]
+    public bool dataFinishedLoading = false;
+
     public struct Sites
     {
         public int id;
@@ -140,6 +143,7 @@ public class dataLoader : MonoBehaviour
             yield return null;
         }
         loadingWheel.SetActive(false);
+        dataFinishedLoading = true;
     }
 
     private Int64 GetTime()
