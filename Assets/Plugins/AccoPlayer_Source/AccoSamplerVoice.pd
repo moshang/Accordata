@@ -1,4 +1,4 @@
-#N canvas 96 88 1920 997 10;
+#N canvas 0 115 1920 997 10;
 #X obj 222 313 line~;
 #X obj 220 380 *~ 0.5;
 #X obj 996 67 moses 108;
@@ -118,7 +118,7 @@
 #X obj 456 797 moses 27;
 #X obj 476 851 - 27;
 #X msg 508 911 set tab027;
-#X obj 201 440 outlet~;
+#X obj 201 490 outlet~;
 #X obj 996 12 inlet;
 #X obj 221 352 tabread4~ tab108;
 #X obj 139 44 r \$0-pitch;
@@ -179,7 +179,7 @@
 #X obj 566 871 s \$0-pitch;
 #X obj 476 888 s \$0-pitch;
 #X obj 508 938 s \$0-setTab;
-#X msg 202 110 0 40;
+#X msg 199 110 0 40;
 #X obj 202 132 line~;
 #X obj 202 410 *~;
 #X text 246 110 Adding a 40ms fade to prevent clicks;
@@ -194,6 +194,9 @@
 #X text 574 37 28 copies!? Sadly \, Heavy won't allow string concatenation
 \, so we can't set the table name programmatically \; ^(;
 #X obj 996 37 unpack f f;
+#X obj 202 464 lop~;
+#X obj 1079 79 line 0 1;
+#X msg 1079 54 \$1 40;
 #X connect 0 0 121 0;
 #X connect 1 0 182 1;
 #X connect 2 0 12 0;
@@ -375,7 +378,7 @@
 #X connect 129 0 130 0;
 #X connect 180 0 181 0;
 #X connect 181 0 182 0;
-#X connect 182 0 119 0;
+#X connect 182 0 194 0;
 #X connect 184 0 190 0;
 #X connect 185 0 188 0;
 #X connect 186 0 185 0;
@@ -387,3 +390,7 @@
 #X connect 189 0 182 0;
 #X connect 190 0 189 0;
 #X connect 193 0 2 0;
+#X connect 193 1 196 0;
+#X connect 194 0 119 0;
+#X connect 195 0 194 1;
+#X connect 196 0 195 0;

@@ -9,17 +9,22 @@ public class seq : MonoBehaviour
     public static Hv_AccoPlayer_AudioLib pd;
     public static seq instance;
     static int[] voiceToUse;
+    static audioLoader loader;
     // Use this for initialization
     private void OnEnable()
     {
         instance = this;
         pd = GetComponent<Hv_AccoPlayer_AudioLib>();
         voiceToUse = new int[16]; // store a seq track/voice value for each step
+        loader = GetComponent<audioLoader>();
     }
 
     public static void addNote(int stepnum, int notenum, int velo)
     {
-        float cutoffFreq = ((float)velo / 127 * 22000);
+        float veloF = (float)velo / 127;
+        float easedVelo = Mathf.Pow(veloF, 5);
+        float cutoffFreq = easedVelo * 22000;
+        Debug.Log("Cutoff Freq.: " + cutoffFreq);
         pd.SetFloatParameter(Hv_AccoPlayer_AudioLib.Parameter.Seqstepnum, stepnum);
         pd.SetFloatParameter(Hv_AccoPlayer_AudioLib.Parameter.Seqnotenum, notenum);
         pd.SetFloatParameter(Hv_AccoPlayer_AudioLib.Parameter.Seqnotevelo, cutoffFreq);
@@ -30,15 +35,7 @@ public class seq : MonoBehaviour
 
     public static void clear()
     {
-        for (int i = 0; i < 8; i++) // 8 sequencer tracks
-        {
-            for (int j = 0; j < 16; j++)  //  16 steps
-            {
-                pd.SetFloatParameter(Hv_AccoPlayer_AudioLib.Parameter.Seqstepnum, j);
-                pd.SetFloatParameter(Hv_AccoPlayer_AudioLib.Parameter.Seqnotenum, 0); // set a note number of 0
-                pd.SetFloatParameter(Hv_AccoPlayer_AudioLib.Parameter.Seqvoicenum, i); // setting the voice number / sequencer track is what triggers/bangs setting the pd table values
-            }
-        }
+        loader.clearSeqTables();
     }
 
     public static void setBPM(int bpm)

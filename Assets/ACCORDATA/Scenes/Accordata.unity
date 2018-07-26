@@ -4381,7 +4381,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -337.43713, y: 329.69992}
+  m_AnchoredPosition: {x: -337.42737, y: 329.69992}
   m_SizeDelta: {x: -470.8732, y: 659.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1222366844
@@ -6805,10 +6805,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2056665323}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a15092ca8481d944498ae1200cdf1d6f, type: 3}
+  m_Script: {fileID: 11500000, guid: 106fc25c9ab5de941abc6e0f3cb1191b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bpm: 98
+  bpm: 100
   seqNoteNum: 0
   seqNoteVelo: 0
   seqStepNum: 0
@@ -6989,6 +6989,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 5c6c44f54cd76d241bc8ae2ad14389a7, type: 3}
   - {fileID: 8300000, guid: 06e6e7d629501c64bb82dbef656df170, type: 3}
   - {fileID: 8300000, guid: cf5594a4e8b2db44ea1737ac2b54be45, type: 3}
+  cleanerClip: {fileID: 8300000, guid: 9183905767e4172438f14467eaae4d00, type: 3}
 --- !u!164 &2056665330
 AudioReverbFilter:
   m_ObjectHideFlags: 0

@@ -52,9 +52,7 @@ public class seqGenerator : MonoBehaviour
     {
         seq.clear();
         int startNote = Random.Range(50, 70);
-        for (int i = 0; i < 16; i++)
-            seq.addNote(i, startNote + i, 127);
-        /*
+
         switch (genStyle)
         {
             case style.arp:
@@ -66,7 +64,6 @@ public class seqGenerator : MonoBehaviour
                 minimalMelody(aqi);
                 break;
         }
-        */
     }
 
     void everyBeat(int beat)
@@ -103,8 +100,27 @@ public class seqGenerator : MonoBehaviour
         int scaleIndex = 0;
         for (int i = 0; i < 16; i++)
         {
-            seq.addNote(i, rootNote + scales[(int)scale, triad[scaleIndex % notesInArp]], 128);
+            int nnToAdd = rootNote + scales[(int)scale, triad[scaleIndex % notesInArp]];
+            int velo = 0;
+            if (i % 8 == 0)
+                velo = 127;
+            else if (i % 4 == 0)
+                velo = 90;
+            else
+                velo = 45;
+            seq.addNote(i, nnToAdd, velo);
             scaleIndex++;
+        }
+
+        // repeating 2 notes
+
+        for (int i = 0; i < 16; i++)
+        {
+            if (i % 2 == 0)
+            {
+                seq.addNote(i, rootNote + scales[(int)scale, triad[0]] + 24, 60 - i);
+                seq.addNote(i, rootNote + scales[(int)scale, triad[1]] + 24, 60 - i);
+            }
         }
 
         // MELODY
@@ -117,9 +133,9 @@ public class seqGenerator : MonoBehaviour
             //if (newNoteIndex >= scales.GetLength(1) || newNoteIndex < 0)
             //    newNoteIndex = Random.Range(0, scales.GetLength(1));
             int newNoteIndex = UnityEngine.Random.Range(0, 5);
-            seq.addNote(scaleIndex, rootNote + 12 + scales[(int)scale, newNoteIndex], 127);
+            seq.addNote(scaleIndex, rootNote + 12 + scales[(int)scale, newNoteIndex], Random.Range(30, 127));
             lastNoteIndex = newNoteIndex;
-            scaleIndex += (UnityEngine.Random.Range(2, 5) * 2);
+            scaleIndex += UnityEngine.Random.Range(1, 3);
         }
     }
 

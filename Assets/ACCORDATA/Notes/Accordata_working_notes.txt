@@ -93,3 +93,14 @@
 - NOTE: Unity (or rather generic C#) serialization is not available in-browser, but will work on PC, Android, iOS
 2018-07-02
 - made some progress unblocking the main thread while data loads (we want to show at least a spinning loading wheel)
+2018-07-26
+- quite a gap in this journal, but I've been busy working on an audio playback solution
+- I'm now happy fairly happy, behold AccoPlayer!
+- PD now handles timing, as well as playing back samples
+- PD side sequencer has 8 monophonic tracks (so up to 8 notes can be triggered at the same time)
+- timing is finally rock solid!
+- sample buffers in PD are filled from Unity audioclips
+- sticking to a single instrument for now
+- will possibly want to color it in with pre-recorded audio loops triggered in Unity
+- 32 internal voices to prevent clicking
+- each voice has a lowpass filter used to interpret midi velocity

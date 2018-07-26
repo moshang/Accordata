@@ -65,6 +65,11 @@ public class Hv_AccoPlayer_Editor : Editor {
     // events
     GUI.enabled = isEnabled;
     EditorGUILayout.Space();
+    // clearSeq
+    if (GUILayout.Button("clearSeq")) {
+      _dsp.SendEvent(Hv_AccoPlayer_AudioLib.Event.Clearseq);
+    }
+    
     // start
     if (GUILayout.Button("start")) {
       _dsp.SendEvent(Hv_AccoPlayer_AudioLib.Event.Start);
@@ -104,7 +109,7 @@ public class Hv_AccoPlayer_Editor : Editor {
     // seqNoteVelo
     GUILayout.BeginHorizontal();
     float seqNoteVelo = _dsp.GetFloatParameter(Hv_AccoPlayer_AudioLib.Parameter.Seqnotevelo);
-    float newSeqnotevelo = EditorGUILayout.Slider("seqNoteVelo", seqNoteVelo, 0.0f, 127.0f);
+    float newSeqnotevelo = EditorGUILayout.Slider("seqNoteVelo", seqNoteVelo, 0.0f, 22000.0f);
     if (seqNoteVelo != newSeqnotevelo) {
       _dsp.SetFloatParameter(Hv_AccoPlayer_AudioLib.Parameter.Seqnotevelo, newSeqnotevelo);
     }
@@ -140,10 +145,11 @@ public class Hv_AccoPlayer_AudioLib : MonoBehaviour {
   /*
     void Start () {
         Hv_AccoPlayer_AudioLib script = GetComponent<Hv_AccoPlayer_AudioLib>();
-        script.SendEvent(Hv_AccoPlayer_AudioLib.Event.Start);
+        script.SendEvent(Hv_AccoPlayer_AudioLib.Event.Clearseq);
     }
   */
   public enum Event : uint {
+    Clearseq = 0x8EBF3DD0,
     Start = 0x6FF57CB4,
     Stop = 0x7A5B032D,
   }
@@ -237,7 +243,7 @@ public class Hv_AccoPlayer_AudioLib : MonoBehaviour {
         break;
       }
       case Parameter.Seqnotevelo: {
-        x = Mathf.Clamp(x, 0.0f, 127.0f);
+        x = Mathf.Clamp(x, 0.0f, 22000.0f);
         seqNoteVelo = x;
         break;
       }
