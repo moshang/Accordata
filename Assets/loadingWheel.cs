@@ -11,17 +11,27 @@ public class loadingWheel : MonoBehaviour
 
     private void OnEnable()
     {
-        InvokeRepeating("updateColors", 0, 0.083f);
+        //InvokeRepeating("updateColors", 0, 0.083f);
+        StartCoroutine(updateColors());
     }
 
-    private void updateColors()
+    private void OnDisable()
     {
-        startSpoke = (startSpoke - 1 >= 0) ? startSpoke - 1 : 11;
-        for (int i = 0; i < 12; i++)
+        StopAllCoroutines();
+    }
+
+    IEnumerator updateColors()
+    {
+        while (true)
         {
-            Color32 newColor = startColor;
-            newColor.a = (byte)(255 - (i * 15));
-            spokes[(startSpoke + i) % 12].color = newColor;
+            startSpoke = (startSpoke - 1 >= 0) ? startSpoke - 1 : 11;
+            for (int i = 0; i < 12; i++)
+            {
+                Color32 newColor = startColor;
+                newColor.a = (byte)(255 - (i * 15));
+                spokes[(startSpoke + i) % 12].color = newColor;
+            }
+            yield return new WaitForSeconds(0.083f);
         }
     }
 }
