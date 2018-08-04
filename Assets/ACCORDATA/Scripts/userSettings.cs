@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum languages { eng, zhtw };
+public enum languages { eng, zhTw };
 public class userSettings : MonoBehaviour
 {
     [Header("--> ACCORDATA <--")]

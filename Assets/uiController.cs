@@ -96,16 +96,16 @@ public class uiController : MonoBehaviour
         siteNameTxt.text = data.sites[siteIndex].name;
         siteAqiTxt.text = "AQI: " + data.sites[siteIndex].aqi;
 
-        mainPollutant.text = "Main Pollutant: " + data.sites[siteIndex].mainPollutant;
-        pm10.text = "PM10: " + data.sites[siteIndex].PM10;
-        pm10_avg.text = "PM10 Avg: " + data.sites[siteIndex].PM10_AVG;
+        //mainPollutant.text = "Main Pollutant: " + data.sites[siteIndex].mainPollutant;
         pm25.text = "PM2.5: " + data.sites[siteIndex].PM25;
-        pm25_avg.text = "PM2.5 Avg: " + data.sites[siteIndex].PM25_AVG;
+        //pm25_avg.text = "PM2.5 Avg: " + data.sites[siteIndex].PM25_AVG;
+        pm10.text = "PM10: " + data.sites[siteIndex].PM10;
+        //pm10_avg.text = "PM10 Avg: " + data.sites[siteIndex].PM10_AVG;
         o3.text = "O3: " + data.sites[siteIndex].O3;
-        o3_8h.text = "O3 8h: " + data.sites[siteIndex].O3_8;
+        //o3_8h.text = "O3 8h: " + data.sites[siteIndex].O3_8;
         so2.text = "SO2: " + data.sites[siteIndex].SO2;
         co.text = "CO: " + data.sites[siteIndex].CO;
-        co_8h.text = "CO 8h: " + data.sites[siteIndex].CO_8;
+        //co_8h.text = "CO 8h: " + data.sites[siteIndex].CO_8;
         no2.text = "NO2: " + data.sites[siteIndex].NO2;
 
         // change the colors

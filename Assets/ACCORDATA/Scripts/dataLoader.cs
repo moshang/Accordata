@@ -13,6 +13,10 @@ public class dataLoader : MonoBehaviour
     string[] splitData;
     string[] stringSeparators = new string[] { "{Result:ok, Data:[{", "SiteId:", ",SiteName:", ",SiteKey:", ",AreaKey:", ",MonobjName:", ",Address:", ",lat:", ",lng:", ",AQI:", ",MainPollutant:", ",MainPollutantKey:", ",CityCode:", ",PM10:", ",PM10_AVG:", ",PM25:", ",PM25_AVG:", ",O3:", ",O3_8:", ",SO2:", ",CO:", ",CO_8:", ",NO2:", ",SO2_VFLAG:" }; //  "{Result:ok, Data:[{", 
 
+    string weatherData;
+    string[] splitDataWeather;
+    string[] stringSeparatorsWeather = new string[] { "{Result:ok, Data:[{", "SiteId:", ",SiteName:", ",SiteKey:", ",AreaKey:", ",MonobjName:", ",Address:", ",lat:", ",lng:", ",AQI:", ",MainPollutant:", ",MainPollutantKey:", ",CityCode:", ",PM10:", ",PM10_AVG:", ",PM25:", ",PM25_AVG:", ",O3:", ",O3_8:", ",SO2:", ",CO:", ",CO_8:", ",NO2:", ",SO2_VFLAG:" }; //  "{Result:ok, Data:[{", 
+
     public int[] aqi;
     private userSettings settings;
     public Transform siteMarkers;
@@ -24,6 +28,7 @@ public class dataLoader : MonoBehaviour
     [HideInInspector]
     public bool dataFinishedLoading = false;
 
+    int counter;
     public struct Sites
     {
         public int id;
@@ -65,7 +70,7 @@ public class dataLoader : MonoBehaviour
             case languages.eng:
                 url = "https://taqm.epa.gov.tw/taqm/aqs.ashx?lang=en&act=aqi-epa";
                 break;
-            case languages.zhtw:
+            case languages.zhTw:
                 url = "https://taqm.epa.gov.tw/taqm/aqs.ashx?lang=tw&act=aqi-epa";
                 break;
         }
@@ -87,14 +92,11 @@ public class dataLoader : MonoBehaviour
 
         using (www = new WWW(url))
         {
-            while (!www.isDone)
-            {
-                //Debug.Log(www.progress);
-                yield return null;
-            }
+            Debug.Log("Starting!");
+            yield return www;
+            Debug.Log("Done!");
             StartCoroutine(parseAqiData(www));
         }
-
     }
 
     IEnumerator parseAqiData(WWW w)
@@ -135,11 +137,13 @@ public class dataLoader : MonoBehaviour
             markerPos.x = utils.map(sites[i].lng, 120, 122, -193.6f, 384);
             markerPos.y = utils.map(sites[i].lat, 21.9f, 25.3f, -542, 542);
             sites[i].marker = Instantiate(markerPrefab);
-            sites[i].marker.transform.parent = siteMarkers;
+            //sites[i].marker.transform.parent = siteMarkers;
+            sites[i].marker.transform.SetParent(siteMarkers);
             sites[i].marker.transform.localPosition = markerPos;
             sites[i].marker.transform.localScale = new Vector3(2, 2, 1);
             sites[i].marker.name = sites[i].name;
             sites[i].marker.GetComponent<Image>().color = uiCtrl.getAqiColor(sites[i].aqi);
+
             yield return null;
         }
         loadingWheel.SetActive(false);
