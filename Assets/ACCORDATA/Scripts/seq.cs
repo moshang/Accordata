@@ -24,12 +24,12 @@ public class seq : MonoBehaviour
         float veloF = (float)velo / 127;
         float easedVelo = Mathf.Pow(veloF, 5);
         float cutoffFreq = easedVelo * 22000;
-        Debug.Log("Cutoff Freq.: " + cutoffFreq);
+        //Debug.Log("Cutoff Freq.: " + cutoffFreq);
         pd.SetFloatParameter(Hv_AccoPlayer_AudioLib.Parameter.Seqstepnum, stepnum);
         pd.SetFloatParameter(Hv_AccoPlayer_AudioLib.Parameter.Seqnotenum, notenum);
         pd.SetFloatParameter(Hv_AccoPlayer_AudioLib.Parameter.Seqnotevelo, cutoffFreq);
         pd.SetFloatParameter(Hv_AccoPlayer_AudioLib.Parameter.Seqvoicenum, voiceToUse[stepnum]); // setting the voice number / sequencer track is what triggers/bangs setting the pd table values
-        Debug.Log("Added notenumber " + notenum + " to seq track " + voiceToUse[stepnum] + " on step " + stepnum);
+        //Debug.Log("Added notenumber " + notenum + " to seq track " + voiceToUse[stepnum] + " on step " + stepnum);
         voiceToUse[stepnum] = (voiceToUse[stepnum] + 1) % 8;
     }
 

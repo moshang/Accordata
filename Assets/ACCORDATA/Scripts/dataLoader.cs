@@ -15,7 +15,7 @@ public class dataLoader : MonoBehaviour
 
     string weatherData;
     string[] splitDataWeather;
-    string[] stringSeparatorsWeather = new string[] { "id=MapID", "><a href=", "class=temp1>", "</td><td class=temp2", "</td><td>", "</td></tr>" };
+    string[] stringSeparatorsWeather = new string[] { "id=MapID", "><a href=", "class=temp1>", "</td><td class=temp2", "</td><td>", "black>", "blue>", "green>", "orange>", "red>", "</font>" };
 
     public int[] aqi;
     private userSettings settings;
@@ -196,53 +196,46 @@ public class dataLoader : MonoBehaviour
         string weatherDataNoQuotes = weatherData.Replace("\"", ""); // remove quotation marks
         splitDataWeather = weatherDataNoQuotes.Split(stringSeparatorsWeather, StringSplitOptions.None);
 
-
+        /*
         foreach (string str in splitDataWeather)
             Debug.Log(str);
         Debug.Log("-----------------------------------------------------");
+        */
 
-        string[] siteIDsInArea;
         switch (area)
         {
             case 0: // north
-                siteIDsInArea = northAreaIDs;
-                for (int i = 0; i < siteIDsInArea.Length; i++) // the site IDs for this area
-                {
-                    for (int j = 0; j < splitDataWeather.Length; j++) // the weather data array for this area
-                    {
-                        //Debug.Log(splitDataWeather.Length + " <-----------------------------");
-                        if (splitDataWeather[j] == siteIDsInArea[i])
-                        {
-                            populateWeather(i, j, 0);
-                            break;
-                        }
-                    }
-                }
+                populateWeatherData(northAreaIDs, 0);
                 break;
             case 1: // central
-                siteIDsInArea = centralAreaIDs;
-                for (int i = 0; i < siteIDsInArea.Length; i++) // the site IDs for this area
-                {
-                    for (int j = 0; j < splitDataWeather.Length; j++) // the weather data array for this area
-                    {
-                        //Debug.Log(splitDataWeather.Length + " <-----------------------------");
-                        if (splitDataWeather[j] == siteIDsInArea[i])
-                        {
-                            populateWeather(i, j, 32);
-                            break;
-                        }
-                    }
-                }
+                populateWeatherData(centralAreaIDs, 32);
+                populateWeatherData(mobileIDs, 76);
                 break;
             case 2: // south
-                siteIDsInArea = southAreaIDs;
+                populateWeatherData(southAreaIDs, 49);
                 break;
             case 3: // east
-                siteIDsInArea = eastAreaIDs;
+                populateWeatherData(eastAreaIDs, 68);
                 break;
             case 4: // islands
-                siteIDsInArea = islandIDs;
+                populateWeatherData(islandIDs, 73);
                 break;
+        }
+    }
+
+    private void populateWeatherData(string[] siteIDs, int siteIndexOffset)
+    {
+        string[] siteIDsInArea = siteIDs;
+        for (int i = 0; i < siteIDsInArea.Length; i++) // the site IDs for this area
+        {
+            for (int j = 0; j < splitDataWeather.Length; j++) // the weather data array for this area
+            {
+                if (splitDataWeather[j] == siteIDsInArea[i])
+                {
+                    populateWeather(i, j, siteIndexOffset);
+                    break;
+                }
+            }
         }
     }
 

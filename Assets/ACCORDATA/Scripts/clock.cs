@@ -44,7 +44,7 @@ public class clock : MonoBehaviour
 
     void OnPdPulse(Hv_AccoPlayer_AudioLib.FloatMessage message)
     {
-        Debug.Log("Ping!");
+        //Debug.Log("Ping!");
         // PULSES
         if (OnPulse != null)
             OnPulse(pulses);
