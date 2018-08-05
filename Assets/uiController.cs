@@ -34,6 +34,10 @@ public class uiController : MonoBehaviour
     public Text co;
     public Text co_8h;
     public Text no2;
+    public Text temperature;
+    public Text windspeed;
+    public Text humidity;
+    public Text rainfall;
 
     // TARGET HIGHLIGHT
     public SpriteRenderer highlight;
@@ -97,16 +101,22 @@ public class uiController : MonoBehaviour
         siteAqiTxt.text = "AQI: " + data.sites[siteIndex].aqi;
 
         //mainPollutant.text = "Main Pollutant: " + data.sites[siteIndex].mainPollutant;
-        pm25.text = "PM2.5: " + data.sites[siteIndex].PM25;
+        pm25.text = data.sites[siteIndex].PM25.ToString();
         //pm25_avg.text = "PM2.5 Avg: " + data.sites[siteIndex].PM25_AVG;
-        pm10.text = "PM10: " + data.sites[siteIndex].PM10;
+        pm10.text = data.sites[siteIndex].PM10.ToString();
         //pm10_avg.text = "PM10 Avg: " + data.sites[siteIndex].PM10_AVG;
-        o3.text = "O3: " + data.sites[siteIndex].O3;
+        o3.text = data.sites[siteIndex].O3.ToString();
         //o3_8h.text = "O3 8h: " + data.sites[siteIndex].O3_8;
-        so2.text = "SO2: " + data.sites[siteIndex].SO2;
-        co.text = "CO: " + data.sites[siteIndex].CO;
+        so2.text = data.sites[siteIndex].SO2.ToString();
+        co.text = data.sites[siteIndex].CO.ToString();
         //co_8h.text = "CO 8h: " + data.sites[siteIndex].CO_8;
-        no2.text = "NO2: " + data.sites[siteIndex].NO2;
+        no2.text = data.sites[siteIndex].NO2.ToString();
+
+        // weather data
+        temperature.text = data.sites[siteIndex].temperature.ToString() + "°C";
+        windspeed.text = data.sites[siteIndex].windspeed.ToString() + "m/s";
+        humidity.text = data.sites[siteIndex].humidity.ToString() + "%";
+        rainfall.text = data.sites[siteIndex].rainfall.ToString() + "mm";
 
         // change the colors
         updateBGColors(data.sites[siteIndex].aqi);
