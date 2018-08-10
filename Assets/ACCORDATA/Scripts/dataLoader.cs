@@ -4,20 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using UnityEngine.Networking;
+using System.IO;
 
 public class dataLoader : MonoBehaviour
 {
     [Header("--> ACCORDATA <--")]
     // WWW
-    string aqiData;
-    string[] splitData;
-    string[] stringSeparators = new string[] { "{Result:ok, Data:[{", "SiteId:", ",SiteName:", ",SiteKey:", ",AreaKey:", ",MonobjName:", ",Address:", ",lat:", ",lng:", ",AQI:", ",MainPollutant:", ",MainPollutantKey:", ",CityCode:", ",PM10:", ",PM10_AVG:", ",PM25:", ",PM25_AVG:", ",O3:", ",O3_8:", ",SO2:", ",CO:", ",CO_8:", ",NO2:", ",SO2_VFLAG:" }; //  "{Result:ok, Data:[{", 
-
-    string weatherData;
-    string[] splitDataWeather;
-    string[] stringSeparatorsWeather = new string[] { "id=MapID", "><a href=", "class=temp1>", "</td><td class=temp2", "</td><td>", "black>", "blue>", "green>", "orange>", "red>", "</font>" };
-
-    public int[] aqi;
     private userSettings settings;
     public Transform siteMarkers;
     public GameObject markerPrefab;
@@ -28,32 +20,23 @@ public class dataLoader : MonoBehaviour
     [HideInInspector]
     public bool dataFinishedLoading = false;
 
-    string[] localNames = new string[] { "FugueiCape", "Yangming", "Wanli", "Tamsui", "Keelung", "Shilin", "Linkou", "Sanchong", "Cailiao", "Xizhi", "Datong", "Zhongshan", "Dayuan", "Songshan", "Wanhua", "Xinzhuang", "Guanyin", "Guting", "Yonghe", "Banqiao", "Taoyuan", "Tucheng", "Xindian", "Pingzhen", "Zhongli", "Longtan", "Hukou", "Hsinchu", "Zhudong", "Toufen", "Miaoli", "Sanyi", "Fengyuan", "Shalu", "Xitun", "Zhongming", "Xianxi", "Dali", "Changhua", "Puli", "Erlin", "Nantou", "Zhushan", "Mailiao", "Taixi", "Douliu", "Xingang", "Puzi", "Chiayi", "Xinying", "Shanhua", "Annan", "Tainan", "Meinong", "Qiaotou", "Nanzi", "Renwu", "Zuoying", "Pingtung", "Qianjin", "Fengshan", "Fuxing", "Qianzhen", "Xiaogang", "Daliao", "Chaozhou", "Linyuan", "Hengchun", "Yilan", "Dongshan", "Hualien", "Guanshan", "Taitung", "Matsu", "Kinmen", "Magong", "Dacheng", "Lunbei" };
+    string[] EnglishNames = new string[] { "FugueiCape", "Yangming", "Wanli", "Tamsui", "Keelung", "Shilin", "Linkou", "Sanchong", "Cailiao", "Xizhi", "Datong", "Zhongshan", "Dayuan", "Songshan", "Wanhua", "Xinzhuang", "Guanyin", "Guting", "Yonghe", "Banqiao", "Taoyuan", "Tucheng", "Xindian", "Pingzhen", "Zhongli", "Longtan", "Hukou", "Hsinchu", "Zhudong", "Toufen", "Miaoli", "Sanyi", "Fengyuan", "Shalu", "Xitun", "Zhongming", "Xianxi", "Dali", "Changhua", "Puli", "Erlin", "Nantou", "Zhushan", "Mailiao", "Taixi", "Douliu", "Xingang", "Puzi", "Chiayi", "Xinying", "Shanhua", "Annan", "Tainan", "Meinong", "Qiaotou", "Nanzi", "Renwu", "Zuoying", "Pingtung", "Qianjin", "Fengshan", "Fuxing", "Qianzhen", "Xiaogang", "Daliao", "Chaozhou", "Linyuan", "Hengchun", "Yilan", "Dongshan", "Hualien", "Guanshan", "Taitung", "Matsu", "Kinmen", "Magong", "Dacheng", "Lunbei" };
+    string[] ChineseNames = new string[] { "富貴角", "陽明", "萬里", "淡水", "基隆", "士林", "林口", "三重", "菜寮", "汐止", "大同", "中山", "大園", "松山", "萬華", "新莊", "觀音", "古亭", "永和", "板橋", "桃園", "土城", "新店", "平鎮", "中壢", "龍潭", "湖口", "新竹", "竹東", "頭份", "苗栗", "三義", "豐原", "沙鹿", "西屯", "忠明", "線西", "大里", "彰化", "埔里", "二林", "南投", "竹山", "麥寮", "臺西", "斗六", "新港", "朴子", "嘉義", "新營", "善化", "安南", "臺南", "美濃", "橋頭", "楠梓", "仁武", "左營", "屏東", "前金", "鳳山", "復興", "前鎮", "小港", "大寮", "潮州", "林園", "恆春", "宜蘭", "冬山", "花蓮", "關山", "臺東", "馬祖", "金門", "馬公", "彰化(大城)", "崙背" };
 
-    int counter;
+    //string tempJson = "{"updated":1533823274,"SiteKey":"FugueiCape","lat":"25.294147","lng":"121.539141","AQI":"33","PM10":"15","PM25":"8","O3":"25","SO2":"1.3","CO":"0.1","NO2":"1.6","temp":"26.6","wind":"2.3","hum":"86","rain":"0.0"},{"updated":1533823274,"SiteKey":"Yangming","lat":"25.182722","lng":"121.529583","AQI":"37","PM10":"8","PM25":-255,"O3":"33","SO2":"0.7","CO":"0.1","NO2":"1","temp":"22.6","wind":"1.1","hum":"71","rain":"0.0"},{"updated":1533823274,"SiteKey":"Wanli","lat":"25.179667","lng":"121.689881","AQI":"46","PM10":"23","PM25":"15","O3":"13","SO2":"2.8","CO":"0.15","NO2":"5.6","temp":"26.5","wind":"0.0","hum":"90","rain":"0.0"},{"updated":1533823274,"SiteKey":"Tamsui","lat":"25.164500","lng":"121.449239","AQI":"53","PM10":"31","PM25":"16","O3":"9.6","SO2":"3","CO":"0.43","NO2":"17","temp":"28.0","wind":"0.7","hum":"69","rain":"0.0"},{"updated":1533823274,"SiteKey":"Keelung","lat":"25.129167","lng":"121.760056","AQI":"30","PM10":"17","PM25":"11","O3":"21","SO2":"1.5","CO":"0.32","NO2":"11","temp":"28.5","wind":"1.8","hum":"72","rain":"0.0"},{"updated":1533823274,"SiteKey":"Shilin","lat":"25.105917","lng":"121.514500","AQI":"62","PM10":"19","PM25":"18","O3":"11","SO2":"17","CO":"0.15","NO2":"19","temp":"29.4","wind":"0.6","hum":"68","rain":"0.0"},{"updated":1533823274,"SiteKey":"Linkou","lat":"25.078570","lng":"121.365703","AQI":"36","PM10":"14","PM25":"8","O3":"17","SO2":"3.3","CO":"0.32","NO2":"18","temp":"27.3","wind":"2.7","hum":"80","rain":"0.0"},{"updated":1533823274,"SiteKey":"Sanchong","lat":"25.072611","lng":"121.493806","AQI":"57","PM10":"26","PM25":"11","O3":-255,"SO2":"4.2","CO":"1.17","NO2":"26","temp":"29.9","wind":"2.0","hum":"69","rain":"0.0"},{"updated":1533823274,"SiteKey":"Cailiao","lat":"25.068950","lng":"121.481028","AQI":"59","PM10":"18","PM25":"15","O3":"16","SO2":"4","CO":"0.33","NO2":"15","temp":"29.9","wind":"2.0","hum":"69","rain":"0.0"},{"updated":1533823274,"SiteKey":"Xizhi","lat":"25.065669","lng":"121.640800","AQI":"35","PM10":"22","PM25":"6","O3":"18","SO2":"1.7","CO":"0.22","NO2":"14","temp":"27.8","wind":"1.5","hum":"87","rain":"0.0"},{"updated":1533823274,"SiteKey":"Datong","lat":"25.063200","lng":"121.513311","AQI":"65","PM10":"33","PM25":"13","O3":-255,"SO2":"1.9","CO":"0.93","NO2":"22","temp":"29.4","wind":"0.6","hum":"68","rain":"0.0"},{"updated":1533823274,"SiteKey":"Zhongshan","lat":"25.062361","lng":"121.526528","AQI":"65","PM10":"25","PM25":"14","O3":"10","SO2":"3.9","CO":"0.44","NO2":"20","temp":"29.4","wind":"0.6","hum":"68","rain":"0.0"},{"updated":1533823274,"SiteKey":"Dayuan","lat":"25.060344","lng":"121.201811","AQI":"53","PM10":"35","PM25":"16","O3":"4","SO2":"6.1","CO":"0.42","NO2":"30","temp":"28.4","wind":"0.5","hum":"75","rain":"0.0"},{"updated":1533823274,"SiteKey":"Songshan","lat":"25.050000","lng":"121.578611","AQI":"60","PM10":"24","PM25":"18","O3":"12","SO2":"3.1","CO":"0.34","NO2":"21","temp":"29.0","wind":"1.8","hum":"71","rain":"0.0"},{"updated":1533823274,"SiteKey":"Wanhua","lat":"25.046503","lng":"121.507972","AQI":"69","PM10":"26","PM25":"11","O3":"7.3","SO2":"3.5","CO":"0.34","NO2":"21","temp":-255,"wind":"2.3","hum":"66","rain":"0.0"},{"updated":1533823274,"SiteKey":"Xinzhuang","lat":"25.037972","lng":"121.432500","AQI":"64","PM10":"27","PM25":"16","O3":"14","SO2":"3.2","CO":"0.39","NO2":"19","temp":"29.1","wind":"1.7","hum":"71","rain":"0.0"},{"updated":1533823274,"SiteKey":"Guanyin","lat":"25.035503","lng":"121.082761","AQI":"53","PM10":"46","PM25":"19","O3":"12","SO2":"8.1","CO":"0.26","NO2":"19","temp":"27.4","wind":"0.4","hum":"78","rain":"0.0"},{"updated":1533823274,"SiteKey":"Guting","lat":"25.020608","lng":"121.529556","AQI":"72","PM10":"23","PM25":"18","O3":"17","SO2":"2.3","CO":"0.36","NO2":"17","temp":-255,"wind":"2.3","hum":"66","rain":"0.0"},{"updated":1533823274,"SiteKey":"Yonghe","lat":"25.017000","lng":"121.516306","AQI":"63","PM10":"23","PM25":"17","O3":"17","SO2":"2.3","CO":"0.45","NO2":"16","temp":-255,"wind":"2.3","hum":"66","rain":"0.0"},{"updated":1533823274,"SiteKey":"Banqiao","lat":"25.012972","lng":"121.458667","AQI":"58","PM10":"29","PM25":"10","O3":"15","SO2":"2.4","CO":"0.41","NO2":"20","temp":"29.3","wind":"2.2","hum":"68","rain":"0.0"},{"updated":1533823274,"SiteKey":"Taoyuan","lat":"24.986778","lng":"121.308722","AQI":"85","PM10":"32","PM25":"31","O3":"16","SO2":"6.9","CO":"0.47","NO2":"19","temp":"29.7","wind":"0.7","hum":"65","rain":"0.0"},{"updated":1533823274,"SiteKey":"Tucheng","lat":"24.982528","lng":"121.451861","AQI":"65","PM10":"22","PM25":"17","O3":"20","SO2":"2","CO":"0.37","NO2":"14","temp":"28.5","wind":"2.1","hum":"72","rain":"6.5"},{"updated":1533823274,"SiteKey":"Xindian","lat":"24.977222","lng":"121.537778","AQI":"63","PM10":"23","PM25":"12","O3":"16","SO2":"1.7","CO":"0.35","NO2":"17","temp":"25.9","wind":"0.3","hum":"89","rain":"0.0"},{"updated":1533823274,"SiteKey":"Pingzhen","lat":"24.954208","lng":"121.204981","AQI":"60","PM10":"38","PM25":"20","O3":"19","SO2":"5.5","CO":"0.48","NO2":"18","temp":"27.1","wind":"0.6","hum":"77","rain":"0.0"},{"updated":1533823274,"SiteKey":"Zhongli","lat":"24.953278","lng":"121.221667","AQI":"52","PM10":"43","PM25":"22","O3":"3.5","SO2":"6","CO":"1.73","NO2":"34","temp":"28.6","wind":"2.1","hum":"69","rain":"0.0"},{"updated":1533823274,"SiteKey":"Longtan","lat":"24.863869","lng":"121.216350","AQI":"72","PM10":"36","PM25":"24","O3":"21","SO2":"3.8","CO":"0.43","NO2":"20","temp":"27.4","wind":"1.1","hum":"76","rain":"0.0"},{"updated":1533823274,"SiteKey":"Hukou","lat":"24.900142","lng":"121.038653","AQI":"49","PM10":"28","PM25":"12","O3":"18","SO2":"4.3","CO":"0.21","NO2":"11","temp":"28.1","wind":"1.4","hum":"76","rain":"0.0"},{"updated":1533823274,"SiteKey":"Hsinchu","lat":"24.805619","lng":"120.972075","AQI":"68","PM10":"24","PM25":"22","O3":"8","SO2":"4.1","CO":"0.32","NO2":"21","temp":"29.4","wind":"0.4","hum":"67","rain":"0.0"},{"updated":1533823274,"SiteKey":"Zhudong","lat":"24.740644","lng":"121.088903","AQI":"57","PM10":"38","PM25":"18","O3":"18","SO2":"1.8","CO":"0.28","NO2":"9.7","temp":"28.5","wind":"0.7","hum":"75","rain":"0.0"},{"updated":1533823274,"SiteKey":"Toufen","lat":"24.696969","lng":"120.898572","AQI":"65","PM10":"41","PM25":"25","O3":"11","SO2":"4.4","CO":"0.33","NO2":"29","temp":"29.7","wind":"0.7","hum":"71","rain":"0.0"},{"updated":1533823274,"SiteKey":"Miaoli","lat":"24.565269","lng":"120.820200","AQI":"70","PM10":"55","PM25":"18","O3":"7.4","SO2":"2.2","CO":"0.4","NO2":"17","temp":"28.6","wind":"1.8","hum":"76","rain":"0.0"},{"updated":1533823274,"SiteKey":"Sanyi","lat":"24.382942","lng":"120.758833","AQI":"57","PM10":"37","PM25":"17","O3":"19","SO2":"3.5","CO":"0.22","NO2":"7.8","temp":"24.9","wind":"0.7","hum":"90","rain":"0.0"},{"updated":1533823274,"SiteKey":"Fengyuan","lat":"24.256586","lng":"120.741711","AQI":"76","PM10":"47","PM25":"17","O3":"25","SO2":"2.2","CO":"0.31","NO2":"16","temp":"28.4","wind":"0.9","hum":"83","rain":"0.0"},{"updated":1533823274,"SiteKey":"Shalu","lat":"24.225628","lng":"120.568794","AQI":"58","PM10":"25","PM25":"17","O3":"18","SO2":"2.3","CO":"0.27","NO2":"13","temp":"29.2","wind":"0.8","hum":"77","rain":"0.0"},{"updated":1533823274,"SiteKey":"Xitun","lat":"24.162197","lng":"120.616917","AQI":"82","PM10":"34","PM25":"33","O3":"25","SO2":"1.9","CO":"0.35","NO2":"21","temp":"29.9","wind":"1.4","hum":"70","rain":"0.0"},{"updated":1533823274,"SiteKey":"Zhongming","lat":"24.151958","lng":"120.641092","AQI":"66","PM10":"28","PM25":"24","O3":"32","SO2":"3.9","CO":"0.43","NO2":"20","temp":"29.9","wind":"1.4","hum":"70","rain":"0.0"},{"updated":1533823274,"SiteKey":"Xianxi","lat":"24.131672","lng":"120.469061","AQI":"48","PM10":"15","PM25":"8","O3":"28","SO2":"3.4","CO":"0.15","NO2":"5.4","temp":"29.0","wind":"1.1","hum":"81","rain":"0.0"},{"updated":1533823274,"SiteKey":"Dali","lat":"24.099611","lng":"120.677689","AQI":-255,"PM10":-255,"PM25":-255,"O3":"27","SO2":"2.9","CO":"0.45","NO2":"13","temp":"29.0","wind":"1.2","hum":"79","rain":"0.0"},{"updated":1533823274,"SiteKey":"Changhua","lat":"24.066000","lng":"120.541519","AQI":-255,"PM10":-255,"PM25":-255,"O3":-255,"SO2":-255,"CO":-255,"NO2":-255,"temp":"28.0","wind":"2.2","hum":"76","rain":"0.0"},{"updated":1533823274,"SiteKey":"Puli","lat":"23.968842","lng":"120.967903","AQI":"78","PM10":"39","PM25":"28","O3":"50","SO2":"2.9","CO":"0.28","NO2":"9.9","temp":"26.5","wind":"0.4","hum":"99","rain":"0.0"},{"updated":1533823274,"SiteKey":"Erlin","lat":"23.925175","lng":"120.409653","AQI":"86","PM10":"60","PM25":"36","O3":"33","SO2":"4","CO":"0.16","NO2":"5","temp":"29.1","wind":"0.0","hum":"90","rain":"0.0"},{"updated":1533823274,"SiteKey":"Nantou","lat":"23.913000","lng":"120.685306","AQI":"62","PM10":"28","PM25":"14","O3":"32","SO2":"1.7","CO":"0.27","NO2":"9","temp":"27.6","wind":"2.8","hum":"82","rain":"0.0"},{"updated":1533823274,"SiteKey":"Zhushan","lat":"23.756389","lng":"120.677306","AQI":"63","PM10":"43","PM25":"22","O3":"32","SO2":"1.4","CO":"0.18","NO2":"4.7","temp":"25.8","wind":"1.2","hum":"99","rain":"17.0"},{"updated":1533823274,"SiteKey":"Mailiao","lat":"23.753506","lng":"120.251825","AQI":"68","PM10":"58","PM25":"20","O3":"29","SO2":"2.4","CO":"0.24","NO2":"7.7","temp":"29.3","wind":"0.6","hum":"91","rain":"0.0"},{"updated":1533823274,"SiteKey":"Taixi","lat":"23.717533","lng":"120.202842","AQI":"63","PM10":"27","PM25":"19","O3":"36","SO2":"3.2","CO":"0.13","NO2":"4.2","temp":"29.1","wind":"0.0","hum":"76","rain":"0.0"},{"updated":1533823274,"SiteKey":"Douliu","lat":"23.711853","lng":"120.544994","AQI":"68","PM10":"33","PM25":"18","O3":"34","SO2":"2","CO":"0.21","NO2":"6.6","temp":"28.2","wind":"2.0","hum":"76","rain":"0.0"},{"updated":1533823274,"SiteKey":"Xingang","lat":"23.554839","lng":"120.345531","AQI":"71","PM10":"44","PM25":"31","O3":"34","SO2":"2.3","CO":"0.23","NO2":"8.9","temp":"28.5","wind":"1.0","hum":"80","rain":"0.0"},{"updated":1533823274,"SiteKey":"Puzi","lat":"23.465308","lng":"120.247350","AQI":"54","PM10":"75","PM25":"20","O3":"29","SO2":"2","CO":"0.21","NO2":"7.9","temp":"27.4","wind":"1.3","hum":"84","rain":"0.0"},{"updated":1533823274,"SiteKey":"Chiayi","lat":"23.462778","lng":"120.440833","AQI":"68","PM10":"49","PM25":"37","O3":"34","SO2":"3.4","CO":"0.22","NO2":"9.2","temp":"27.5","wind":"1.3","hum":"85","rain":"10.0"},{"updated":1533823274,"SiteKey":"Xinying","lat":"23.305633","lng":"120.317250","AQI":"46","PM10":"32","PM25":"15","O3":"25","SO2":"2.2","CO":"0.17","NO2":"3.4","temp":"27.3","wind":"1.9","hum":"91","rain":"7.5"},{"updated":1533823274,"SiteKey":"Shanhua","lat":"23.115097","lng":"120.297142","AQI":"36","PM10":"31","PM25":"4","O3":"25","SO2":"1.5","CO":"0.15","NO2":"4.3","temp":"26.9","wind":"0.7","hum":"87","rain":"0.0"},{"updated":1533823274,"SiteKey":"Annan","lat":"23.048333","lng":"120.218333","AQI":"57","PM10":"34","PM25":"23","O3":"22","SO2":"2.2","CO":"0.41","NO2":"16","temp":"27.3","wind":"1.9","hum":"91","rain":"7.5"},{"updated":1533823274,"SiteKey":"Tainan","lat":"22.984581","lng":"120.202617","AQI":"54","PM10":"33","PM25":"21","O3":"19","SO2":"2.4","CO":"0.57","NO2":"22","temp":"28.9","wind":"0.1","hum":"74","rain":"4.5"},{"updated":1533823274,"SiteKey":"Meinong","lat":"22.883583","lng":"120.530542","AQI":"38","PM10":"16","PM25":"2","O3":"27","SO2":"1.6","CO":"0.17","NO2":"4.6","temp":"25.6","wind":"0.7","hum":"100","rain":"8.5"},{"updated":1533823274,"SiteKey":"Qiaotou","lat":"22.757506","lng":"120.305689","AQI":"31","PM10":"24","PM25":"7","O3":"24","SO2":"2.4","CO":"0.22","NO2":"9.7","temp":"28.2","wind":"1.5","hum":"83","rain":"2.5"},{"updated":1533823274,"SiteKey":"Nanzi","lat":"22.733667","lng":"120.328289","AQI":"64","PM10":"41","PM25":"26","O3":"22","SO2":"1.8","CO":"0.32","NO2":"16","temp":"29.4","wind":"1.5","hum":"77","rain":"2.0"},{"updated":1533823274,"SiteKey":"Renwu","lat":"22.689056","lng":"120.332631","AQI":"58","PM10":"26","PM25":"13","O3":"35","SO2":"2.5","CO":"0.3","NO2":"9.6","temp":"27.9","wind":"1.2","hum":"82","rain":"2.0"},{"updated":1533823274,"SiteKey":"Zuoying","lat":"22.674861","lng":"120.292917","AQI":"56","PM10":"35","PM25":"19","O3":"23","SO2":"4.3","CO":"0.43","NO2":"24","temp":"29.8","wind":"1.1","hum":"78","rain":"1.5"},{"updated":1533823274,"SiteKey":"Pingtung","lat":"22.673081","lng":"120.488033","AQI":"57","PM10":"20","PM25":"16","O3":"29","SO2":"1","CO":"0.32","NO2":"8.7","temp":"26.7","wind":"0.8","hum":"100","rain":"0.5"},{"updated":1533823274,"SiteKey":"Qianjin","lat":"22.632567","lng":"120.288086","AQI":"65","PM10":"35","PM25":"20","O3":"28","SO2":"2.5","CO":"0.58","NO2":"18","temp":"29.1","wind":"1.2","hum":"77","rain":"1.0"},{"updated":1533823274,"SiteKey":"Fengshan","lat":"22.627392","lng":"120.358083","AQI":"47","PM10":"19","PM25":"23","O3":"30","SO2":"2.3","CO":"0.34","NO2":"11","temp":"27.4","wind":"1.1","hum":"81","rain":"1.0"},{"updated":1533823274,"SiteKey":"Fuxing","lat":"22.608711","lng":"120.312017","AQI":"51","PM10":"29","PM25":"14","O3":"26","SO2":"2.8","CO":"0.63","NO2":"17","temp":"22.1","wind":"0.3","hum":"95","rain":"4.0"},{"updated":1533823274,"SiteKey":"Qianzhen","lat":"22.605386","lng":"120.307564","AQI":"62","PM10":"33","PM25":"15","O3":"23","SO2":"2.2","CO":"0.63","NO2":"22","temp":"29.1","wind":"1.2","hum":"77","rain":"1.0"},{"updated":1533823274,"SiteKey":"Xiaogang","lat":"22.565833","lng":"120.337736","AQI":"39","PM10":"30","PM25":"9","O3":"27","SO2":"3.5","CO":"0.33","NO2":"16","temp":"28.8","wind":"1.8","hum":"80","rain":"0.0"},{"updated":1533823274,"SiteKey":"Daliao","lat":"22.564136","lng":"120.425311","AQI":"60","PM10":"27","PM25":"19","O3":"27","SO2":"3.2","CO":"0.35","NO2":"13","temp":"27.7","wind":"1.4","hum":"82","rain":"0.5"},{"updated":1533823274,"SiteKey":"Chaozhou","lat":"22.523108","lng":"120.561175","AQI":"61","PM10":"45","PM25":"15","O3":"23","SO2":"1.4","CO":"0.26","NO2":"6.5","temp":-255,"wind":-255,"hum":-255,"rain":"0.0"},{"updated":1533823274,"SiteKey":"Linyuan","lat":"22.479500","lng":"120.411750","AQI":"42","PM10":"29","PM25":"13","O3":"34","SO2":"2.1","CO":"0.24","NO2":"6.5","temp":"28.8","wind":"1.8","hum":"80","rain":"0.0"},{"updated":1533823274,"SiteKey":"Hengchun","lat":"21.958069","lng":"120.788928","AQI":"26","PM10":"13","PM25":"5","O3":"26","SO2":"1.6","CO":"0.07","NO2":"1.5","temp":"29.2","wind":"1.4","hum":"82","rain":"0.0"},{"updated":1533823274,"SiteKey":"Yilan","lat":"24.747917","lng":"121.746394","AQI":"40","PM10":"31","PM25":"14","O3":"14","SO2":"3","CO":"0.25","NO2":"7.3","temp":"27.5","wind":"2.3","hum":"78","rain":"0.0"},{"updated":1533823274,"SiteKey":"Dongshan","lat":"24.632203","lng":"121.792928","AQI":"44","PM10":"28","PM25":"10","O3":"13","SO2":"1.4","CO":"0.12","NO2":"10","temp":"28.3","wind":"1.0","hum":"71","rain":"0.0"},{"updated":1533823274,"SiteKey":"Hualien","lat":"23.971306","lng":"121.599769","AQI":"31","PM10":"22","PM25":"10","O3":"31","SO2":"1.2","CO":"0.26","NO2":"7.1","temp":"27.5","wind":"1.4","hum":"86","rain":"14.0"},{"updated":1533823274,"SiteKey":"Guanshan","lat":"23.045083","lng":"121.161933","AQI":"37","PM10":"15","PM25":"8","O3":"14","SO2":"1.8","CO":-255,"NO2":"5.3","temp":"26.7","wind":"0.6","hum":-255,"rain":"0.0"},{"updated":1533823274,"SiteKey":"Taitung","lat":"22.755358","lng":"121.150450","AQI":"36","PM10":"25","PM25":"12","O3":"16","SO2":"1.3","CO":"0.26","NO2":"5.3","temp":"28.6","wind":"1.4","hum":"80","rain":"0.0"},{"updated":1533823274,"SiteKey":"Matsu","lat":"26.153611","lng":"119.952500","AQI":"52","PM10":"32","PM25":"12","O3":"37","SO2":"2.4","CO":"0.11","NO2":"0.2","temp":"27.0","wind":"0.8","hum":"82","rain":"0.0"},{"updated":1533823274,"SiteKey":"Kinmen","lat":"24.432133","lng":"118.312256","AQI":"59","PM10":"31","PM25":"19","O3":"38","SO2":"3.1","CO":"0.12","NO2":"6.8","temp":"27.7","wind":"1.7","hum":"84","rain":"0.0"},{"updated":1533823274,"SiteKey":"Magong","lat":"23.569031","lng":"119.566158","AQI":"42","PM10":"18","PM25":"13","O3":"37","SO2":"1.1","CO":"0.21","NO2":"4.4","temp":"28.9","wind":"0.7","hum":"84","rain":-255},{"updated":1533823274,"SiteKey":"Car2","lat":"23.843158","lng":"120.281814","AQI":"44","PM10":"25","PM25":"11","O3":"45","SO2":"2.2","CO":"0.13","NO2":"1","temp":"29.1","wind":"0.0","hum":"76","rain":"0.0"},{"updated":1533823274,"SiteKey":"Car3","lat":"23.757547","lng":"120.348742","AQI":"75","PM10":"48","PM25":"31","O3":"30","SO2":"2.1","CO":"0.12","NO2":"4.5","temp":"27.7","wind":"1.7","hum":"84","rain":"0.0"}";
 
     public struct Sites
     {
-        public string localName;
-        public int id;
-        public string name;
-        public string key;
-        public string areakey;
-        public string monobjName;
-        public string address;
+        public string EnglishName;
+
         public float lat;
         public float lng;
         public int aqi;
-        public string mainPollutant;
         public int PM10;
-        public int PM10_AVG;
         public int PM25;
-        public int PM25_AVG;
         public int O3;
-        public int O3_8;
         public float SO2;
         public float CO;
-        public float CO_8;
         public float NO2;
         public float temperature;
         public float windspeed;
@@ -66,46 +49,15 @@ public class dataLoader : MonoBehaviour
 
     WWW www = null;
 
-    string url;
-    string time;
-    string ts;
-
-
-    string[] weatherUrls = new string[] { "https://www.cwb.gov.tw/V7/observe/real/ObsN.htm", "https://www.cwb.gov.tw/V7/observe/real/ObsC.htm", "https://www.cwb.gov.tw/V7/observe/real/ObsS.htm", "https://www.cwb.gov.tw/V7/observe/real/ObsE.htm", "https://www.cwb.gov.tw/V7/observe/real/ObsI.htm" };
-
-    string[] northAreaIDs = new string[] { "C0A92", "46693", "C0A94", "46690", "46694", "C0A9E", "C0AH5", "C0AD3", "C0AD3", "C0AH0", "C0A9E", "C0A9E", "C0C54", "C0AH7", "C0AH1", "C0ACA", "C0C59", "C0AH1", "C0AH1", "46688", "C0C48", "C0AD4", "A0A9M", "C0C65", "C0C70", "C0C67", "C0D65", "46757", "C0D56", "C0E73", "C0E75", "C0E53" };
-    string[] centralAreaIDs = new string[] { "C0F9M", "46777", "C0F9T", "C0F9T", "C0G64", "C0F9N", "C0G76", "C0H89", "C0G73", "C0I46", "C0I11", "A0K42", "C0K53", "C0K40", "C0M79", "C0M65", "46748" };
-    string[] southAreaIDs = new string[] { "C0O95", "C0O90", "C0O95", "46741", "C0V31", "C0V76", "C0V67", "C0V68", "C0V81", "C0R17", "C0V69", "C0V44", "C0V21", "C0V69", "C0V72", "C0V73", "C0R22", "C0V72", "46759" };
-    string[] eastAreaIDs = new string[] { "46708", "C0U91", "46699", "C0S89", "46766" };
-    string[] islandIDs = new string[] { "46799", "46711", "46735" };
-    string[] mobileIDs = new string[] { "C0G74", "46711" };
-
-    void Start()
+    private void Start()
     {
-        Screen.sleepTimeout = SleepTimeout.NeverSleep; // don't allow the screen to turn off as this unfortunately also kills audio
-        Application.targetFrameRate = 45;
-        settings = GetComponent<userSettings>();
-        switch (settings.language)
-        {
-            case languages.eng:
-                url = "https://taqm.epa.gov.tw/taqm/aqs.ashx?lang=en&act=aqi-epa";
-                break;
-            case languages.zhTw:
-                url = "https://taqm.epa.gov.tw/taqm/aqs.ashx?lang=tw&act=aqi-epa";
-                break;
-        }
-
-        sites = new Sites[localNames.Length];
-        Debug.Log("Num. of sites: " + sites.Length);
-        int numSiteIDs = northAreaIDs.Length + centralAreaIDs.Length + southAreaIDs.Length + eastAreaIDs.Length + islandIDs.Length + mobileIDs.Length;
-        Debug.Log("Num. of site IDs: " + numSiteIDs);
-        StartCoroutine(loadAqiData());
+        StartCoroutine(fetchData());
     }
 
-    IEnumerator loadAqiData()
+    IEnumerator fetchData()
     {
 
-        using (www = new WWW(url))
+        using (www = new WWW("http://accordata.org/scraper/weather.csv"))
         {
             //Debug.Log("Starting!");
             yield return www;
@@ -113,146 +65,27 @@ public class dataLoader : MonoBehaviour
             if (!string.IsNullOrEmpty(www.error))
                 Debug.Log(www.error);
             else
-                StartCoroutine(parseAqiData(www));
-        }
-    }
-
-    IEnumerator parseAqiData(WWW w)
-    {
-        aqiData = w.text;
-        //Debug.Log(aqiData);
-        string aqiDataNoQuotes = aqiData.Replace("\"", ""); // remove quotation marks
-        splitData = aqiDataNoQuotes.Split(stringSeparators, StringSplitOptions.None); //, StringSplitOptions.RemoveEmptyEntries);
-                                                                                      //Debug.Log("Number of sites: " + siteID.Length);
-        int numSplits = 23; // 10 here for 10 split strings (and ignoring the initial split string that will return empties)
-        //sites = new Sites[splitData.Length / numSplits];
-        int splitdataOffset = 2; // through testing we know the first two strings in splitdata will be empty
-        for (int i = 0; i < sites.Length; i++)
-        {
-            sites[i].localName = localNames[i];
-            int.TryParse(splitData[(i * numSplits) + splitdataOffset], out sites[i].id);
-            sites[i].name = splitData[(i * numSplits) + 1 + splitdataOffset];
-            sites[i].key = splitData[(i * numSplits) + 2 + splitdataOffset];
-            sites[i].areakey = splitData[(i * numSplits) + 3 + splitdataOffset];
-            sites[i].monobjName = splitData[(i * numSplits) + 4 + splitdataOffset];
-            sites[i].address = splitData[(i * numSplits) + 5 + splitdataOffset];
-            float.TryParse(splitData[(i * numSplits) + 6 + splitdataOffset], out sites[i].lat);
-            float.TryParse(splitData[(i * numSplits) + 7 + splitdataOffset], out sites[i].lng);
-            int.TryParse(splitData[(i * numSplits) + 8 + splitdataOffset], out sites[i].aqi);
-            sites[i].mainPollutant = splitData[(i * numSplits) + 9 + splitdataOffset];
-            // skip 2
-            int.TryParse(splitData[(i * numSplits) + 12 + splitdataOffset], out sites[i].PM10);
-            int.TryParse(splitData[(i * numSplits) + 13 + splitdataOffset], out sites[i].PM10_AVG);
-            int.TryParse(splitData[(i * numSplits) + 14 + splitdataOffset], out sites[i].PM25);
-            int.TryParse(splitData[(i * numSplits) + 15 + splitdataOffset], out sites[i].PM25_AVG);
-            int.TryParse(splitData[(i * numSplits) + 16 + splitdataOffset], out sites[i].O3);
-            int.TryParse(splitData[(i * numSplits) + 17 + splitdataOffset], out sites[i].O3_8);
-            float.TryParse(splitData[(i * numSplits) + 18 + splitdataOffset], out sites[i].SO2);
-            float.TryParse(splitData[(i * numSplits) + 19 + splitdataOffset], out sites[i].CO);
-            float.TryParse(splitData[(i * numSplits) + 20 + splitdataOffset], out sites[i].CO_8);
-            float.TryParse(splitData[(i * numSplits) + 21 + splitdataOffset], out sites[i].NO2);
-
-            Vector3 markerPos = Vector3.zero;
-            markerPos.x = utils.map(sites[i].lng, 120, 122, -193.6f, 384);
-            markerPos.y = utils.map(sites[i].lat, 21.9f, 25.3f, -542, 542);
-            sites[i].marker = Instantiate(markerPrefab);
-            //sites[i].marker.transform.parent = siteMarkers;
-            sites[i].marker.transform.SetParent(siteMarkers);
-            sites[i].marker.transform.localPosition = markerPos;
-            sites[i].marker.transform.localScale = new Vector3(2, 2, 1);
-            sites[i].marker.name = sites[i].name;
-            sites[i].marker.GetComponent<Image>().color = uiCtrl.getAqiColor(sites[i].aqi);
-
-            //Debug.Log(sites[i].localName + " : " + sites[i].name);
-
-            yield return null;
-        }
-        StartCoroutine(loadWeatherData());
-    }
-
-    IEnumerator loadWeatherData()
-    {
-        for (int i = 0; i < weatherUrls.Length; i++)
-        {
-            using (www = new WWW(weatherUrls[i]))
             {
-                //Debug.Log("Starting!");
-                yield return www;
-                if (!string.IsNullOrEmpty(www.error))
-                    Debug.Log(www.error);
-                else
-                {
-                    weatherData = www.text;
-                    parseWeatherData(i);
-                }
+                string data = "\n" + www.text;
+                //data = data.Replace("\n", ",");
+                string[] splitData = data.Split('\n');
+                //string[] splitData = data.Split(',');
+                foreach (string s in splitData)
+                    Debug.Log(s);
+                Debug.Log("Received data for the last " + (splitData.Length / 78).ToString() + " hours.");
+                //populateData(newJson);
             }
         }
-        loadingWheel.SetActive(false);
-        dataFinishedLoading = true;
     }
 
-    private void parseWeatherData(int area)
+    private void populateData(string jsonString)
     {
-        string weatherDataNoQuotes = weatherData.Replace("\"", ""); // remove quotation marks
-        splitDataWeather = weatherDataNoQuotes.Split(stringSeparatorsWeather, StringSplitOptions.None);
-
         /*
-        foreach (string str in splitDataWeather)
-            Debug.Log(str);
-        Debug.Log("-----------------------------------------------------");
+        Site[] jsonSites = JsonHelper.getJsonArray<Site>(jsonString);
+        foreach (Site a in jsonSites)
+        {
+            Debug.Log(a.SiteKey);
+        }
         */
-
-        switch (area)
-        {
-            case 0: // north
-                populateWeatherData(northAreaIDs, 0);
-                break;
-            case 1: // central
-                populateWeatherData(centralAreaIDs, 32);
-                populateWeatherData(mobileIDs, 76);
-                break;
-            case 2: // south
-                populateWeatherData(southAreaIDs, 49);
-                break;
-            case 3: // east
-                populateWeatherData(eastAreaIDs, 68);
-                break;
-            case 4: // islands
-                populateWeatherData(islandIDs, 73);
-                break;
-        }
-    }
-
-    private void populateWeatherData(string[] siteIDs, int siteIndexOffset)
-    {
-        string[] siteIDsInArea = siteIDs;
-        for (int i = 0; i < siteIDsInArea.Length; i++) // the site IDs for this area
-        {
-            for (int j = 0; j < splitDataWeather.Length; j++) // the weather data array for this area
-            {
-                if (splitDataWeather[j] == siteIDsInArea[i])
-                {
-                    populateWeather(i, j, siteIndexOffset);
-                    break;
-                }
-            }
-        }
-    }
-
-    void populateWeather(int i, int j, int siteIndexOffset)
-    {
-        float.TryParse(splitDataWeather[(j + 3)], out sites[i + siteIndexOffset].temperature);
-        float.TryParse(splitDataWeather[(j + 7)], out sites[i + siteIndexOffset].windspeed);
-        float.TryParse(splitDataWeather[(j + 12)], out sites[i + siteIndexOffset].humidity);
-        float.TryParse(splitDataWeather[(j + 15)], out sites[i + siteIndexOffset].rainfall);
-    }
-
-    private Int64 GetTime()
-    {
-        Int64 retval = 0;
-        var st = new DateTime(1970, 1, 1);
-        TimeSpan t = (DateTime.Now.ToUniversalTime() - st);
-        retval = (Int64)(t.TotalMilliseconds + 0.5);
-        return retval;
     }
 }

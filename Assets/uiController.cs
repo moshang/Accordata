@@ -97,7 +97,7 @@ public class uiController : MonoBehaviour
     public void updateCard(int siteIndex)
     {
         //fill the card with data
-        siteNameTxt.text = data.sites[siteIndex].name;
+        siteNameTxt.text = data.sites[siteIndex].EnglishName;
         siteAqiTxt.text = "AQI: " + data.sites[siteIndex].aqi;
 
         //mainPollutant.text = "Main Pollutant: " + data.sites[siteIndex].mainPollutant;
