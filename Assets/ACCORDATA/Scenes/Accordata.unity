@@ -4089,12 +4089,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14007b46ec4c2e842b911c1d7f803702, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aqi: 
   siteMarkers: {fileID: 354807748}
   markerPrefab: {fileID: 1553718777926190, guid: 75f9694530269114c8bd1125ac6ff5d5,
     type: 2}
   uiCtrl: {fileID: 839908679}
   loadingWheel: {fileID: 1580897369}
+  loadingProg: {fileID: 1356946839}
   dataFinishedLoading: 0
 --- !u!4 &995543012
 Transform:
@@ -4979,7 +4979,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -320.0835, y: 329.69992}
+  m_AnchoredPosition: {x: -320.07648, y: 329.69992}
   m_SizeDelta: {x: -470.8732, y: 659.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1117819611

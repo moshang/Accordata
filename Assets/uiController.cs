@@ -8,6 +8,8 @@ public class uiController : MonoBehaviour
     [Header("-> ACCORDATA <-")]
     public seqGenerator seqGen;
     public dataLoader data;
+    private int thisHour = 0;
+
     // BUTTONS
     public Text scaleButtonTxt;
     public Text styleButtonTxt;
@@ -86,7 +88,7 @@ public class uiController : MonoBehaviour
     {
         for (int i = 0; i < data.sites.Length; i++)
         {
-            if (selectedSite == data.sites[i].marker)
+            if (selectedSite == data.sites[thisHour, i].marker)
             {
                 updateCard(i);
                 break;
@@ -97,32 +99,32 @@ public class uiController : MonoBehaviour
     public void updateCard(int siteIndex)
     {
         //fill the card with data
-        siteNameTxt.text = data.sites[siteIndex].EnglishName;
-        siteAqiTxt.text = "AQI: " + data.sites[siteIndex].aqi;
+        siteNameTxt.text = data.sites[thisHour, siteIndex].EnglishName;
+        siteAqiTxt.text = "AQI: " + data.sites[thisHour, siteIndex].aqi;
 
-        //mainPollutant.text = "Main Pollutant: " + data.sites[siteIndex].mainPollutant;
-        pm25.text = data.sites[siteIndex].PM25.ToString();
-        //pm25_avg.text = "PM2.5 Avg: " + data.sites[siteIndex].PM25_AVG;
-        pm10.text = data.sites[siteIndex].PM10.ToString();
-        //pm10_avg.text = "PM10 Avg: " + data.sites[siteIndex].PM10_AVG;
-        o3.text = data.sites[siteIndex].O3.ToString();
-        //o3_8h.text = "O3 8h: " + data.sites[siteIndex].O3_8;
-        so2.text = data.sites[siteIndex].SO2.ToString();
-        co.text = data.sites[siteIndex].CO.ToString();
-        //co_8h.text = "CO 8h: " + data.sites[siteIndex].CO_8;
-        no2.text = data.sites[siteIndex].NO2.ToString();
+        //mainPollutant.text = "Main Pollutant: " + data.sites[thisHour, siteIndex].mainPollutant;
+        pm25.text = data.sites[thisHour, siteIndex].PM25.ToString();
+        //pm25_avg.text = "PM2.5 Avg: " + data.sites[thisHour, siteIndex].PM25_AVG;
+        pm10.text = data.sites[thisHour, siteIndex].PM10.ToString();
+        //pm10_avg.text = "PM10 Avg: " + data.sites[thisHour, siteIndex].PM10_AVG;
+        o3.text = data.sites[thisHour, siteIndex].O3.ToString();
+        //o3_8h.text = "O3 8h: " + data.sites[thisHour, siteIndex].O3_8;
+        so2.text = data.sites[thisHour, siteIndex].SO2.ToString();
+        co.text = data.sites[thisHour, siteIndex].CO.ToString();
+        //co_8h.text = "CO 8h: " + data.sites[thisHour, siteIndex].CO_8;
+        no2.text = data.sites[thisHour, siteIndex].NO2.ToString();
 
         // weather data
-        temperature.text = data.sites[siteIndex].temperature.ToString() + "°C";
-        windspeed.text = data.sites[siteIndex].windspeed.ToString() + "m/s";
-        humidity.text = data.sites[siteIndex].humidity.ToString() + "%";
-        rainfall.text = data.sites[siteIndex].rainfall.ToString() + "mm";
+        temperature.text = data.sites[thisHour, siteIndex].temperature.ToString() + "°C";
+        windspeed.text = data.sites[thisHour, siteIndex].windspeed.ToString() + "m/s";
+        humidity.text = data.sites[thisHour, siteIndex].humidity.ToString() + "%";
+        rainfall.text = data.sites[thisHour, siteIndex].rainfall.ToString() + "mm";
 
         // change the colors
-        updateBGColors(data.sites[siteIndex].aqi);
+        updateBGColors(data.sites[thisHour, siteIndex].aqi);
 
         // move the target highlight
-        highlight.transform.position = data.sites[siteIndex].marker.transform.position;
+        highlight.transform.position = data.sites[thisHour, siteIndex].marker.transform.position;
     }
 
     void updateBGColors(int aqiVal)

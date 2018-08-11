@@ -22,6 +22,7 @@ public class seqGenerator : MonoBehaviour
     private int nextSiteAtBar = 0;
     private int thisSiteIndex = 0;
     private int nextSiteIndex = 1;
+    private int thisHour = 0;
     private dataLoader data;
     public uiController uiCtrl;
     private int seqLength = 16;
@@ -85,7 +86,7 @@ public class seqGenerator : MonoBehaviour
             thisSiteIndex = nextSiteIndex;
             nextSiteIndex = (thisSiteIndex + 1) % data.sites.Length;
             if (!aqiDebug)
-                aqi = data.sites[thisSiteIndex].aqi;
+                aqi = data.sites[thisHour, thisSiteIndex].aqi;
             uiCtrl.updateCard(thisSiteIndex);
 
             nextSiteAtBar = bar + getSiteBarDuration(aqi);
