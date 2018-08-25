@@ -17,8 +17,6 @@ public class seqGenerator : MonoBehaviour
     private int rootNote;
     public int barCounter;
     public style genStyle = style.minimalMelody;
-    public bool playLoop = true;
-    public AudioSource loop;
     private int nextSiteAtBar = 0;
     private int thisSiteIndex = 0;
     private int nextSiteIndex = 1;
@@ -26,6 +24,7 @@ public class seqGenerator : MonoBehaviour
     private dataLoader data;
     public uiController uiCtrl;
     private int seqLength = 16;
+    readonly int numSites = 87;
 
     [Header("Debug")]
     public bool aqiDebug;
@@ -78,13 +77,10 @@ public class seqGenerator : MonoBehaviour
         if (genStyle == style.arp && (bar % 2) == 0)
             scale = (scale)((int)(scale + 1) % numScales);
 
-        if (bar % 4 == 0)
-            loop.PlayOneShot(loop.clip, 0.5f);
-
         if (nextSiteAtBar == bar)
         {
             thisSiteIndex = nextSiteIndex;
-            nextSiteIndex = (thisSiteIndex + 1) % data.sites.Length;
+            nextSiteIndex = (thisSiteIndex + 1) % numSites;
             if (!aqiDebug)
                 aqi = data.sites[thisHour, thisSiteIndex].aqi;
             uiCtrl.updateCard(thisSiteIndex);

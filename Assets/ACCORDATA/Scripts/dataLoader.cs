@@ -77,24 +77,25 @@ public class dataLoader : MonoBehaviour
         }
     }
 
-    IEnumerator populateData(string[] data)
+    IEnumerator populateData(string[] data) // 78 sites for the most recent hour only
     {
         //Debug.Log(data.Length);
         //int tmpCounter = 0;
         int numHours = data.Length / 78;
         const int numSites = 78;
         sites = new Sites[numHours, numSites];
-        for (int i = 0; i < numHours; i++)
+        // int hoursToRead = numHours; // to read all sites
+        int hoursToRead = 1; // to read just the most recent hour
+
+        for (int i = 0; i < hoursToRead; i++)
         {
             for (int j = 0; j < numSites; j++)
             {
                 string[] siteData = data[(i * 78) + j].Split(',');
-                int progress = (int)(((float)((i * 78) + j) / data.Length) * 100);
+                int progress = (int)(((float)((i * 78) + j) / (data.Length / numHours) * hoursToRead) * 100);
                 loadingProg.text = progress.ToString() + "%";
                 yield return null;
 
-                //Debug.Log(tmpCounter);
-                //tmpCounter++;
                 sites[i, j].ChineseName = ChineseNames[j];
                 sites[i, j].EnglishName = siteData[1];
                 float.TryParse(siteData[2], out sites[i, j].lat);
@@ -111,7 +112,7 @@ public class dataLoader : MonoBehaviour
                 float.TryParse(siteData[13], out sites[i, j].humidity);
                 float.TryParse(siteData[14], out sites[i, j].rainfall);
 
-                // add marker data for each site - just for the latest hour for now
+                // add marker data for each site - just for the most recent hour
                 if (i == 0)
                 {
                     Vector3 markerPos = Vector3.zero;
@@ -125,10 +126,10 @@ public class dataLoader : MonoBehaviour
                     sites[i, j].marker.name = sites[i, j].EnglishName;
                     sites[i, j].marker.GetComponent<Image>().color = uiCtrl.getAqiColor(sites[i, j].aqi);
                 }
-                else if (!dataFinishedLoading)
-                    dataFinishedLoading = true;
+                dataFinishedLoading = true;
             }
         }
+
         loadingWheel.SetActive(false);
     }
 }

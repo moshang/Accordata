@@ -3370,16 +3370,11 @@ MonoBehaviour:
   siteCardDetails: {fileID: 644245048}
   siteNameTxt: {fileID: 658776442}
   siteAqiTxt: {fileID: 1461113405}
-  mainPollutant: {fileID: 0}
   pm10: {fileID: 1205866393}
-  pm10_avg: {fileID: 0}
   pm25: {fileID: 551422901}
-  pm25_avg: {fileID: 0}
   o3: {fileID: 1857105183}
-  o3_8h: {fileID: 0}
   so2: {fileID: 1240957868}
   co: {fileID: 2019736314}
-  co_8h: {fileID: 0}
   no2: {fileID: 1490049845}
   temperature: {fileID: 640873166}
   windspeed: {fileID: 1523302353}
@@ -4072,8 +4067,6 @@ MonoBehaviour:
   originalRootNote: 48
   barCounter: 0
   genStyle: 0
-  playLoop: 1
-  loop: {fileID: 1043635082}
   uiCtrl: {fileID: 839908679}
   aqiDebug: 0
   aqi: 0
@@ -4266,6 +4259,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1043635083}
   - component: {fileID: 1043635082}
+  - component: {fileID: 1043635084}
   m_Layer: 0
   m_Name: Looper
   m_TagString: Untagged
@@ -4279,14 +4273,14 @@ AudioSource:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1043635081}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: 064904c406e316a4daa9485883215f39,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: 4adf519bbb5b35c439fd3ea1c31e41e6, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 799d2a7226b6b254482c34e6c7421168, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
-  m_Pitch: 0.819
+  m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -4382,6 +4376,19 @@ Transform:
   m_Father: {fileID: 1498621190}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1043635084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1043635081}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 155c8f72108c1b1428e37af722025a30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 799d2a7226b6b254482c34e6c7421168, type: 3}
 --- !u!1 &1067835885
 GameObject:
   m_ObjectHideFlags: 0
@@ -4979,7 +4986,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -320.07648, y: 329.69992}
+  m_AnchoredPosition: {x: -320.04056, y: 329.69992}
   m_SizeDelta: {x: -470.8732, y: 659.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1117819611
@@ -9003,7 +9010,7 @@ MeshCollider:
   m_GameObject: {fileID: 2123354139}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Convex: 0
   m_CookingOptions: 14

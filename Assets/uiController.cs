@@ -25,16 +25,11 @@ public class uiController : MonoBehaviour
     Image siteCardDetailsBG;
     public Text siteNameTxt;
     public Text siteAqiTxt;
-    public Text mainPollutant;
     public Text pm10;
-    public Text pm10_avg;
     public Text pm25;
-    public Text pm25_avg;
     public Text o3;
-    public Text o3_8h;
     public Text so2;
     public Text co;
-    public Text co_8h;
     public Text no2;
     public Text temperature;
     public Text windspeed;
