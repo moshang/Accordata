@@ -40,6 +40,10 @@ public class uiController : MonoBehaviour
     public SpriteRenderer highlight;
     private Vector3 highlightOriginalScale = new Vector3(10, 10, 1);
 
+    // COUNTY NAMES
+    readonly string[] countiesEn = { "Keelung", "New Taipei", "Taipei", "Taoyuan", "Yilan", "Hsinchu County", "Hsinchu", "Miaoli", "Taichung", "Hualien", "Nantou", "Changhua", "Yunlin", "Chiayi County", "Chiayi", "Tainan", "Kaohsiung", "Taitung", "Pingtung", "Penghu", "Kinmen", "Lienchiang" };
+    readonly string[] countiesTwn = { "基隆", "新台北", "台北", "桃園", "宜蘭", "新竹縣", "新竹", "苗栗", "台中", "花蓮", "南投", "彰化", "雲林", "嘉義縣", "嘉義", "台南", "高雄", "台東", "屏東", "澎湖", "金門", "連江" };
+
     private void Start()
     {
         //siteCardBG = siteCard.GetComponent<Image>();

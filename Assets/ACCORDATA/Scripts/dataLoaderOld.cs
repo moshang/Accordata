@@ -18,7 +18,6 @@ public class dataLoaderOld : MonoBehaviour
     string[] stringSeparatorsWeather = new string[] { "id=MapID", "><a href=", "class=temp1>", "</td><td class=temp2", "</td><td>", "black>", "blue>", "green>", "orange>", "red>", "</font>" };
 
     public int[] aqi;
-    private userSettings settings;
     public Transform siteMarkers;
     public GameObject markerPrefab;
     public uiController uiCtrl;
@@ -73,9 +72,9 @@ public class dataLoaderOld : MonoBehaviour
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep; // don't allow the screen to turn off as this unfortunately also kills audio
         Application.targetFrameRate = 45;
-        settings = GetComponent<userSettings>();
+        
         /*
-        switch (settings.language)
+        switch (userSettings.language)
         {
             case languages.eng:
                 url = "https://taqm.epa.gov.tw/taqm/aqs.ashx?lang=en&act=aqi-epa";
