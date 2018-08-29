@@ -1,0 +1,2 @@
+These icons are found at https://feathericons.com/
+and are used under the MIT license in this folder.

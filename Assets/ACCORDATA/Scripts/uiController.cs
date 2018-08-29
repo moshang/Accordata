@@ -98,7 +98,15 @@ public class uiController : MonoBehaviour
     public void updateCard(int siteIndex)
     {
         //fill the card with data
-        siteNameTxt.text = data.sites[thisHour, siteIndex].EnglishName;
+        switch (userSettings.language)
+        {
+            case languages.eng:
+                siteNameTxt.text = data.sites[thisHour, siteIndex].EnglishName;
+                break;
+            case languages.zhTw:
+                siteNameTxt.text = data.sites[thisHour, siteIndex].ChineseName;
+                break;
+        }
         siteAqiTxt.text = "AQI: " + data.sites[thisHour, siteIndex].aqi;
 
         //mainPollutant.text = "Main Pollutant: " + data.sites[thisHour, siteIndex].mainPollutant;
