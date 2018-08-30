@@ -145,17 +145,17 @@ public class uiController : MonoBehaviour
     {
         Color32 newColor = new Color32();
         if (aqiVal > 300)
-            newColor = new Color32(136, 14, 79, 200);
+            newColor = new Color32(136, 14, 79, 255);
         else if (aqiVal > 200)
-            newColor = new Color32(173, 20, 87, 200);
+            newColor = new Color32(173, 20, 87, 255);
         else if (aqiVal > 150)
-            newColor = new Color32(197, 57, 41, 200);
+            newColor = new Color32(197, 57, 41, 255);
         else if (aqiVal > 100)
-            newColor = new Color32(245, 124, 0, 200);
+            newColor = new Color32(245, 124, 0, 255);
         else if (aqiVal > 50)
-            newColor = new Color32(251, 192, 45, 200);
+            newColor = new Color32(251, 192, 45, 255);
         else
-            newColor = new Color32(104, 159, 56, 200);
+            newColor = new Color32(104, 159, 56, 255);
         return newColor;
     }
 

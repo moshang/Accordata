@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 [RequireComponent(typeof(AudioSource))]
 public class clock : MonoBehaviour
 {
@@ -19,12 +19,16 @@ public class clock : MonoBehaviour
     private float currentBpm;
     double dur16th; // duration of a 16th note
 
+    [Header("Transport")]
+    public Toggle playToggle;
+
     public delegate void PulseAction(int pulseNum); // a pulse event is sent every 16th note
     public static event PulseAction OnPulse;
     public delegate void BeatAction(int beatNum); // a beat event is sent on every beat (4 x 16ths)
     public static event BeatAction OnBeat;
     public delegate void BarAction(int barNum); // a bar event is sent on every bar/measure (4 beats)
     public static event BarAction OnBar;
+
 
     // PD HEAVY
     Hv_AccoPlayer_AudioLib pd;
@@ -85,6 +89,18 @@ public class clock : MonoBehaviour
             return;
         pd.SendEvent(Hv_AccoPlayer_AudioLib.Event.Start);
         seq.setBPM(120);
+    }
+    public void stopPlayback()
+    {
+        pd.SendEvent(Hv_AccoPlayer_AudioLib.Event.Stop);
+    }
+
+    public void togglePlayback()
+    {
+        if (playToggle.isOn)
+            startPlayback();
+        else
+            stopPlayback();
     }
 
     public void testAudio()

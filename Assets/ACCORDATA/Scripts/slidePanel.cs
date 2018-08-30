@@ -19,6 +19,14 @@ public class slidePanel : MonoBehaviour
     {
         if (toggle == null)
             toggle = GetComponent<Toggle>();
+
+        // assuming the panel is on-screen at start
+        Vector3 localPos = panel.transform.localPosition;
+        if (type == slideType.upDown)
+            inPos = localPos.y;
+        else
+            inPos = localPos.x;
+
         setPos();
     }
 
