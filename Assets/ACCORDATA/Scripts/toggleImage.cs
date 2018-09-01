@@ -8,6 +8,9 @@ public class toggleImage : MonoBehaviour
     public Sprite deactivated;
     public Sprite activated;
     public Image image;
+    [Header("Alternatively assign images on gameobjects")]
+    public GameObject deactivatedImageGO;
+    public GameObject activatedImageGO;
     Toggle toggle;
     private void OnEnable()
     {
@@ -18,9 +21,25 @@ public class toggleImage : MonoBehaviour
 
     public void setImage()
     {
-        if (toggle.isOn)
-            image.sprite = activated;
+        if (image != null)
+        {
+            if (toggle.isOn)
+                image.sprite = activated;
+            else
+                image.sprite = deactivated;
+        }
         else
-            image.sprite = deactivated;
+        {
+            if (toggle.isOn)
+            {
+                activatedImageGO.SetActive(true);
+                deactivatedImageGO.SetActive(false);
+            }
+            else
+            {
+                activatedImageGO.SetActive(false);
+                deactivatedImageGO.SetActive(true);
+            }
+        }
     }
 }

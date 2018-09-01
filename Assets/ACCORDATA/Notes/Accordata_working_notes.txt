@@ -104,3 +104,17 @@
 - will possibly want to color it in with pre-recorded audio loops triggered in Unity
 - 32 internal voices to prevent clicking
 - each voice has a lowpass filter used to interpret midi velocity
+2018-09-1
+- time flies!
+- in the last two months very little progress on the actual music side, but lots on other aspects of the app
+- parsing data on the app was so slow as to be a no-go
+- went a different route and engaged a freelancer to help me convert my app-side parser to a data scraper that runs hourly on the accordata website and produces pre-parsed .json and .csv files with only the data I need
+- in the meantime, Enzien Audio has ceased operations (thanks for all the fish!) and I've been learning how to build heavy files locally
+- I've had mixed results with this, and that means I'm probably stuck with the last version of the AccoPlayer
+- that's a curse, but also a blessing
+- I can work within the limitations of the current AccoPlayer rather than spend lots of time fiddling to get it just so
+- still, there are a couple of changes I would make if I can manage to build the WIN X64 version of the Heavy plugin successfully (Android seems fine, and hilding thumbs for iOS)
+- considered buying a MAC mini to build for iOS, but opten (for now at least) to rent usage of a web-based MAC (MacInCloud)
+- this should allow me to build for iOS, but testing is another matter (can't plug a device into a virtual MAC ;^/)
+- hoping I can do testing with Apple's TestFlight and the two iOS devices I have access to
+- 

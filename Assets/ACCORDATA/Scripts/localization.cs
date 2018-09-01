@@ -10,7 +10,7 @@ public class localization : MonoBehaviour
     public string termChinese;
     Text txt;
 
-    void OnEnable()
+    void Start()
     {
         txt = GetComponent<Text>();
         changeUiLanguage();

@@ -69,8 +69,8 @@ public class dataLoader : MonoBehaviour
             {
                 string data = www.text;
                 string[] splitData = data.Split('\n');
-                foreach (string s in splitData)
-                    Debug.Log(s);
+                //foreach (string s in splitData)
+                //    Debug.Log(s);
                 //Debug.Log("Received data for the last " + (splitData.Length / 78).ToString() + " hours.");
                 StartCoroutine(populateData(splitData));
             }
@@ -118,6 +118,11 @@ public class dataLoader : MonoBehaviour
                     Vector3 markerPos = Vector3.zero;
                     markerPos.x = utils.map(sites[i, j].lng, 120, 122, -193.6f, 384);
                     markerPos.y = utils.map(sites[i, j].lat, 21.9f, 25.3f, -542, 542);
+                    // two special cases for outlying islands
+                    if (sites[i, j].EnglishName == "Matsu")
+                        markerPos.y = 529;
+                    if (sites[i, j].EnglishName == "Kinmen")
+                        markerPos.x = -318;
                     sites[i, j].marker = Instantiate(markerPrefab);
                     //sites[i].marker.transform.parent = siteMarkers;
                     sites[i, j].marker.transform.SetParent(siteMarkers);

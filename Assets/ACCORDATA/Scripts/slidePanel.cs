@@ -7,25 +7,19 @@ public enum slideType { upDown, leftRight };
 public class slidePanel : MonoBehaviour
 {
     [Header("-> ACCORDATA <-")]
-    public GameObject panel;
+    public RectTransform panel;
     public slideType type;
     public float outPos;
     public float inPos;
     public float slideTime;
-
+ 
     Toggle toggle;
+
 
     private void OnEnable()
     {
         if (toggle == null)
             toggle = GetComponent<Toggle>();
-
-        // assuming the panel is on-screen at start
-        Vector3 localPos = panel.transform.localPosition;
-        if (type == slideType.upDown)
-            inPos = localPos.y;
-        else
-            inPos = localPos.x;
 
         setPos();
     }
@@ -33,7 +27,7 @@ public class slidePanel : MonoBehaviour
     void setPos() // no animation
     {
         Vector3 targetPos;
-        targetPos = panel.transform.position;
+        targetPos = panel.anchoredPosition;
         if (toggle.isOn)
         {
             if (type == slideType.upDown)
@@ -48,7 +42,7 @@ public class slidePanel : MonoBehaviour
             else
                 targetPos.x = outPos;
         }
-        panel.transform.position = targetPos;
+        panel.anchoredPosition = targetPos;
     }
 
     public void doSlide()
@@ -60,14 +54,14 @@ public class slidePanel : MonoBehaviour
     IEnumerator slide()
     {
         Vector3 targetPos;
-        targetPos = panel.transform.localPosition;
+        targetPos = panel.anchoredPosition;
 
         float startPos;
         float endPos;
         if (type == slideType.upDown)
-            startPos = panel.transform.localPosition.y;
+            startPos = panel.anchoredPosition.y;
         else
-            startPos = panel.transform.localPosition.x;
+            startPos = panel.anchoredPosition.x;
 
         if (toggle.isOn)
             endPos = inPos;
@@ -80,17 +74,14 @@ public class slidePanel : MonoBehaviour
         while (progress < 1)
         {
             progress = (Time.time - startTime) / slideTime;
-            Debug.Log(progress);
             float easedProgress = Easings.BounceEaseOut(progress);
             float progressPos = Mathf.Lerp(startPos, endPos, easedProgress);
-
             if (type == slideType.upDown)
                 targetPos.y = progressPos;
             else
                 targetPos.x = progressPos;
 
-            panel.transform.localPosition = targetPos;
-
+            panel.anchoredPosition = targetPos;
             yield return null;
         }
     }
