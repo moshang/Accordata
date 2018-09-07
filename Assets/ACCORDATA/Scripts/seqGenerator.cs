@@ -80,6 +80,7 @@ public class seqGenerator : MonoBehaviour
         if (nextSiteAtBar == bar)
         {
             thisSiteIndex = nextSiteIndex;
+            uiCtrl.currentSiteIndex = thisSiteIndex;
             nextSiteIndex = (thisSiteIndex + 1) % numSites;
             if (!aqiDebug)
                 aqi = data.sites[thisHour, thisSiteIndex].aqi;

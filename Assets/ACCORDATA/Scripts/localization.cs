@@ -8,15 +8,20 @@ public class localization : MonoBehaviour
     [Header("-> ACCORDATA <-")]
     public string termEnglish;
     public string termChinese;
+    public bool insertCountyName = false;
+    public bool insertSiteName = false;
+    public uiController uiControl;
+    public dataLoader data;
     Text txt;
 
-    void Start()
+    void OnEnable()
     {
-        txt = GetComponent<Text>();
+        if (txt == null)
+            txt = GetComponent<Text>();
         changeUiLanguage();
         userSettings.OnLanguageChanged += changeUiLanguage;
-    }
 
+    }
 
     void OnDisable()
     {
@@ -28,10 +33,32 @@ public class localization : MonoBehaviour
         switch (userSettings.language)
         {
             case languages.eng:
-                txt.text = termEnglish;
+                if (insertCountyName)
+                {
+                    string newTerm = termEnglish.Replace("[county]", uiControl.countiesEn[uiControl.currentCountyIndex]);
+                    txt.text = newTerm;
+                }
+                else if (insertSiteName)
+                {
+                    string newTerm = termEnglish.Replace("[site]", data.EnglishNames[uiControl.currentSiteIndex]);
+                    txt.text = newTerm;
+                }
+                else
+                    txt.text = termEnglish;
                 break;
             case languages.zhTw:
-                txt.text = termChinese;
+                if (insertCountyName)
+                {
+                    string newTerm = termChinese.Replace("[county]", uiControl.countiesTwn[uiControl.currentCountyIndex]);
+                    txt.text = newTerm;
+                }
+                else if (insertSiteName)
+                {
+                    string newTerm = termChinese.Replace("[site]", data.ChineseNames[uiControl.currentSiteIndex]);
+                    txt.text = newTerm;
+                }
+                else
+                    txt.text = termChinese;
                 break;
         }
     }

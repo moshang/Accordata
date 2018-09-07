@@ -18,11 +18,18 @@ public class dataLoader : MonoBehaviour
     public GameObject loadingWheel;
     public Text loadingProg;
 
+    [Header("72HRS")]
+    public Slider[] aqiSlider;
+    public Slider[] tempSlider;
+    public Slider[] windSlider;
+    public Slider[] humiditySlider;
+    public Slider[] rainSlider;
+
     [HideInInspector]
     public bool dataFinishedLoading = false;
 
-    readonly string[] EnglishNames = new string[] { "FugueiCape", "Yangming", "Wanli", "Tamsui", "Keelung", "Shilin", "Linkou", "Sanchong", "Cailiao", "Xizhi", "Datong", "Zhongshan", "Dayuan", "Songshan", "Wanhua", "Xinzhuang", "Guanyin", "Guting", "Yonghe", "Banqiao", "Taoyuan", "Tucheng", "Xindian", "Pingzhen", "Zhongli", "Longtan", "Hukou", "Hsinchu", "Zhudong", "Toufen", "Miaoli", "Sanyi", "Fengyuan", "Shalu", "Xitun", "Zhongming", "Xianxi", "Dali", "Changhua", "Puli", "Erlin", "Nantou", "Zhushan", "Mailiao", "Taixi", "Douliu", "Xingang", "Puzi", "Chiayi", "Xinying", "Shanhua", "Annan", "Tainan", "Meinong", "Qiaotou", "Nanzi", "Renwu", "Zuoying", "Pingtung", "Qianjin", "Fengshan", "Fuxing", "Qianzhen", "Xiaogang", "Daliao", "Chaozhou", "Linyuan", "Hengchun", "Yilan", "Dongshan", "Hualien", "Guanshan", "Taitung", "Matsu", "Kinmen", "Magong", "Dacheng", "Lunbei" };
-    readonly string[] ChineseNames = new string[] { "富貴角", "陽明", "萬里", "淡水", "基隆", "士林", "林口", "三重", "菜寮", "汐止", "大同", "中山", "大園", "松山", "萬華", "新莊", "觀音", "古亭", "永和", "板橋", "桃園", "土城", "新店", "平鎮", "中壢", "龍潭", "湖口", "新竹", "竹東", "頭份", "苗栗", "三義", "豐原", "沙鹿", "西屯", "忠明", "線西", "大里", "彰化", "埔里", "二林", "南投", "竹山", "麥寮", "臺西", "斗六", "新港", "朴子", "嘉義", "新營", "善化", "安南", "臺南", "美濃", "橋頭", "楠梓", "仁武", "左營", "屏東", "前金", "鳳山", "復興", "前鎮", "小港", "大寮", "潮州", "林園", "恆春", "宜蘭", "冬山", "花蓮", "關山", "臺東", "馬祖", "金門", "馬公", "彰化(大城)", "崙背" };
+    public readonly string[] EnglishNames = new string[] { "FugueiCape", "Yangming", "Wanli", "Tamsui", "Keelung", "Shilin", "Linkou", "Sanchong", "Cailiao", "Xizhi", "Datong", "Zhongshan", "Dayuan", "Songshan", "Wanhua", "Xinzhuang", "Guanyin", "Guting", "Yonghe", "Banqiao", "Taoyuan", "Tucheng", "Xindian", "Pingzhen", "Zhongli", "Longtan", "Hukou", "Hsinchu", "Zhudong", "Toufen", "Miaoli", "Sanyi", "Fengyuan", "Shalu", "Xitun", "Zhongming", "Xianxi", "Dali", "Changhua", "Puli", "Erlin", "Nantou", "Zhushan", "Mailiao", "Taixi", "Douliu", "Xingang", "Puzi", "Chiayi", "Xinying", "Shanhua", "Annan", "Tainan", "Meinong", "Qiaotou", "Nanzi", "Renwu", "Zuoying", "Pingtung", "Qianjin", "Fengshan", "Fuxing", "Qianzhen", "Xiaogang", "Daliao", "Chaozhou", "Linyuan", "Hengchun", "Yilan", "Dongshan", "Hualien", "Guanshan", "Taitung", "Matsu", "Kinmen", "Magong", "Dacheng", "Lunbei" };
+    public readonly string[] ChineseNames = new string[] { "富貴角", "陽明", "萬里", "淡水", "基隆", "士林", "林口", "三重", "菜寮", "汐止", "大同", "中山", "大園", "松山", "萬華", "新莊", "觀音", "古亭", "永和", "板橋", "桃園", "土城", "新店", "平鎮", "中壢", "龍潭", "湖口", "新竹", "竹東", "頭份", "苗栗", "三義", "豐原", "沙鹿", "西屯", "忠明", "線西", "大里", "彰化", "埔里", "二林", "南投", "竹山", "麥寮", "臺西", "斗六", "新港", "朴子", "嘉義", "新營", "善化", "安南", "臺南", "美濃", "橋頭", "楠梓", "仁武", "左營", "屏東", "前金", "鳳山", "復興", "前鎮", "小港", "大寮", "潮州", "林園", "恆春", "宜蘭", "冬山", "花蓮", "關山", "臺東", "馬祖", "金門", "馬公", "彰化(大城)", "崙背" };
 
     public struct Sites
     {
@@ -47,6 +54,11 @@ public class dataLoader : MonoBehaviour
     public Sites[,] sites;
 
     WWW www = null;
+    string[] splitData;
+
+    public Color lowValColor;
+    public Color midValColor;
+    public Color highValColor;
 
     private void Start()
     {
@@ -68,16 +80,16 @@ public class dataLoader : MonoBehaviour
             else
             {
                 string data = www.text;
-                string[] splitData = data.Split('\n');
+                splitData = data.Split('\n');
                 //foreach (string s in splitData)
                 //    Debug.Log(s);
                 //Debug.Log("Received data for the last " + (splitData.Length / 78).ToString() + " hours.");
-                StartCoroutine(populateData(splitData));
+                populateData(splitData);
             }
         }
     }
 
-    IEnumerator populateData(string[] data) // 78 sites for the most recent hour only
+    private void populateData(string[] data) // 78 sites for the most recent hour only
     {
         //Debug.Log(data.Length);
         //int tmpCounter = 0;
@@ -92,9 +104,9 @@ public class dataLoader : MonoBehaviour
             for (int j = 0; j < numSites; j++)
             {
                 string[] siteData = data[(i * 78) + j].Split(',');
-                int progress = (int)(((float)((i * 78) + j) / (data.Length / numHours) * hoursToRead) * 100);
-                loadingProg.text = progress.ToString() + "%";
-                yield return null;
+                //int progress = (int)(((float)((i * 78) + j) / (data.Length / numHours) * hoursToRead) * 100);
+                //loadingProg.text = progress.ToString() + "%";
+                //yield return null;
 
                 sites[i, j].ChineseName = ChineseNames[j];
                 sites[i, j].EnglishName = siteData[1];
@@ -136,5 +148,117 @@ public class dataLoader : MonoBehaviour
         }
 
         loadingWheel.SetActive(false);
+    }
+
+    public void getData72HR(int siteIndex)
+    {
+        populateData72HR(splitData, siteIndex);
+    }
+
+    private void populateData72HR(string[] data, int siteIndex) // get 5 data points for the selected site for the last 72 hours
+    {
+        dataFinishedLoading = false;
+        int numHours = data.Length / 78;
+        const int numSites = 78;
+
+        int hoursToRead = 72; // to read just the most recent hour
+
+        for (int i = 0; i < hoursToRead; i++)
+        {
+            string[] siteData = data[(i * numSites) + siteIndex].Split(',');
+            // AQI
+            int aqiVal;
+            int.TryParse(siteData[4], out aqiVal);
+            if (aqiVal >= 0) // invalid/missing data is marked as -255
+            {
+                aqiSlider[71 - i].value = (float)aqiVal / 300;
+                aqiSlider[71 - i].transform.Find("Fill Area/Fill").GetComponent<Image>().color = uiCtrl.getAqiColor(aqiVal);
+            }
+            else
+            {
+                aqiSlider[71 - i].value = 1;
+                aqiSlider[71 - i].transform.Find("Fill Area/Fill").GetComponent<Image>().color = new Color(0.42f, 0.50f, 0.57f, 1);
+            }
+
+            // TEMPERATURE
+            float tempVal;
+            float.TryParse(siteData[11], out tempVal);
+            tempSlider[71 - i].value = (float)tempVal / 40;
+            if (tempVal >= 0)
+            {
+                tempSlider[71 - i].value = (float)tempVal / 40;
+                tempSlider[71 - i].transform.Find("Fill Area/Fill").GetComponent<Image>().color = getSliderColor(tempSlider[71 - i].value);
+            }
+            else
+            {
+                tempSlider[71 - i].value = 1;
+                tempSlider[71 - i].transform.Find("Fill Area/Fill").GetComponent<Image>().color = new Color(0.42f, 0.50f, 0.57f, 1);
+            }
+            // WIND
+            float windVal;
+            float.TryParse(siteData[12], out windVal);
+            if (windVal >= 0)
+            {
+                windSlider[71 - i].value = (float)windVal / 10;
+                windSlider[71 - i].transform.Find("Fill Area/Fill").GetComponent<Image>().color = getSliderColor(windSlider[71 - i].value);
+            }
+            else
+            {
+                windSlider[71 - i].value = 1;
+                windSlider[71 - i].transform.Find("Fill Area/Fill").GetComponent<Image>().color = new Color(0.42f, 0.50f, 0.57f, 1);
+            }
+            // HUMIDITY
+            float humidityVal;
+            float.TryParse(siteData[13], out humidityVal);
+            if (humidityVal >= 0)
+            {
+                // raise the floor to 30% humidity (rare for Taiwan) to give larger range on the graph
+                humiditySlider[71 - i].value = (float)(humidityVal - 30) / 70;
+                humiditySlider[71 - i].transform.Find("Fill Area/Fill").GetComponent<Image>().color = getSliderColor(humiditySlider[71 - i].value);
+            }
+            else
+            {
+                humiditySlider[71 - i].value = 1;
+                humiditySlider[71 - i].transform.Find("Fill Area/Fill").GetComponent<Image>().color = new Color(0.42f, 0.50f, 0.57f, 1);
+            }
+            // RAIN
+            float rainVal;
+            float.TryParse(siteData[14], out rainVal);
+
+            if (rainVal >= 0)
+            {
+                rainSlider[71 - i].value = (float)rainVal / 10;
+                rainSlider[71 - i].transform.Find("Fill Area/Fill").GetComponent<Image>().color = getSliderColor(rainSlider[71 - i].value);
+            }
+            else
+            {
+                rainSlider[71 - i].value = 1;
+                rainSlider[71 - i].transform.Find("Fill Area/Fill").GetComponent<Image>().color = new Color(0.42f, 0.50f, 0.57f, 1);
+            }
+        }
+        dataFinishedLoading = true;
+    }
+
+    private Color getSliderColor(float val)
+    {
+        Color sliderColor = lowValColor;
+        if (val <= 0.5f)
+        {
+            val *= 2;
+            sliderColor.r = Mathf.Lerp(lowValColor.r, midValColor.r, val);
+            sliderColor.g = Mathf.Lerp(lowValColor.g, midValColor.g, val);
+            sliderColor.b = Mathf.Lerp(lowValColor.b, midValColor.b, val);
+            sliderColor.a = Mathf.Lerp(lowValColor.a, midValColor.a, val);
+        }
+        else
+        {
+            val -= 0.5f;
+            val *= 2;
+            sliderColor.r = Mathf.Lerp(midValColor.r, highValColor.r, val);
+            sliderColor.g = Mathf.Lerp(midValColor.g, highValColor.g, val);
+            sliderColor.b = Mathf.Lerp(midValColor.b, highValColor.b, val);
+            sliderColor.a = Mathf.Lerp(midValColor.a, highValColor.a, val);
+        }
+        return sliderColor;
     }
 }

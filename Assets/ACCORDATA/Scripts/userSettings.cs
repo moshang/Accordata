@@ -23,6 +23,8 @@ public class userSettings : MonoBehaviour
     {
         // get saved user preferences
         loadSettings();
+        if (OnLanguageChanged != null)
+            OnLanguageChanged();
     }
 
     private void loadSettings()
