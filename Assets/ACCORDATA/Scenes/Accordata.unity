@@ -60917,7 +60917,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -320.0794, y: 329.69995}
+  m_AnchoredPosition: {x: -337.2164, y: 329.69995}
   m_SizeDelta: {x: -470.8732, y: 659.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1118011177
@@ -107014,7 +107014,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2056665323}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 106fc25c9ab5de941abc6e0f3cb1191b, type: 3}
+  m_Script: {fileID: 11500000, guid: 06c4d74b0ba96694e9d8c1fb7ba8d5bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   bpm: 100
@@ -107022,6 +107022,50 @@ MonoBehaviour:
   seqNoteVelo: 0
   seqStepNum: 0
   seqVoiceNum: 0
+  seqNoteTab01Clip: {fileID: 0}
+  seqNoteTab02Clip: {fileID: 0}
+  seqNoteTab03Clip: {fileID: 0}
+  seqNoteTab04Clip: {fileID: 0}
+  seqNoteTab05Clip: {fileID: 0}
+  seqNoteTab06Clip: {fileID: 0}
+  seqNoteTab07Clip: {fileID: 0}
+  seqNoteTab08Clip: {fileID: 0}
+  seqVeloTab01Clip: {fileID: 0}
+  seqVeloTab02Clip: {fileID: 0}
+  seqVeloTab03Clip: {fileID: 0}
+  seqVeloTab04Clip: {fileID: 0}
+  seqVeloTab05Clip: {fileID: 0}
+  seqVeloTab06Clip: {fileID: 0}
+  seqVeloTab07Clip: {fileID: 0}
+  seqVeloTab08Clip: {fileID: 0}
+  tab027Clip: {fileID: 0}
+  tab030Clip: {fileID: 0}
+  tab033Clip: {fileID: 0}
+  tab036Clip: {fileID: 0}
+  tab039Clip: {fileID: 0}
+  tab042Clip: {fileID: 0}
+  tab045Clip: {fileID: 0}
+  tab048Clip: {fileID: 0}
+  tab051Clip: {fileID: 0}
+  tab054Clip: {fileID: 0}
+  tab057Clip: {fileID: 0}
+  tab060Clip: {fileID: 0}
+  tab063Clip: {fileID: 0}
+  tab066Clip: {fileID: 0}
+  tab069Clip: {fileID: 0}
+  tab072Clip: {fileID: 0}
+  tab075Clip: {fileID: 0}
+  tab078Clip: {fileID: 0}
+  tab081Clip: {fileID: 0}
+  tab084Clip: {fileID: 0}
+  tab087Clip: {fileID: 0}
+  tab090Clip: {fileID: 0}
+  tab093Clip: {fileID: 0}
+  tab096Clip: {fileID: 0}
+  tab099Clip: {fileID: 0}
+  tab102Clip: {fileID: 0}
+  tab105Clip: {fileID: 0}
+  tab108Clip: {fileID: 0}
 --- !u!4 &2056665325
 Transform:
   m_ObjectHideFlags: 0
