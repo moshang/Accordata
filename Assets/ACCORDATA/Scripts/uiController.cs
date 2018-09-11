@@ -78,14 +78,14 @@ public class uiController : MonoBehaviour
     // FUNCTIONS
     public void nextScale()
     {
-        seqGen.scale = (scale)((int)(seqGen.scale + 1) % seqGen.numScales);
-        scaleButtonTxt.text = utils.UppercaseFirst(System.Enum.GetName(typeof(scale), seqGen.scale));
+        seqGen.scale = (Scale)((int)(seqGen.scale + 1) % seqGen.numScales);
+        scaleButtonTxt.text = utils.UppercaseFirst(System.Enum.GetName(typeof(Scale), seqGen.scale));
     }
 
     public void nextStyle()
     {
-        seqGen.genStyle = (style)((int)(seqGen.genStyle + 1) % seqGen.numStyles);
-        styleButtonTxt.text = utils.UppercaseFirst(System.Enum.GetName(typeof(style), seqGen.genStyle));
+        //seqGen.genStyle = (style)((int)(seqGen.genStyle + 1) % seqGen.numStyles);
+        //styleButtonTxt.text = utils.UppercaseFirst(System.Enum.GetName(typeof(style), seqGen.genStyle));
     }
 
     public void handleToggle()
@@ -100,9 +100,11 @@ public class uiController : MonoBehaviour
     {
         if (seqGen.aqiDebug)
         {
-            seqGen.aqi = (int)aqiSlider.value;
+            /*
+            seqGen.aqiVal = (int)aqiSlider.value;
             siteAqiTxt.text = "AQI: " + ((int)aqiSlider.value).ToString();
             updateBGColors((int)aqiSlider.value);
+            */
         }
     }
 
