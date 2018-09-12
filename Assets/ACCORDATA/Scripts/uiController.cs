@@ -51,7 +51,7 @@ public class uiController : MonoBehaviour
     public GameObject GO72HR;
     [HideInInspector]
     public Mode lastMapMode;
-    public Mode currentMode;
+    public static Mode currentMode;
 
     public Toggle countyToggle;
     public Toggle site72HrToggle;
@@ -60,9 +60,19 @@ public class uiController : MonoBehaviour
     public GameObject topTextCounty;
     public GameObject topTextSite;
 
+    // 72 HOUR
+    public Text aqiValText;
+    public Text temperatureValText;
+    public Text windValText;
+    public Text humidityValText;
+    public Text rainValText;
+
+    public GameObject playhead;
+
     [Header("DEBUG - don't populate with values manually")]
     public int currentSiteIndex = 0; // received from seqGenerator
     public int currentCountyIndex = 0;
+    public int currentHour = 71; // received from seqGenerator
 
     private userSettings settings;
 
@@ -203,6 +213,7 @@ public class uiController : MonoBehaviour
                 topTextAll.SetActive(false);
                 topTextCounty.SetActive(false);
                 topTextSite.SetActive(true);
+                update72Hr();
                 break;
         }
         currentMode = mode;
@@ -212,5 +223,23 @@ public class uiController : MonoBehaviour
     {
         if (currentMode == Mode.mapCounty)
             settings.setLanguage(userSettings.language); // reset the current language to force the county name to update
+    }
+
+    public void update72Hr()
+    {
+        aqiValText.text = data.sites[currentHour, currentSiteIndex].aqi.ToString();
+        temperatureValText.text = data.sites[currentHour, currentSiteIndex].temperature.ToString();
+        windValText.text = data.sites[currentHour, currentSiteIndex].windspeed.ToString();
+        humidityValText.text = data.sites[currentHour, currentSiteIndex].humidity.ToString();
+        rainValText.text = data.sites[currentHour, currentSiteIndex].rainfall.ToString();
+
+        setPlayheadPos();
+    }
+
+    private void setPlayheadPos()
+    {
+        Vector3 playheadPos = playhead.transform.position;
+        playheadPos.x = data.aqiSlider[71 - currentHour].transform.position.x;
+        playhead.transform.position = playheadPos;
     }
 }

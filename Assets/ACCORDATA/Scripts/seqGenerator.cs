@@ -19,7 +19,8 @@ public class seqGenerator : MonoBehaviour
     private int newValuesAtBar = 0;
     private int thisSiteIndex = 0;
     private int nextSiteIndex = 1;
-    private int thisHour = 0;
+    private int thisHour = 71;
+    private int nextHour = 70;
     private dataLoader data;
     public uiController uiCtrl;
     private int seqLength = 16;
@@ -69,9 +70,19 @@ public class seqGenerator : MonoBehaviour
         {
             if (bar != 0)
             {
-                thisSiteIndex = nextSiteIndex;
-                uiCtrl.currentSiteIndex = thisSiteIndex;
-                nextSiteIndex = (thisSiteIndex + 1) % dataLoader.numSites;
+                if (uiController.currentMode == Mode.mapAll || uiController.currentMode == Mode.mapCounty)
+                {
+                    thisSiteIndex = nextSiteIndex;
+                    uiCtrl.currentSiteIndex = thisSiteIndex;
+                    nextSiteIndex = (thisSiteIndex + 1) % dataLoader.numSites;
+                }
+                else if (uiController.currentMode == Mode.site72Hr)
+                {
+                    thisHour = nextHour;
+                    uiCtrl.currentHour = thisHour;
+                    uiCtrl.update72Hr();
+                    nextHour = ((thisHour - 1) >= 0) ? thisHour - 1 : dataLoader.hoursToRead - 1;
+                }
             }
             Debug.Log("thisSiteIndex: " + thisSiteIndex);
             aqiVal = data.sites[thisHour, thisSiteIndex].aqi;

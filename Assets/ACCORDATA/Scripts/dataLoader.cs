@@ -26,6 +26,7 @@ public class dataLoader : MonoBehaviour
     public Slider[] humiditySlider;
     public Slider[] rainSlider;
 
+    public const int hoursToRead = 72;
     [HideInInspector]
     public bool dataFinishedLoading = false;
 
@@ -72,7 +73,6 @@ public class dataLoader : MonoBehaviour
 
     IEnumerator fetchData()
     {
-
         using (www = new WWW("http://accordata.org/scraper/weather.csv"))
         {
             //Debug.Log("Starting!");
@@ -162,7 +162,7 @@ public class dataLoader : MonoBehaviour
     {
         dataFinishedLoading = false;
         int numHours = data.Length / 78;
-        int hoursToRead = 72; // to read just the most recent hour
+
 
         for (int i = 0; i < hoursToRead; i++)
         {
@@ -170,6 +170,7 @@ public class dataLoader : MonoBehaviour
             // AQI
             int aqiVal;
             int.TryParse(siteData[4], out aqiVal);
+            sites[i, siteIndex].aqi = aqiVal;
             if (aqiVal >= 0) // invalid/missing data is marked as -255
             {
                 aqiSlider[71 - i].value = (float)aqiVal / 300;
@@ -180,10 +181,10 @@ public class dataLoader : MonoBehaviour
                 aqiSlider[71 - i].value = 1;
                 aqiSlider[71 - i].transform.Find("Fill Area/Fill").GetComponent<Image>().color = new Color(0.42f, 0.50f, 0.57f, 1);
             }
-
             // TEMPERATURE
             float tempVal;
             float.TryParse(siteData[11], out tempVal);
+            sites[i, siteIndex].temperature = tempVal;
             tempSlider[71 - i].value = (float)tempVal / 40;
             if (tempVal >= 0)
             {
@@ -198,6 +199,7 @@ public class dataLoader : MonoBehaviour
             // WIND
             float windVal;
             float.TryParse(siteData[12], out windVal);
+            sites[i, siteIndex].windspeed = windVal;
             if (windVal >= 0)
             {
                 windSlider[71 - i].value = (float)windVal / 10;
@@ -211,6 +213,7 @@ public class dataLoader : MonoBehaviour
             // HUMIDITY
             float humidityVal;
             float.TryParse(siteData[13], out humidityVal);
+            sites[i, siteIndex].humidity = humidityVal;
             if (humidityVal >= 0)
             {
                 // raise the floor to 30% humidity (rare for Taiwan) to give larger range on the graph
@@ -225,10 +228,10 @@ public class dataLoader : MonoBehaviour
             // RAIN
             float rainVal;
             float.TryParse(siteData[14], out rainVal);
-
+            sites[i, siteIndex].rainfall = rainVal;
             if (rainVal >= 0)
             {
-                rainSlider[71 - i].value = (float)rainVal / 10;
+                rainSlider[71 - i].value = (float)rainVal / 60;
                 rainSlider[71 - i].transform.Find("Fill Area/Fill").GetComponent<Image>().color = getSliderColor(rainSlider[71 - i].value);
             }
             else
