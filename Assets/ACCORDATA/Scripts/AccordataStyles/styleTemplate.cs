@@ -26,7 +26,20 @@ public class styleTemplate : Style
                                             set to more than 1 to repeat the previously generated bar */
     }
 
+    // Style Specific Variables
+
+    public override void initStyle()
+    {
+        seq.setBPM(bpm);
+        seqGen.scale = scale;
+
+        // style specific initializations
+    }
+
     public override void makeSeq(int barNum, int aqiVal, float tempVal, float windVal, float humidityVal, float rainVal)
     {
+
+        // schedule the next bar at which to create a new sequence
+        newSeqAtBar += newSeqEveryXBars;
     }
 }

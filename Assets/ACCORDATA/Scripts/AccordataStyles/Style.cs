@@ -11,7 +11,11 @@ namespace AccordataStyle
      */
     public class Style : MonoBehaviour
     {
-        [Header("Debug Only - better to assign in script")]
+        [Header("DEBUG ONLY - assign values in script ", order = 0)]
+        [Space(-10, order = 1)]
+        [Header("Use gear icon and 'Reset' after changes", order = 2)]
+        [Space(-10, order = 3)]
+        [Header("", order = 4)]
         // Info about the style to display in the app
         public string StyleNameEng;
         public string StyleNameChTw;
@@ -28,7 +32,6 @@ namespace AccordataStyle
                                             this value needs to be smaller than the newValuesEveryXBars value, or we will skip over new data
                                             set to 1 to regenerate the sequence with the current data every bar, even if the data hasn't changed
                                             set to more than 1 to repeat the previously generated bar */
-        // Debug
         public seqGenerator seqGen;
         public int newSeqAtBar = 0;
 
@@ -39,6 +42,10 @@ namespace AccordataStyle
 
         public virtual void makeSeq(int barNum, int aqiVal, float tempVal, float windVal, float humidityVal, float rainVal)
         {
+        }
+
+        public virtual void initStyle()
+        { 
         }
     }
 }

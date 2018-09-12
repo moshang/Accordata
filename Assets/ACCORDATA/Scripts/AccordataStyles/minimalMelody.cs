@@ -16,14 +16,14 @@ public class minimalMelody : Style
         StyleInfoEng = "";
         StyleInfoChTw = "";
         // Style settings
-        bpm = 70;
+        bpm = 85;
         scale = Scale.pentatonic;
         seqLength = 16; // the length of a single bar of the sequence in 16ths
         newValuesEveryXBars = 2; // switch to the next set of values every x bars (either values from the next site, or the next hour for the same site)
         newSeqEveryXBars = 2;           /*  how often should we generate a new sequence?
                                             this value needs to be smaller than the newValuesEveryXBars value, or we will skip over new data
-                                            set to 1 to regenerate the sequence with the current data every bar, even if the data hasn't changed
-                                            set to more than 1 to repeat the previously generated bar */
+                                            setting to 1 to regenerates the sequence with the current data every bar, even if the data hasn't changed
+                                            setting to more than 1 repeats the previously generated bar */
     }
 
     // Style Specific Variables
@@ -31,12 +31,19 @@ public class minimalMelody : Style
     private int[] rmNoteNum;
     private bool melodyExists = false;
 
+    public override void initStyle()
+    {
+        seq.setBPM(bpm);
+        seqGen.scale = scale;
+    }
+
     public override void makeSeq(int barNum, int aqiVal, float tempVal, float windVal, float humidityVal, float rainVal)
     {
         if (barNum != newSeqAtBar)
             return;
 
         seq.clear();
+        int startNote = Random.Range(50, 70);
         melodyExists = false;
         // seq_0
         if (!melodyExists)
@@ -141,6 +148,7 @@ public class minimalMelody : Style
             }
         }
 
+        // schedule the next bar to create a new sequence on
         newSeqAtBar += newSeqEveryXBars;
     }
 

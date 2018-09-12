@@ -18,6 +18,7 @@ public class dataLoader : MonoBehaviour
     public GameObject loadingWheel;
     public Text loadingProg;
 
+
     [Header("72HRS")]
     public Slider[] aqiSlider;
     public Slider[] tempSlider;
@@ -27,6 +28,8 @@ public class dataLoader : MonoBehaviour
 
     [HideInInspector]
     public bool dataFinishedLoading = false;
+
+    public const int numSites = 78;
 
     public readonly string[] EnglishNames = new string[] { "FugueiCape", "Yangming", "Wanli", "Tamsui", "Keelung", "Shilin", "Linkou", "Sanchong", "Cailiao", "Xizhi", "Datong", "Zhongshan", "Dayuan", "Songshan", "Wanhua", "Xinzhuang", "Guanyin", "Guting", "Yonghe", "Banqiao", "Taoyuan", "Tucheng", "Xindian", "Pingzhen", "Zhongli", "Longtan", "Hukou", "Hsinchu", "Zhudong", "Toufen", "Miaoli", "Sanyi", "Fengyuan", "Shalu", "Xitun", "Zhongming", "Xianxi", "Dali", "Changhua", "Puli", "Erlin", "Nantou", "Zhushan", "Mailiao", "Taixi", "Douliu", "Xingang", "Puzi", "Chiayi", "Xinying", "Shanhua", "Annan", "Tainan", "Meinong", "Qiaotou", "Nanzi", "Renwu", "Zuoying", "Pingtung", "Qianjin", "Fengshan", "Fuxing", "Qianzhen", "Xiaogang", "Daliao", "Chaozhou", "Linyuan", "Hengchun", "Yilan", "Dongshan", "Hualien", "Guanshan", "Taitung", "Matsu", "Kinmen", "Magong", "Dacheng", "Lunbei" };
     public readonly string[] ChineseNames = new string[] { "富貴角", "陽明", "萬里", "淡水", "基隆", "士林", "林口", "三重", "菜寮", "汐止", "大同", "中山", "大園", "松山", "萬華", "新莊", "觀音", "古亭", "永和", "板橋", "桃園", "土城", "新店", "平鎮", "中壢", "龍潭", "湖口", "新竹", "竹東", "頭份", "苗栗", "三義", "豐原", "沙鹿", "西屯", "忠明", "線西", "大里", "彰化", "埔里", "二林", "南投", "竹山", "麥寮", "臺西", "斗六", "新港", "朴子", "嘉義", "新營", "善化", "安南", "臺南", "美濃", "橋頭", "楠梓", "仁武", "左營", "屏東", "前金", "鳳山", "復興", "前鎮", "小港", "大寮", "潮州", "林園", "恆春", "宜蘭", "冬山", "花蓮", "關山", "臺東", "馬祖", "金門", "馬公", "彰化(大城)", "崙背" };
@@ -94,7 +97,7 @@ public class dataLoader : MonoBehaviour
         //Debug.Log(data.Length);
         //int tmpCounter = 0;
         int numHours = data.Length / 78;
-        const int numSites = 78;
+
         sites = new Sites[numHours, numSites];
         // int hoursToRead = numHours; // to read all sites
         int hoursToRead = 1; // to read just the most recent hour
@@ -159,8 +162,6 @@ public class dataLoader : MonoBehaviour
     {
         dataFinishedLoading = false;
         int numHours = data.Length / 78;
-        const int numSites = 78;
-
         int hoursToRead = 72; // to read just the most recent hour
 
         for (int i = 0; i < hoursToRead; i++)
