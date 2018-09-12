@@ -25,8 +25,6 @@ public class seqGenerator : MonoBehaviour
     private int seqLength = 16;
 
     [Header("Debug")]
-    public bool aqiDebug;
-    [Range(0, 500)]
     public Style[] styles;
     public int currentStyleIndex;
 

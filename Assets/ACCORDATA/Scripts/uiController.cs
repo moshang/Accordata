@@ -68,44 +68,16 @@ public class uiController : MonoBehaviour
 
     private void Start()
     {
-        //siteCardBG = siteCard.GetComponent<Image>();
         siteCardAqiBG = siteCardAqi.GetComponent<Image>();
-        //siteCardDetailsBG = siteCardDetails.GetComponent<Image>();
         clock.OnBeat += everyBeat;
         settings = GetComponent<userSettings>();
     }
 
     // FUNCTIONS
-    public void nextScale()
-    {
-        seqGen.scale = (Scale)((int)(seqGen.scale + 1) % seqGen.numScales);
-        scaleButtonTxt.text = utils.UppercaseFirst(System.Enum.GetName(typeof(Scale), seqGen.scale));
-    }
-
-    public void nextStyle()
+    public void nextStyle() // TEMP
     {
         //seqGen.genStyle = (style)((int)(seqGen.genStyle + 1) % seqGen.numStyles);
         //styleButtonTxt.text = utils.UppercaseFirst(System.Enum.GetName(typeof(style), seqGen.genStyle));
-    }
-
-    public void handleToggle()
-    {
-        if (debugOverride.isOn)
-            seqGen.aqiDebug = true;
-        else
-            seqGen.aqiDebug = false;
-    }
-
-    public void handleSlider()
-    {
-        if (seqGen.aqiDebug)
-        {
-            /*
-            seqGen.aqiVal = (int)aqiSlider.value;
-            siteAqiTxt.text = "AQI: " + ((int)aqiSlider.value).ToString();
-            updateBGColors((int)aqiSlider.value);
-            */
-        }
     }
 
     public void showSelectedSite(GameObject selectedSite)
@@ -163,8 +135,6 @@ public class uiController : MonoBehaviour
     void updateBGColors(int aqiVal)
     {
         siteCardAqiBG.color = getAqiColor(aqiVal);
-        //siteCardBG.color = getAqiColor(aqiVal);
-        //siteCardDetailsBG.color = getAqiColor(aqiVal);
     }
 
     public Color32 getAqiColor(int aqiVal)
