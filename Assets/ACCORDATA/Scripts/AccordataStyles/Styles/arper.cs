@@ -31,10 +31,12 @@ public class arper : Style
     private int rootNote;
     private int currentSeqGenScale;
     private int newScaleOnBar;
-    public override void initStyle()
+
+    public override void initStyle(int newSeqBar)
     {
         seq.setBPM(bpm);
         seqGen.scale = scale;
+        newSeqAtBar = newSeqBar;
 
         // style specific initializations
         rootNote = originalRootNote;

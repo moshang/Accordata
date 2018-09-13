@@ -28,10 +28,11 @@ public class styleTemplate : Style
 
     // Style Specific Variables
 
-    public override void initStyle()
+    public override void initStyle(int newSeqBar)
     {
         seq.setBPM(bpm);
         seqGen.scale = scale;
+        newSeqAtBar = newSeqBar;
 
         // style specific initializations
     }

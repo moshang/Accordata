@@ -12,12 +12,6 @@ public class uiController : MonoBehaviour
     public dataLoader data;
     private int thisHour = 0;
 
-    [Header("Debug Buttons")]
-    public Text scaleButtonTxt;
-    public Text styleButtonTxt;
-    public Toggle debugOverride;
-    public Slider aqiSlider;
-
     [Header("Site Card")]
     public RectTransform siteCard;
     public RectTransform siteCardAqi;
@@ -53,8 +47,11 @@ public class uiController : MonoBehaviour
     public Mode lastMapMode;
     public static Mode currentMode;
 
-    public Toggle countyToggle;
     public Toggle site72HrToggle;
+    public Toggle countyToggle;
+    toggleImage countyTi;
+    public SpriteRenderer mapGlobeIcon;
+    public SpriteRenderer mapSiteIcon;
 
     public GameObject topTextAll;
     public GameObject topTextCounty;
@@ -81,6 +78,7 @@ public class uiController : MonoBehaviour
         siteCardAqiBG = siteCardAqi.GetComponent<Image>();
         clock.OnBeat += everyBeat;
         settings = GetComponent<userSettings>();
+        countyTi = countyToggle.GetComponent<toggleImage>();
     }
 
     // FUNCTIONS
@@ -197,6 +195,9 @@ public class uiController : MonoBehaviour
                 topTextAll.SetActive(true);
                 topTextCounty.SetActive(false);
                 topTextSite.SetActive(false);
+                countyToggle.interactable = true;
+                mapGlobeIcon.color = countyTi.interactableColor;
+                mapSiteIcon.color = countyTi.interactableColor;
                 break;
             case Mode.mapCounty:
                 mapGO.SetActive(true);
@@ -205,6 +206,9 @@ public class uiController : MonoBehaviour
                 topTextAll.SetActive(false);
                 topTextCounty.SetActive(true);
                 topTextSite.SetActive(false);
+                countyToggle.interactable = true;
+                mapGlobeIcon.color = countyTi.interactableColor;
+                mapSiteIcon.color = countyTi.interactableColor;
                 break;
             case Mode.site72Hr:
                 mapGO.SetActive(false);
@@ -213,6 +217,9 @@ public class uiController : MonoBehaviour
                 topTextAll.SetActive(false);
                 topTextCounty.SetActive(false);
                 topTextSite.SetActive(true);
+                countyToggle.interactable = false;
+                mapGlobeIcon.color = countyTi.nonInteractableColor;
+                mapSiteIcon.color = countyTi.nonInteractableColor;
                 update72Hr();
                 break;
         }

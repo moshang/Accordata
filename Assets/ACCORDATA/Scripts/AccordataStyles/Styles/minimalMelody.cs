@@ -31,10 +31,11 @@ public class minimalMelody : Style
     private int[] rmNoteNum;
     private bool melodyExists = false;
 
-    public override void initStyle()
+    public override void initStyle(int newSeqBar)
     {
         seq.setBPM(bpm);
         seqGen.scale = scale;
+        newSeqAtBar = newSeqBar;
     }
 
     public override void makeSeq(int barNum, int aqiVal, float tempVal, float windVal, float humidityVal, float rainVal)

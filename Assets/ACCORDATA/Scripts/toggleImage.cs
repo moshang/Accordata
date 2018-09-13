@@ -12,6 +12,8 @@ public class toggleImage : MonoBehaviour
     public GameObject deactivatedImageGO;
     public GameObject activatedImageGO;
     Toggle toggle;
+    public Color interactableColor;
+    public Color nonInteractableColor;
     private void OnEnable()
     {
         if (toggle == null)
@@ -32,13 +34,17 @@ public class toggleImage : MonoBehaviour
         {
             if (toggle.isOn)
             {
-                activatedImageGO.SetActive(true);
-                deactivatedImageGO.SetActive(false);
+                if (activatedImageGO != null)
+                    activatedImageGO.SetActive(true);
+                if (deactivatedImageGO != null)
+                    deactivatedImageGO.SetActive(false);
             }
             else
             {
-                activatedImageGO.SetActive(false);
-                deactivatedImageGO.SetActive(true);
+                if (activatedImageGO != null)
+                    activatedImageGO.SetActive(false);
+                if (deactivatedImageGO != null)
+                    deactivatedImageGO.SetActive(true);
             }
         }
     }

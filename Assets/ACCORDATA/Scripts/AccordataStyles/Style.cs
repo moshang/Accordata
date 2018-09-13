@@ -44,7 +44,7 @@ namespace AccordataStyle
         {
         }
 
-        public virtual void initStyle()
+        public virtual void initStyle(int newSeqBar)
         { 
         }
     }

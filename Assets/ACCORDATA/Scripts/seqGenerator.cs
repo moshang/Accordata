@@ -25,9 +25,11 @@ public class seqGenerator : MonoBehaviour
     public uiController uiCtrl;
     private int seqLength = 16;
 
-    [Header("Debug")]
+    [Header("Styles")]
     public Style[] styles;
     public int currentStyleIndex;
+    public GameObject styleSelectorPref;
+    public GameObject stylesListGO;
 
     // current site values
     private int aqiVal;
@@ -47,9 +49,24 @@ public class seqGenerator : MonoBehaviour
 
         styles = transform.Find("Styles").GetComponents<Style>();
 
+        // add UI buttons for each style
+        for (int i = 0; i < styles.Length; i++)
+        {
+            GameObject newStyleSelector = Instantiate(styleSelectorPref, stylesListGO.transform);
+            selectStyle slctStyle = newStyleSelector.GetComponentInChildren<selectStyle>();
+            slctStyle.styleIndex = i;
+            slctStyle.GetComponent<Toggle>().group = stylesListGO.GetComponent<ToggleGroup>();
+            localization local = newStyleSelector.GetComponentInChildren<localization>();
+            if (local == null)
+                Debug.Break();
+            local.termEnglish = styles[i].StyleNameEng;
+            local.termChinese = styles[i].StyleNameChTw;
+            //if ()
+            newStyleSelector.GetComponentInChildren<Text>().text = local.termEnglish;
+        }
+
         // set the first style as default
-        currentStyleIndex = 1;
-        switchStyle(currentStyleIndex);
+        switchStyle(1);
     }
     /// <summary>
     /// Switch to the style selected by the user
@@ -57,7 +74,9 @@ public class seqGenerator : MonoBehaviour
     /// <param name="styleIndex"></param>
     public void switchStyle(int styleIndex)
     {
-        styles[currentStyleIndex].initStyle();
+        int newSeqAtBar = styles[currentStyleIndex].newSeqAtBar;
+        currentStyleIndex = styleIndex;
+        styles[styleIndex].initStyle(newSeqAtBar);
     }
 
     void everyBeat(int beat)
