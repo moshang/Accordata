@@ -10,7 +10,7 @@ public class arper : Style
     {
         // Info about the style to display in the app
         StyleNameEng = "Arper";
-        StyleNameChTw = "";
+        StyleNameChTw = "Arper";
         ComposerNameEng = "MoShang";
         ComposerNameChTw = "莫尚";
         StyleInfoEng = "";

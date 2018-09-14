@@ -18,7 +18,6 @@ public class dataLoader : MonoBehaviour
     public GameObject loadingWheel;
     public Text loadingProg;
 
-
     [Header("72HRS")]
     public Slider[] aqiSlider;
     public Slider[] tempSlider;
@@ -68,6 +67,11 @@ public class dataLoader : MonoBehaviour
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep; // don't allow the screen to turn off as this unfortunately also kills audio
         Application.targetFrameRate = 30;
+
+        // don't allow switching to single site mode
+        uiCtrl.site72HrToggle.interactable = false;
+        uiCtrl.chartIcon.color = uiCtrl.countyTi.nonInteractableColor;
+
         StartCoroutine(fetchData());
     }
 
@@ -147,6 +151,8 @@ public class dataLoader : MonoBehaviour
                     sites[i, j].marker.GetComponent<Image>().color = uiCtrl.getAqiColor(sites[i, j].aqi);
                 }
                 dataFinishedLoading = true;
+                uiCtrl.site72HrToggle.interactable = true;
+                uiCtrl.chartIcon.color = uiCtrl.countyTi.interactableColor;
             }
         }
 
@@ -162,7 +168,6 @@ public class dataLoader : MonoBehaviour
     {
         dataFinishedLoading = false;
         int numHours = data.Length / 78;
-
 
         for (int i = 0; i < hoursToRead; i++)
         {

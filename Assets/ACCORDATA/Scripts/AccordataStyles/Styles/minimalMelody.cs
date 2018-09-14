@@ -10,7 +10,7 @@ public class minimalMelody : Style
     {
         // Info about the style to display in the app
         StyleNameEng = "Minimal Melody";
-        StyleNameChTw = "";
+        StyleNameChTw = "Minimal Melody";
         ComposerNameEng = "MoShang";
         ComposerNameChTw = "莫尚";
         StyleInfoEng = "";

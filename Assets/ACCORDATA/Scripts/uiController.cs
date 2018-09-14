@@ -49,9 +49,14 @@ public class uiController : MonoBehaviour
 
     public Toggle site72HrToggle;
     public Toggle countyToggle;
-    toggleImage countyTi;
+
+    // TOGGLE INTERACTABILITY
+    [HideInInspector]
+    public toggleImage countyTi;
     public SpriteRenderer mapGlobeIcon;
     public SpriteRenderer mapSiteIcon;
+    toggleImage site72Ti;
+    public SpriteRenderer chartIcon;
 
     public GameObject topTextAll;
     public GameObject topTextCounty;
@@ -73,12 +78,71 @@ public class uiController : MonoBehaviour
 
     private userSettings settings;
 
+    // value mutes
+    public bool isActiveAqi = true;
+    public bool isActiveTemp = true;
+    public bool isActiveWind = true;
+    public bool isActiveHumidity = true;
+    public bool isActiveRain = true;
+
+    public setMute[] muteScripts;
+
     private void Start()
     {
         siteCardAqiBG = siteCardAqi.GetComponent<Image>();
         clock.OnBeat += everyBeat;
         settings = GetComponent<userSettings>();
         countyTi = countyToggle.GetComponent<toggleImage>();
+        site72Ti = site72HrToggle.GetComponent<toggleImage>();
+    }
+
+    public void setMuteToggleRemote(valueType valType, bool val)
+    {
+        if (val)
+        {
+            switch (valType)
+            {
+                case valueType.aqi:
+                    isActiveAqi = true;
+                    break;
+                case valueType.temperature:
+                    isActiveTemp = true;
+                    break;
+                case valueType.windspeed:
+                    isActiveWind = true;
+                    break;
+                case valueType.humidity:
+                    isActiveHumidity = true;
+                    break;
+                case valueType.rainfall:
+                    isActiveRain = true;
+                    break;
+            }
+        }
+        else
+        {
+            switch (valType)
+            {
+                case valueType.aqi:
+                    isActiveAqi = false;
+                    break;
+                case valueType.temperature:
+                    isActiveTemp = false;
+                    break;
+                case valueType.windspeed:
+                    isActiveWind = false;
+                    break;
+                case valueType.humidity:
+                    isActiveHumidity = false;
+                    break;
+                case valueType.rainfall:
+                    isActiveRain = false;
+                    break;
+            }
+        }
+
+        foreach (setMute sm in muteScripts)
+            sm.updateToggle();
     }
 
     // FUNCTIONS
@@ -234,11 +298,11 @@ public class uiController : MonoBehaviour
 
     public void update72Hr()
     {
-        aqiValText.text = data.sites[currentHour, currentSiteIndex].aqi.ToString();
-        temperatureValText.text = data.sites[currentHour, currentSiteIndex].temperature.ToString();
-        windValText.text = data.sites[currentHour, currentSiteIndex].windspeed.ToString();
-        humidityValText.text = data.sites[currentHour, currentSiteIndex].humidity.ToString();
-        rainValText.text = data.sites[currentHour, currentSiteIndex].rainfall.ToString();
+        aqiValText.text = (data.sites[currentHour, currentSiteIndex].aqi >= 0) ? data.sites[currentHour, currentSiteIndex].aqi.ToString() : "-";
+        temperatureValText.text = (data.sites[currentHour, currentSiteIndex].temperature >= 0) ? data.sites[currentHour, currentSiteIndex].temperature.ToString() : "-";
+        windValText.text = (data.sites[currentHour, currentSiteIndex].windspeed >= 0) ? data.sites[currentHour, currentSiteIndex].windspeed.ToString() : "-";
+        humidityValText.text = (data.sites[currentHour, currentSiteIndex].humidity >= 0) ? data.sites[currentHour, currentSiteIndex].humidity.ToString() : "-";
+        rainValText.text = (data.sites[currentHour, currentSiteIndex].rainfall >= 0) ? data.sites[currentHour, currentSiteIndex].rainfall.ToString() : "-";
 
         setPlayheadPos();
     }
