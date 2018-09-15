@@ -23,6 +23,9 @@ public class toggleImage : MonoBehaviour
 
     public void setImage()
     {
+        if (toggle == null)
+            return;
+
         if (image != null)
         {
             if (toggle.isOn)

@@ -40,6 +40,32 @@ public class uiController : MonoBehaviour
     public readonly string[] countiesEn = { "Keelung", "New Taipei", "Taipei", "Taoyuan", "Yilan", "Hsinchu County", "Hsinchu", "Miaoli", "Taichung", "Hualien", "Nantou", "Changhua", "Yunlin", "Chiayi County", "Chiayi", "Tainan", "Kaohsiung", "Taitung", "Pingtung", "Penghu", "Kinmen", "Lienchiang" };
     public readonly string[] countiesTwn = { "基隆", "新台北", "台北", "桃園", "宜蘭", "新竹縣", "新竹", "苗栗", "台中", "花蓮", "南投", "彰化", "雲林", "嘉義縣", "嘉義", "台南", "高雄", "台東", "屏東", "澎湖", "金門", "連江" };
 
+    // SITES IN COUNTY
+
+    public readonly int[] Keelung = { 0 };
+    public readonly int[] NewTaipei = { 0 };
+    public readonly int[] Taipei = { 0 };
+    public readonly int[] Taoyuan = { 0 };
+    public readonly int[] Yilan = { 0 };
+    public readonly int[] HsinchuCounty = { 0 };
+    public readonly int[] Hsinchu = { 0 };
+    public readonly int[] Miaoli = { 0 };
+    public readonly int[] Taichung = { 0 };
+    public readonly int[] Hualien = { 0 };
+    public readonly int[] Nantou = { 0 };
+    public readonly int[] Changhua = { 0 };
+    public readonly int[] Yunlin = { 0 };
+    public readonly int[] ChiayiCounty = { 0 };
+    public readonly int[] Chiayi = { 0 };
+    public readonly int[] Tainan = { 0 };
+    public readonly int[] Kaohsiung = { 0 };
+    public readonly int[] Taitung = { 0 };
+    public readonly int[] Pingtung = { 0 };
+    public readonly int[] Penghu = { 0 };
+    public readonly int[] Kinmen = { 0 };
+    public readonly int[] Lienchiang = { 0 };
+    public List<int[]> sitesInCounty;
+
     [Header("Mode Selection")]
     public GameObject mapGO;
     public GameObject GO72HR;
@@ -94,6 +120,7 @@ public class uiController : MonoBehaviour
         settings = GetComponent<userSettings>();
         countyTi = countyToggle.GetComponent<toggleImage>();
         site72Ti = site72HrToggle.GetComponent<toggleImage>();
+        sitesInCounty = new List<int[]> { Keelung, NewTaipei, Taipei, Taoyuan, Yilan, HsinchuCounty, Hsinchu, Miaoli, Taichung, Hualien, Nantou, Changhua, Yunlin, ChiayiCounty, Chiayi, Tainan, Kaohsiung, Taitung, Pingtung, Penghu, Kinmen, Lienchiang };
     }
 
     public void setMuteToggleRemote(valueType valType, bool val)
