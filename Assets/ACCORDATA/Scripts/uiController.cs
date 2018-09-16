@@ -42,28 +42,28 @@ public class uiController : MonoBehaviour
 
     // SITES IN COUNTY
 
-    public readonly int[] Keelung = { 0 };
-    public readonly int[] NewTaipei = { 0 };
-    public readonly int[] Taipei = { 0 };
-    public readonly int[] Taoyuan = { 0 };
-    public readonly int[] Yilan = { 0 };
-    public readonly int[] HsinchuCounty = { 0 };
-    public readonly int[] Hsinchu = { 0 };
-    public readonly int[] Miaoli = { 0 };
-    public readonly int[] Taichung = { 0 };
-    public readonly int[] Hualien = { 0 };
-    public readonly int[] Nantou = { 0 };
-    public readonly int[] Changhua = { 0 };
-    public readonly int[] Yunlin = { 0 };
-    public readonly int[] ChiayiCounty = { 0 };
-    public readonly int[] Chiayi = { 0 };
-    public readonly int[] Tainan = { 0 };
-    public readonly int[] Kaohsiung = { 0 };
-    public readonly int[] Taitung = { 0 };
-    public readonly int[] Pingtung = { 0 };
-    public readonly int[] Penghu = { 0 };
-    public readonly int[] Kinmen = { 0 };
-    public readonly int[] Lienchiang = { 0 };
+    public readonly int[] Keelung = { 4 };
+    public readonly int[] NewTaipei = { 0, 2, 3, 6, 7, 8, 9, 14, 15, 18, 19, 21, 22 };
+    public readonly int[] Taipei = { 1, 5, 10, 11, 13, 17 };
+    public readonly int[] Taoyuan = { 12, 16, 20, 23, 24, 25 };
+    public readonly int[] Yilan = { 68, 69 };
+    public readonly int[] HsinchuCounty = { 26, 28 };
+    public readonly int[] Hsinchu = { 27 };
+    public readonly int[] Miaoli = { 29, 30, 31 };
+    public readonly int[] Taichung = { 32, 33, 34, 35, 37 };
+    public readonly int[] Hualien = { 70 };
+    public readonly int[] Nantou = { 39, 41, 42 };
+    public readonly int[] Changhua = { 36, 38, 40, 76 };
+    public readonly int[] Yunlin = { 43, 44, 45 };
+    public readonly int[] ChiayiCounty = { 46, 47 };
+    public readonly int[] Chiayi = { 48 };
+    public readonly int[] Tainan = { 49, 50, 51, 52 };
+    public readonly int[] Kaohsiung = { 53, 54, 55, 56, 57, 59, 60, 61, 62, 63, 64, 66 };
+    public readonly int[] Taitung = { 71, 72 };
+    public readonly int[] Pingtung = { 58, 65, 67, 77 };
+    public readonly int[] Penghu = { 75 };
+    public readonly int[] Kinmen = { 74 };
+    public readonly int[] Lienchiang = { 73 };
     public List<int[]> sitesInCounty;
 
     [Header("Mode Selection")]
@@ -326,10 +326,10 @@ public class uiController : MonoBehaviour
     public void update72Hr()
     {
         aqiValText.text = (data.sites[currentHour, currentSiteIndex].aqi >= 0) ? data.sites[currentHour, currentSiteIndex].aqi.ToString() : "-";
-        temperatureValText.text = (data.sites[currentHour, currentSiteIndex].temperature >= 0) ? data.sites[currentHour, currentSiteIndex].temperature.ToString() : "-";
-        windValText.text = (data.sites[currentHour, currentSiteIndex].windspeed >= 0) ? data.sites[currentHour, currentSiteIndex].windspeed.ToString() : "-";
-        humidityValText.text = (data.sites[currentHour, currentSiteIndex].humidity >= 0) ? data.sites[currentHour, currentSiteIndex].humidity.ToString() : "-";
-        rainValText.text = (data.sites[currentHour, currentSiteIndex].rainfall >= 0) ? data.sites[currentHour, currentSiteIndex].rainfall.ToString() : "-";
+        temperatureValText.text = (data.sites[currentHour, currentSiteIndex].temperature >= 0) ? data.sites[currentHour, currentSiteIndex].temperature.ToString() + "°C" : "-";
+        windValText.text = (data.sites[currentHour, currentSiteIndex].windspeed >= 0) ? data.sites[currentHour, currentSiteIndex].windspeed.ToString() + "m/s" : "-";
+        humidityValText.text = (data.sites[currentHour, currentSiteIndex].humidity >= 0) ? data.sites[currentHour, currentSiteIndex].humidity.ToString() + "%" : "-";
+        rainValText.text = (data.sites[currentHour, currentSiteIndex].rainfall >= 0) ? data.sites[currentHour, currentSiteIndex].rainfall.ToString() + "mm" : "-";
 
         setPlayheadPos();
     }
