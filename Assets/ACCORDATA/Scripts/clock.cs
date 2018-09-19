@@ -29,6 +29,7 @@ public class clock : MonoBehaviour
     public delegate void BarAction(int barNum); // a bar event is sent on every bar/measure (4 beats)
     public static event BarAction OnBar;
 
+    public static bool isRunning = false;
 
     // PD HEAVY
     Hv_AccoPlayer_AudioLib pd;
@@ -62,7 +63,7 @@ public class clock : MonoBehaviour
             if (metronome && metro != null)
             {
                 metro.pitch = 1;
-                metro.PlayOneShot(metro.clip);
+                Invoke("playMetro", 0.1f); // allow for the 100ms delay in pd
             }
         }
 
@@ -75,7 +76,7 @@ public class clock : MonoBehaviour
             if (metronome && metro != null)
             {
                 metro.pitch = 1.5f;
-                metro.PlayOneShot(metro.clip);
+                Invoke("playMetro", 0.1f);
             }
         }
         time = bars.ToString() + ":0" + beats + ":" + pulses;
@@ -83,15 +84,22 @@ public class clock : MonoBehaviour
 
     }
 
+    private void playMetro()
+    {
+        metro.PlayOneShot(metro.clip);
+    }
+
     public void startPlayback()
     {
         if (!_dataLoader.dataFinishedLoading)
             return;
         pd.SendEvent(Hv_AccoPlayer_AudioLib.Event.Start);
+        isRunning = true;
     }
     public void stopPlayback()
     {
         pd.SendEvent(Hv_AccoPlayer_AudioLib.Event.Stop);
+        isRunning = false;
     }
 
     public void togglePlayback()

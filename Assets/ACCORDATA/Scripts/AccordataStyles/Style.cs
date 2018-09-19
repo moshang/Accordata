@@ -33,11 +33,13 @@ namespace AccordataStyle
                                             set to 1 to regenerate the sequence with the current data every bar, even if the data hasn't changed
                                             set to more than 1 to repeat the previously generated bar */
         public seqGenerator seqGen;
+        public uiController uiCtrl;
         public int newSeqAtBar = 0;
 
         private void OnEnable()
         {
             seqGen = GetComponentInParent<seqGenerator>();
+            uiCtrl = seqGen.uiCtrl;
         }
 
         public virtual void makeSeq(int barNum, int aqiVal, float tempVal, float windVal, float humidityVal, float rainVal)
@@ -45,7 +47,11 @@ namespace AccordataStyle
         }
 
         public virtual void initStyle(int newSeqBar)
-        { 
+        {
+        }
+
+        public virtual void doEveryBeat()
+        {
         }
     }
 }

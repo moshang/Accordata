@@ -84,6 +84,8 @@ public class uiController : MonoBehaviour
     toggleImage site72Ti;
     public SpriteRenderer chartIcon;
 
+    public Toggle playToggle;
+
     public GameObject topTextAll;
     public GameObject topTextCounty;
     public GameObject topTextSite;
@@ -99,7 +101,32 @@ public class uiController : MonoBehaviour
 
     [Header("DEBUG - don't populate with values manually")]
     public int currentSiteIndex = 0; // received from seqGenerator
-    public int currentCountyIndex = 0;
+    private int currentCountyIndex;
+    public int CurrentCountyIndex
+    {
+        get { return currentCountyIndex; }
+        set
+        {
+            currentCountyIndex = value;
+            updateCountyName();
+            if (currentMode == Mode.mapCounty)
+            {
+                if (clock.isRunning)
+                {
+                    seqGen.nextSiteIndex = sitesInCounty[CurrentCountyIndex][0];
+                    seqGen.countySiteIndex = 0;
+                }
+                else
+                {
+                    currentSiteIndex = sitesInCounty[CurrentCountyIndex][0];
+                    seqGen.thisSiteIndex = currentSiteIndex;
+                    seqGen.nextSiteIndex = 1 % sitesInCounty[CurrentCountyIndex].Length;
+                    seqGen.countySiteIndex = 0;
+                }
+            }
+        }
+    }
+
     public int currentHour = 71; // received from seqGenerator
 
     private userSettings settings;
@@ -289,6 +316,7 @@ public class uiController : MonoBehaviour
                 countyToggle.interactable = true;
                 mapGlobeIcon.color = countyTi.interactableColor;
                 mapSiteIcon.color = countyTi.interactableColor;
+                seqGen.thisHour = 0;
                 break;
             case Mode.mapCounty:
                 mapGO.SetActive(true);
@@ -300,6 +328,9 @@ public class uiController : MonoBehaviour
                 countyToggle.interactable = true;
                 mapGlobeIcon.color = countyTi.interactableColor;
                 mapSiteIcon.color = countyTi.interactableColor;
+                seqGen.nextSiteIndex = sitesInCounty[CurrentCountyIndex][0];
+                seqGen.countySiteIndex = 0;
+                seqGen.thisHour = 0;
                 break;
             case Mode.site72Hr:
                 mapGO.SetActive(false);
@@ -312,6 +343,8 @@ public class uiController : MonoBehaviour
                 mapGlobeIcon.color = countyTi.nonInteractableColor;
                 mapSiteIcon.color = countyTi.nonInteractableColor;
                 update72Hr();
+                seqGen.thisHour = 71;
+                seqGen.nextHour = 70;
                 break;
         }
         currentMode = mode;

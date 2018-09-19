@@ -10,7 +10,6 @@ public class selectCounty : MonoBehaviour
 
     public void setCounty()
     {
-        uiControl.currentCountyIndex = countyIndex;
-        uiControl.updateCountyName();
+        uiControl.CurrentCountyIndex = countyIndex;
     }
 }

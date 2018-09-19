@@ -17,10 +17,11 @@ public class seqGenerator : MonoBehaviour
     public int numScales;
     public int originalRootNote = 48;
     private int newValuesAtBar = 0;
-    private int thisSiteIndex = 0;
-    private int nextSiteIndex = 1;
-    private int thisHour = 71;
-    private int nextHour = 70;
+    public int thisSiteIndex = 0;
+    public int nextSiteIndex = 1;
+    public int countySiteIndex = 0; // the index into the array of siteIndices for a specific county
+    public int thisHour = 0;
+    public int nextHour = 70;
     private dataLoader data;
     public uiController uiCtrl;
     private int seqLength = 16;
@@ -81,6 +82,7 @@ public class seqGenerator : MonoBehaviour
 
     void everyBeat(int beat)
     {
+        styles[currentStyleIndex].doEveryBeat();
     }
 
     void everyBar(int bar)
@@ -89,18 +91,29 @@ public class seqGenerator : MonoBehaviour
         {
             if (bar != 0)
             {
-                if (uiController.currentMode == Mode.mapAll || uiController.currentMode == Mode.mapCounty)
+                switch (uiController.currentMode)
                 {
-                    thisSiteIndex = nextSiteIndex;
-                    uiCtrl.currentSiteIndex = thisSiteIndex;
-                    nextSiteIndex = (thisSiteIndex + 1) % dataLoader.numSites;
-                }
-                else if (uiController.currentMode == Mode.site72Hr)
-                {
-                    thisHour = nextHour;
-                    uiCtrl.currentHour = thisHour;
-                    uiCtrl.update72Hr();
-                    nextHour = ((thisHour - 1) >= 0) ? thisHour - 1 : dataLoader.hoursToRead - 1;
+                    case Mode.mapAll:
+                        thisSiteIndex = nextSiteIndex;
+                        uiCtrl.currentSiteIndex = thisSiteIndex;
+                        nextSiteIndex = (thisSiteIndex + 1) % dataLoader.numSites;
+                        thisHour = 0;
+                        break;
+                    case Mode.mapCounty:
+                        thisSiteIndex = nextSiteIndex;
+                        uiCtrl.currentSiteIndex = thisSiteIndex;
+                        countySiteIndex = (countySiteIndex + 1) % uiCtrl.sitesInCounty[uiCtrl.CurrentCountyIndex].Length;
+                        nextSiteIndex = (uiCtrl.sitesInCounty[uiCtrl.CurrentCountyIndex][countySiteIndex]);
+                        Debug.Log(uiCtrl.sitesInCounty[uiCtrl.CurrentCountyIndex].Length);
+                        Debug.Log("nextSiteIndex: " + nextSiteIndex);
+                        thisHour = 0;
+                        break;
+                    case Mode.site72Hr:
+                        thisHour = nextHour;
+                        uiCtrl.currentHour = thisHour;
+                        uiCtrl.update72Hr();
+                        nextHour = ((thisHour - 1) >= 0) ? thisHour - 1 : dataLoader.hoursToRead - 1;
+                        break;
                 }
             }
             Debug.Log("thisSiteIndex: " + thisSiteIndex);

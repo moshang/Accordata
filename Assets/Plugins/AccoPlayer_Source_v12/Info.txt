@@ -1,6 +1,0 @@
--> ACCORDATA <-
-
-AccoPlayer v11
-
-Open the _main.pd patch in Pure Data (vanilla) - download Pd at http://puredata.info/downloads
-The AccoSamplerVoice.pd abstraction is referenced by _main.pd and needs to be located alongside it

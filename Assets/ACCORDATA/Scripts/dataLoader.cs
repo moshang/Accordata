@@ -71,6 +71,7 @@ public class dataLoader : MonoBehaviour
         // don't allow switching to single site mode
         uiCtrl.site72HrToggle.interactable = false;
         uiCtrl.chartIcon.color = uiCtrl.countyTi.nonInteractableColor;
+        uiCtrl.playToggle.interactable = false;
 
         StartCoroutine(fetchData());
     }
@@ -153,6 +154,7 @@ public class dataLoader : MonoBehaviour
                 dataFinishedLoading = true;
                 uiCtrl.site72HrToggle.interactable = true;
                 uiCtrl.chartIcon.color = uiCtrl.countyTi.interactableColor;
+                uiCtrl.playToggle.interactable = true;
             }
         }
 
@@ -178,7 +180,7 @@ public class dataLoader : MonoBehaviour
             sites[i, siteIndex].aqi = aqiVal;
             if (aqiVal >= 0) // invalid/missing data is marked as -255
             {
-                aqiSlider[71 - i].value = (float)aqiVal / 300;
+                aqiSlider[71 - i].value = (float)aqiVal / 250;
                 aqiSlider[71 - i].transform.Find("Fill Area/Fill").GetComponent<Image>().color = uiCtrl.getAqiColor(aqiVal);
             }
             else

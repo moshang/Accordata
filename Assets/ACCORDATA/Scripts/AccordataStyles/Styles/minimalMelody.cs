@@ -42,9 +42,9 @@ public class minimalMelody : Style
     {
         if (barNum != newSeqAtBar)
             return;
-
         seq.clear();
-        int startNote = Random.Range(50, 70);
+        Debug.Log("Bar:" + barNum);
+        Debug.Log("AqiVal:" + aqiVal);
         melodyExists = false;
         // seq_0
         if (!melodyExists)

@@ -35,7 +35,7 @@ public class localization : MonoBehaviour
             case languages.eng:
                 if (insertCountyName)
                 {
-                    string newTerm = termEnglish.Replace("[county]", uiControl.countiesEn[uiControl.currentCountyIndex]);
+                    string newTerm = termEnglish.Replace("[county]", uiControl.countiesEn[uiControl.CurrentCountyIndex]);
                     txt.text = newTerm;
                 }
                 else if (insertSiteName)
@@ -49,7 +49,7 @@ public class localization : MonoBehaviour
             case languages.zhTw:
                 if (insertCountyName)
                 {
-                    string newTerm = termChinese.Replace("[county]", uiControl.countiesTwn[uiControl.currentCountyIndex]);
+                    string newTerm = termChinese.Replace("[county]", uiControl.countiesTwn[uiControl.CurrentCountyIndex]);
                     txt.text = newTerm;
                 }
                 else if (insertSiteName)

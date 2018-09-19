@@ -30,7 +30,7 @@ public class arper : Style
     public int originalRootNote = 48;
     private int rootNote;
     private int currentSeqGenScale;
-    private int newScaleOnBar;
+    //private int newScaleOnBar;
 
     public override void initStyle(int newSeqBar)
     {
@@ -41,24 +41,37 @@ public class arper : Style
         // style specific initializations
         rootNote = originalRootNote;
         currentSeqGenScale = 0;
-        newScaleOnBar += newValuesEveryXBars;
+        //newScaleOnBar += newValuesEveryXBars;
     }
 
     public override void makeSeq(int barNum, int aqiVal, float tempVal, float windVal, float humidityVal, float rainVal)
     {
+        /*
         if (barNum == newScaleOnBar)
         {
             currentSeqGenScale = (currentSeqGenScale + 1) % seqGen.numScales;
             seqGen.scale = (Scale)currentSeqGenScale;
             newScaleOnBar += newValuesEveryXBars;
         }
-
+        */
         if (barNum != newSeqAtBar)
             return;
 
         seq.clear();
 
         int notesInArp = Mathf.Clamp((int)utils.map(aqiVal % 100, 0, 50, 2, 6), 2, 5);
+
+        if (aqiVal < 50)
+            currentSeqGenScale = 0;
+        else if (aqiVal < 100)
+            currentSeqGenScale = 1;
+        else
+            currentSeqGenScale = 2;
+
+        seqGen.scale = (Scale)currentSeqGenScale;
+
+        Debug.Log("AqiVal:" + aqiVal);
+
         // ARP
         int scaleIndex = 0;
         for (int i = 0; i < 16; i++)
@@ -76,15 +89,26 @@ public class arper : Style
         }
 
         // repeating 2 notes
-        for (int i = 0; i < 16; i++)
+        if (uiCtrl.isActiveHumidity)
         {
-            if (i % 2 == 0)
+            int triadIndex = 0;
+
+            if (humidityVal <= 60)
+                triadIndex = 0;
+            else if (humidityVal <= 80)
+                triadIndex = 1;
+            else
+                triadIndex = 2;
+
+            for (int i = 0; i < 16; i++)
             {
-                seq.addNote(i, rootNote + seqGen.scales[(int)seqGen.scale, seqGen.triad[0]] + 24, 60 - i);
-                seq.addNote(i, rootNote + seqGen.scales[(int)seqGen.scale, seqGen.triad[1]] + 24, 60 - i);
+                if (i % 3 == 0)
+                {
+                    seq.addNote(i, rootNote + seqGen.scales[(int)seqGen.scale, seqGen.triad[triadIndex]] + 24, Random.Range(60, 80));
+                    seq.addNote(i, rootNote + seqGen.scales[(int)seqGen.scale, seqGen.triad[triadIndex + 1]] + 24, Random.Range(60, 80));
+                }
             }
         }
-
         // MELODY
         scaleIndex = 0;
         int lastNoteIndex = UnityEngine.Random.Range(0, seqGen.scales.GetLength(1));
