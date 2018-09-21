@@ -8,11 +8,15 @@ public class slidePanel : MonoBehaviour
 {
     [Header("-> ACCORDATA <-")]
     public RectTransform panel;
+    public RectTransform altPanel;
     public slideType type;
     public float outPos;
     public float inPos;
     public float slideTime;
- 
+    [Header("Site Toggle Specific")]
+    public bool isSiteToggle;
+    public GameObject siteDetails;
+    public GameObject sitesList;
     Toggle toggle;
 
 
@@ -49,6 +53,19 @@ public class slidePanel : MonoBehaviour
     {
         StopAllCoroutines();
         StartCoroutine(slide());
+        if (isSiteToggle)
+        {
+            if (uiController.currentMode == Mode.site72Hr)
+            {
+                sitesList.SetActive(true);
+                siteDetails.SetActive(false);
+            }
+            else
+            {
+                sitesList.SetActive(false);
+                siteDetails.SetActive(true);
+            }
+        }
     }
 
     IEnumerator slide()

@@ -3,27 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class selectStyle : MonoBehaviour
+public class selectSite : MonoBehaviour
 {
     // -> ACCORDATA <-
-    public int styleIndex; // needs to be assigned when the selector is instantiated in seqGenerator
-
-    private seqGenerator seqGen;
+    public int siteIndex;
     private Toggle toggle;
-    dataLoader dtl;
+    private seqGenerator seqGen;
 
     private void OnEnable()
     {
+        toggle = GetComponent<Toggle>();
         if (toggle == null)
             toggle = GetComponent<Toggle>();
         if (seqGen == null)
             seqGen = GameObject.Find("AccordataController").GetComponent<seqGenerator>();
-
     }
 
-    public void setStyle()
+    public void setSite()
     {
-        if (toggle.isOn)
-            seqGen.switchStyle(styleIndex);
+        seqGen.data.getData72HR(siteIndex);
     }
 }

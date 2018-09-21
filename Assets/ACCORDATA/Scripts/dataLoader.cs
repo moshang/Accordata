@@ -72,7 +72,6 @@ public class dataLoader : MonoBehaviour
         uiCtrl.site72HrToggle.interactable = false;
         uiCtrl.chartIcon.color = uiCtrl.countyTi.nonInteractableColor;
         uiCtrl.playToggle.interactable = false;
-
         StartCoroutine(fetchData());
     }
 
@@ -272,4 +271,6 @@ public class dataLoader : MonoBehaviour
         }
         return sliderColor;
     }
+
+
 }

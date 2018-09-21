@@ -75,6 +75,7 @@ public class uiController : MonoBehaviour
 
     public Toggle site72HrToggle;
     public Toggle countyToggle;
+    public Toggle siteCardToggle;
 
     // TOGGLE INTERACTABILITY
     [HideInInspector]
@@ -140,6 +141,11 @@ public class uiController : MonoBehaviour
 
     public setMute[] muteScripts;
 
+    // create the site selector list
+    public GameObject countyListItemPref;
+    public GameObject siteListItemPref;
+    public Transform siteListContent;
+
     private void Start()
     {
         siteCardAqiBG = siteCardAqi.GetComponent<Image>();
@@ -148,6 +154,7 @@ public class uiController : MonoBehaviour
         countyTi = countyToggle.GetComponent<toggleImage>();
         site72Ti = site72HrToggle.GetComponent<toggleImage>();
         sitesInCounty = new List<int[]> { Keelung, NewTaipei, Taipei, Taoyuan, Yilan, HsinchuCounty, Hsinchu, Miaoli, Taichung, Hualien, Nantou, Changhua, Yunlin, ChiayiCounty, Chiayi, Tainan, Kaohsiung, Taitung, Pingtung, Penghu, Kinmen, Lienchiang };
+        populateSiteSelectorList();
     }
 
     public void setMuteToggleRemote(valueType valType, bool val)
@@ -314,6 +321,7 @@ public class uiController : MonoBehaviour
                 topTextCounty.SetActive(false);
                 topTextSite.SetActive(false);
                 countyToggle.interactable = true;
+                siteCardToggle.isOn = false;
                 mapGlobeIcon.color = countyTi.interactableColor;
                 mapSiteIcon.color = countyTi.interactableColor;
                 seqGen.thisHour = 0;
@@ -326,6 +334,7 @@ public class uiController : MonoBehaviour
                 topTextCounty.SetActive(true);
                 topTextSite.SetActive(false);
                 countyToggle.interactable = true;
+                siteCardToggle.isOn = false;
                 mapGlobeIcon.color = countyTi.interactableColor;
                 mapSiteIcon.color = countyTi.interactableColor;
                 seqGen.nextSiteIndex = sitesInCounty[CurrentCountyIndex][0];
@@ -340,6 +349,7 @@ public class uiController : MonoBehaviour
                 topTextCounty.SetActive(false);
                 topTextSite.SetActive(true);
                 countyToggle.interactable = false;
+                siteCardToggle.isOn = false;
                 mapGlobeIcon.color = countyTi.nonInteractableColor;
                 mapSiteIcon.color = countyTi.nonInteractableColor;
                 update72Hr();
@@ -372,5 +382,37 @@ public class uiController : MonoBehaviour
         Vector3 playheadPos = playhead.transform.position;
         playheadPos.x = data.aqiSlider[71 - currentHour].transform.position.x;
         playhead.transform.position = playheadPos;
+    }
+
+    public void populateSiteSelectorList()
+    {
+        for (int i = 0; i < sitesInCounty.Count; i++)
+        {
+            // add the county header
+            GameObject newCountyHeader = Instantiate(countyListItemPref, siteListContent);
+            localization lcl = newCountyHeader.GetComponentInChildren<localization>();
+            lcl.termEnglish = countiesEn[i];
+            lcl.termChinese = countiesTwn[i];
+            if (userSettings.language == languages.eng)
+                newCountyHeader.GetComponentInChildren<Text>().text = lcl.termEnglish;
+            else
+                newCountyHeader.GetComponentInChildren<Text>().text = lcl.termChinese;
+
+            for (int j = 0; j < sitesInCounty[i].Length; j++)
+            {
+                // add UI buttons for each site
+                GameObject newSiteSelector = Instantiate(siteListItemPref, siteListContent);
+                selectSite slctSite = newSiteSelector.GetComponentInChildren<selectSite>();
+                slctSite.siteIndex = sitesInCounty[i][j];
+                slctSite.GetComponent<Toggle>().group = siteListContent.GetComponent<ToggleGroup>();
+                localization local = newSiteSelector.GetComponentInChildren<localization>();
+                local.termEnglish = data.EnglishNames[sitesInCounty[i][j]];
+                local.termChinese = data.ChineseNames[sitesInCounty[i][j]];
+                if (userSettings.language == languages.eng)
+                    newSiteSelector.GetComponentInChildren<Text>().text = local.termEnglish;
+                else
+                    newSiteSelector.GetComponentInChildren<Text>().text = local.termChinese;
+            }
+        }
     }
 }

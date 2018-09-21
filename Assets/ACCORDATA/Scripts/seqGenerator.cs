@@ -22,7 +22,7 @@ public class seqGenerator : MonoBehaviour
     public int countySiteIndex = 0; // the index into the array of siteIndices for a specific county
     public int thisHour = 0;
     public int nextHour = 70;
-    private dataLoader data;
+    public dataLoader data;
     public uiController uiCtrl;
     private int seqLength = 16;
 
@@ -62,8 +62,10 @@ public class seqGenerator : MonoBehaviour
                 Debug.Break();
             local.termEnglish = styles[i].StyleNameEng;
             local.termChinese = styles[i].StyleNameChTw;
-            //if ()
-            newStyleSelector.GetComponentInChildren<Text>().text = local.termEnglish;
+            if (userSettings.language == languages.eng)
+                newStyleSelector.GetComponentInChildren<Text>().text = local.termEnglish;
+            else
+                newStyleSelector.GetComponentInChildren<Text>().text = local.termChinese;
         }
 
         // set the first style as default
