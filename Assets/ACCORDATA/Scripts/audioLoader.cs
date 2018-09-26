@@ -5,7 +5,8 @@ using UnityEngine;
 public class audioLoader : MonoBehaviour
 {
     [Header("-> ACCORDATA <- Expects 28 audio clips in the clips array")]
-    public AudioClip[] clips;
+    public List<AudioClip[]> ensembles;
+    public AudioClip[] piano;
     public AudioClip cleanerClip;
 
     private Hv_AccoPlayer_AudioLib pd;
@@ -17,13 +18,21 @@ public class audioLoader : MonoBehaviour
 
     void Start()
     {
+        ensembles = new List<AudioClip[]>();
+        ensembles.Add(piano);
+        loadEnsemble(0);
+        Debug.Log("Audio loaded!");
+    }
+
+    private void loadEnsemble(int ens)
+    {
         for (int i = 0; i < 28; i++)
         {
-            // expecting a stereo file
-            float[] buffer = new float[clips[i].samples];
+
+            float[] buffer = new float[ensembles[ens][i].samples];
 
             // fill the table
-            clips[i].GetData(buffer, 0);
+            ensembles[ens][i].GetData(buffer, 0);
 
             int tabNoteNum = 27 + (i * 3);
             string tableName = "tab";
@@ -33,8 +42,6 @@ public class audioLoader : MonoBehaviour
             //Debug.Log(tableName);
             pd.FillTableWithFloatBuffer(tableName, buffer);
         }
-
-        Debug.Log("Audio loaded!");
     }
 
     public void clearSeqTables()

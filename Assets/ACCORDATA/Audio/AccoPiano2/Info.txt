@@ -1,7 +1,0 @@
-These samples are sourced from and is a subset of University of Iowa Electronic Music Studios
-http://theremin.music.uiowa.edu/MIS.html
-Specific license ifo is not known, but the first paragraph at the link states, "Since 1997, these recordings have been freely available on this website and may be downloaded and used for any projects, without restrictions."
-The piano samples can be found here:
-http://theremin.music.uiowa.edu/MISpiano.html
-
- 
