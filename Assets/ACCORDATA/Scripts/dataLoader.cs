@@ -66,7 +66,7 @@ public class dataLoader : MonoBehaviour
     private void Start()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep; // don't allow the screen to turn off as this unfortunately also kills audio
-        Application.targetFrameRate = 30;
+        //Application.targetFrameRate = 30;
 
         // don't allow switching to single site mode
         uiCtrl.site72HrToggle.interactable = false;
@@ -98,8 +98,6 @@ public class dataLoader : MonoBehaviour
 
     private void populateData(string[] data) // 78 sites for the most recent hour only
     {
-        //Debug.Log(data.Length);
-        //int tmpCounter = 0;
         int numHours = data.Length / 78;
 
         sites = new Sites[numHours, numSites];
@@ -111,9 +109,6 @@ public class dataLoader : MonoBehaviour
             for (int j = 0; j < numSites; j++)
             {
                 string[] siteData = data[(i * 78) + j].Split(',');
-                //int progress = (int)(((float)((i * 78) + j) / (data.Length / numHours) * hoursToRead) * 100);
-                //loadingProg.text = progress.ToString() + "%";
-                //yield return null;
 
                 sites[i, j].ChineseName = ChineseNames[j];
                 sites[i, j].EnglishName = siteData[1];
@@ -146,7 +141,7 @@ public class dataLoader : MonoBehaviour
                     //sites[i].marker.transform.parent = siteMarkers;
                     sites[i, j].marker.transform.SetParent(siteMarkers);
                     sites[i, j].marker.transform.localPosition = markerPos;
-                    sites[i, j].marker.transform.localScale = new Vector3(2, 2, 1);
+                    sites[i, j].marker.transform.localScale = new Vector3(1, 1, 1);
                     sites[i, j].marker.name = sites[i, j].EnglishName;
                     sites[i, j].marker.GetComponent<Image>().color = uiCtrl.getAqiColor(sites[i, j].aqi);
                 }

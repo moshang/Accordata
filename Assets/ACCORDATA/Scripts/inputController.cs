@@ -31,7 +31,7 @@ public class inputController : MonoBehaviour
         {
             // scroll up
             float scaleFactor = mapScale.x;
-            scaleFactor = Mathf.Clamp(scaleFactor + 0.1f, 0.7f, 5);
+            scaleFactor = Mathf.Clamp(scaleFactor + 0.1f, 0.5f, 10);
             mapScale.x = scaleFactor;
             mapScale.y = scaleFactor;
             mapPanel.localScale = mapScale;
@@ -40,7 +40,7 @@ public class inputController : MonoBehaviour
         {
             // scroll down
             float scaleFactor = mapScale.x;
-            scaleFactor = Mathf.Clamp(scaleFactor - 0.1f, 0.7f, 5);
+            scaleFactor = Mathf.Clamp(scaleFactor - 0.1f, 0.5f, 10);
             mapScale.x = scaleFactor;
             mapScale.y = scaleFactor;
             mapPanel.localScale = mapScale;
@@ -68,7 +68,7 @@ public class inputController : MonoBehaviour
 
             // ... change the canvas size based on the change in distance between the touches.
             float scaleFactor = mapScale.x;
-            scaleFactor = Mathf.Clamp(scaleFactor - (deltaMagnitudeDiff * zoomSpeed), 0.7f, 5);
+            scaleFactor = Mathf.Clamp(scaleFactor - (deltaMagnitudeDiff * zoomSpeed), 0.5f, 10);
             mapScale.x = scaleFactor;
             mapScale.y = scaleFactor;
             mapPanel.localScale = mapScale;
