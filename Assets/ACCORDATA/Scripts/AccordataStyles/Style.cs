@@ -53,5 +53,26 @@ namespace AccordataStyle
         public virtual void doEveryBeat()
         {
         }
+
+        public void setVol(string param, float newVal, float time)
+        {
+            StartCoroutine(adjustVol(param, newVal, time));
+        }
+
+        IEnumerator adjustVol(string param, float newVal, float time)
+        {
+            float startTime = Time.time;
+            float endTime = startTime + time;
+            float oldVal;
+            seqGen.mixer.GetFloat(param, out oldVal);
+            while (Time.time < endTime)
+            {
+                float progress = (Time.time - startTime) / time;
+                float currentVal = Mathf.Lerp(oldVal, newVal, progress);
+                seqGen.mixer.SetFloat(param, currentVal);
+                yield return null;
+            }
+            seqGen.mixer.SetFloat(param, newVal);
+        }
     }
 }

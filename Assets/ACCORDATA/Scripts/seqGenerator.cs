@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using AccordataStyle;
+using UnityEngine.Audio;
 
 public enum Scale { major, minor, dimished, pentatonic };
 public class seqGenerator : MonoBehaviour
@@ -38,6 +39,9 @@ public class seqGenerator : MonoBehaviour
     private float windVal;
     private float humidityVal;
     private float rainVal;
+
+    // reference to the mixer
+    public AudioMixer mixer;
 
     void Start()
     {
@@ -80,6 +84,7 @@ public class seqGenerator : MonoBehaviour
         int newSeqAtBar = styles[currentStyleIndex].newSeqAtBar;
         currentStyleIndex = styleIndex;
         styles[styleIndex].initStyle(newSeqAtBar);
+        newValuesAtBar = newSeqAtBar;
     }
 
     void everyBeat(int beat)

@@ -203,7 +203,7 @@ public class dataLoader : MonoBehaviour
             sites[i, siteIndex].windspeed = windVal;
             if (windVal >= 0)
             {
-                windSlider[71 - i].value = (float)windVal / 10;
+                windSlider[71 - i].value = (float)windVal / 20; // 20 m/s = gale on Beaufort scale
                 windSlider[71 - i].transform.Find("Fill Area/Fill").GetComponent<Image>().color = getSliderColor(windSlider[71 - i].value);
             }
             else

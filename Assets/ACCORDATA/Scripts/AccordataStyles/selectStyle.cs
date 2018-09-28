@@ -10,7 +10,6 @@ public class selectStyle : MonoBehaviour
 
     private seqGenerator seqGen;
     private Toggle toggle;
-    dataLoader dtl;
 
     private void OnEnable()
     {

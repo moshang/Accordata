@@ -7,6 +7,7 @@ public class audioLoader : MonoBehaviour
     [Header("-> ACCORDATA <- Expects 28 audio clips in the clips array")]
     public List<AudioClip[]> ensembles;
     public AudioClip[] piano;
+    public AudioClip[] pianoDrops;
     public AudioClip cleanerClip;
 
     private Hv_AccoPlayer_AudioLib pd;
@@ -19,8 +20,9 @@ public class audioLoader : MonoBehaviour
     void Start()
     {
         ensembles = new List<AudioClip[]>();
-        ensembles.Add(piano);
-        loadEnsemble(0);
+        ensembles.Add(piano); // ens 0
+        ensembles.Add(pianoDrops); // ens 1
+        loadEnsemble(1);
         Debug.Log("Audio loaded!");
     }
 
