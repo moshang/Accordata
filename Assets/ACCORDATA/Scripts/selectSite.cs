@@ -22,5 +22,8 @@ public class selectSite : MonoBehaviour
     public void setSite()
     {
         seqGen.data.getData72HR(siteIndex);
+        seqGen.thisSiteIndex = siteIndex;
+        seqGen.uiCtrl.currentSiteIndex = siteIndex;
+        seqGen.nextSiteIndex = (siteIndex + 1) % dataLoader.numSitesToUse;
     }
 }

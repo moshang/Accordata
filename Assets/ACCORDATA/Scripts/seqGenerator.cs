@@ -81,6 +81,7 @@ public class seqGenerator : MonoBehaviour
     /// <param name="styleIndex"></param>
     public void switchStyle(int styleIndex)
     {
+        styles[currentStyleIndex].killCoroutines(); // stop any coroutines that might be running in the old style
         int newSeqAtBar = styles[currentStyleIndex].newSeqAtBar;
         currentStyleIndex = styleIndex;
         styles[styleIndex].initStyle(newSeqAtBar);

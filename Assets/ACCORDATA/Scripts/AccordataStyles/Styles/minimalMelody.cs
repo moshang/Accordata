@@ -33,9 +33,11 @@ public class minimalMelody : Style
 
     public override void initStyle(int newSeqBar)
     {
+        seq.loadEnsemble(1);
         seq.setBPM(bpm);
         seqGen.scale = scale;
         newSeqAtBar = newSeqBar;
+        resetSFX();
     }
 
     public override void makeSeq(int barNum, int aqiVal, float tempVal, float windVal, float humidityVal, float rainVal)
@@ -57,7 +59,7 @@ public class minimalMelody : Style
                 for (int i = 0; i < seqLength; i++)
                 {
                     int noteNum = 0;
-                    if (i == 0 || Random.Range(0, 100) <= 20)  // use a fixed low value for teh bass line // noteDensity)
+                    if (i == 0 || Random.Range(0, 100) <= 20)  // use a fixed low value for the bass line // noteDensity)
                     {
                         noteNum = seqGen.originalRootNote + seqGen.scales[(int)seqGen.scale, Random.Range(0, 7)];
                         if (aqiVal <= 100)
@@ -145,6 +147,58 @@ public class minimalMelody : Style
             }
         }
 
+        // TEMPERATURE
+        if (uiCtrl.isActiveTemp)
+        {
+            if (tempVal > 20)
+            {
+                float newVal = (tempVal - 20) / 20;
+                newVal = Mathf.Lerp(-40, -10, newVal);
+                setVol("cicadaVol", newVal, 1);
+            }
+            else
+                setVol("cicadaVol", -80, 3);
+        }
+        else
+        {
+            setVol("cicadaVol", -80, 3);
+        }
+
+        // WIND
+        if (uiCtrl.isActiveWind)
+        {
+            if (windVal <= 0)
+            {
+                setVol("windLightVol", -80, 3);
+                setVol("windMediumVol", -80, 3);
+                setVol("windHeavyVol", -80, 3);
+            }
+            else if (windVal <= 6.6f)
+            {
+                setVol("windLightVol", -12, 3);
+                setVol("windMediumVol", -80, 3);
+                setVol("windHeavyVol", -80, 3);
+            }
+            else if (windVal <= 13.2f)
+            {
+                setVol("windLightVol", -12, 3);
+                setVol("windMediumVol", -6, 3);
+                setVol("windHeavyVol", -80, 3);
+            }
+            else
+            {
+                setVol("windLightVol", -12, 3);
+                setVol("windMediumVol", -12, 3);
+                setVol("windHeavyVol", -20, 3);
+            }
+        }
+        else
+        {
+            setVol("windLightVol", -80, 3);
+            setVol("windMediumVol", -80, 3);
+            setVol("windHeavyVol", -80, 3);
+        }
+
         // HUMIDITY
         if (uiCtrl.isActiveHumidity)
         {
@@ -160,27 +214,6 @@ public class minimalMelody : Style
                         seq.addNote(i, Random.Range(27, 33), Random.Range(70 + (int)humidityVal / 4, 100 + (int)humidityVal / 4));
                 }
             }
-        }
-
-        // TEMPERATURE
-        if (uiCtrl.isActiveTemp)
-        {
-            if (tempVal > 20)
-            {
-                float newVal = (tempVal - 20) / 20;
-                Debug.Log(newVal);
-                // float easedVal = Easings.ExponentialEaseIn(newVal);
-                //Debug.Log(easedVal);
-                newVal = Mathf.Lerp(-40, -10, newVal);
-                Debug.Log(newVal);
-                setVol("cicadaVol", newVal, 1);
-            }
-            else
-                setVol("cicadaVol", -80, 3);
-        }
-        else
-        {
-            setVol("cicadaVol", -80, 3);
         }
 
         // RAIN
@@ -220,17 +253,5 @@ public class minimalMelody : Style
 
         // schedule the next bar to create a new sequence on
         newSeqAtBar += newSeqEveryXBars;
-    }
-
-
-    public void regenMinimalMelody()
-    {
-        /*
-        melodyExists = false;
-        if (originalRootNote == 48)
-            originalRootNote = 55;
-        else
-            originalRootNote = 48;
-            */
     }
 }

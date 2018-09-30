@@ -33,6 +33,7 @@ public class quickStep : Style
         seq.setBPM(bpm);
         seqGen.scale = scale;
         newSeqAtBar = newSeqBar;
+        resetSFX();
 
         // style specific initializations
     }

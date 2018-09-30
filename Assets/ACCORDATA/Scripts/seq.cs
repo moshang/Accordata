@@ -42,4 +42,9 @@ public class seq : MonoBehaviour
     {
         pd.SetFloatParameter(Hv_AccoPlayer_AudioLib.Parameter.Bpm, bpm);
     }
+
+    public static void loadEnsemble(int ensIndex)
+    {
+        loader.loadEns(ensIndex);
+    }
 }

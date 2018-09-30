@@ -34,6 +34,7 @@ public class arper : Style
 
     public override void initStyle(int newSeqBar)
     {
+        seq.loadEnsemble(2);
         seq.setBPM(bpm);
         seqGen.scale = scale;
         newSeqAtBar = newSeqBar;
@@ -42,6 +43,7 @@ public class arper : Style
         rootNote = originalRootNote;
         currentSeqGenScale = 0;
         //newScaleOnBar += newValuesEveryXBars;
+        resetSFX();
     }
 
     public override void makeSeq(int barNum, int aqiVal, float tempVal, float windVal, float humidityVal, float rainVal)
@@ -74,9 +76,9 @@ public class arper : Style
 
         // ARP
         int scaleIndex = 0;
-        for (int i = 0; i < 16; i++)
+        for (int i = 0; i < seqLength; i++)
         {
-            int nnToAdd = rootNote + seqGen.scales[(int)seqGen.scale, seqGen.triad[scaleIndex % notesInArp]] - 12;
+            int nnToAdd = rootNote + 36 + seqGen.scales[(int)seqGen.scale, seqGen.triad[scaleIndex % notesInArp]];
             int velo = 0;
             if (i % 8 == 0)
                 velo = 127;
@@ -88,32 +90,47 @@ public class arper : Style
             scaleIndex++;
         }
 
-        // repeating 2 notes
+        // HUMIDITY (top 2 notes)
         if (uiCtrl.isActiveHumidity)
         {
+            int repetition = 0;
             int triadIndex = 0;
 
-            if (humidityVal <= 60)
-                triadIndex = 0;
-            else if (humidityVal <= 80)
-                triadIndex = 1;
-            else
-                triadIndex = 2;
-
-            for (int i = 0; i < 16; i++)
+            if (humidityVal <= 70)
             {
-                if (i % 3 == 0)
+                triadIndex = 0;
+                repetition = 4;
+            }
+            else if (humidityVal <= 80)
+            {
+                triadIndex = 1;
+                repetition = 3;
+            }
+            else if (humidityVal <= 90)
+            {
+                triadIndex = 1;
+                repetition = 2;
+            }
+            else
+            {
+                triadIndex = 2;
+                repetition = 2;
+            }
+            for (int i = 0; i < seqLength; i++)
+            {
+                if (i % repetition == 0)
                 {
-                    seq.addNote(i, rootNote + seqGen.scales[(int)seqGen.scale, seqGen.triad[triadIndex]] + 24, Random.Range(60, 80));
-                    seq.addNote(i, rootNote + seqGen.scales[(int)seqGen.scale, seqGen.triad[triadIndex + 1]] + 24, Random.Range(60, 80));
+                    seq.addNote(i, rootNote + seqGen.scales[(int)seqGen.scale, seqGen.triad[triadIndex]] + 48, Random.Range(90, 127));
+                    seq.addNote(i, rootNote + seqGen.scales[(int)seqGen.scale, seqGen.triad[triadIndex + 1]] + 48, Random.Range(90, 127));
                 }
             }
         }
+
         // MELODY
         scaleIndex = 0;
         int lastNoteIndex = UnityEngine.Random.Range(0, seqGen.scales.GetLength(1));
 
-        while (scaleIndex < 16)
+        while (scaleIndex < seqLength)
         {
             int newNoteIndex = UnityEngine.Random.Range(0, 5);
             seq.addNote(scaleIndex, rootNote + 12 + seqGen.scales[(int)seqGen.scale, newNoteIndex], Random.Range(30, 127));

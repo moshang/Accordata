@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class audioLoader : MonoBehaviour
 {
@@ -8,13 +9,24 @@ public class audioLoader : MonoBehaviour
     public List<AudioClip[]> ensembles;
     public AudioClip[] piano;
     public AudioClip[] pianoDrops;
+    public AudioClip[] pianoMarimba;
     public AudioClip cleanerClip;
 
     private Hv_AccoPlayer_AudioLib pd;
+    private clock clk;
+
+    // to allow for a delay when switching ensembles
+    private int ensToLoad;
+    private bool clockWasRunning;
+
+    const float ensChangeDelay = 0.3f;
+
+    public Toggle playToggle;
 
     private void OnEnable()
     {
         pd = GetComponent<Hv_AccoPlayer_AudioLib>();
+        clk = GetComponent<clock>();
     }
 
     void Start()
@@ -22,19 +34,32 @@ public class audioLoader : MonoBehaviour
         ensembles = new List<AudioClip[]>();
         ensembles.Add(piano); // ens 0
         ensembles.Add(pianoDrops); // ens 1
-        loadEnsemble(1);
+        ensembles.Add(pianoMarimba); // ens 2
+        loadEns(2);
         Debug.Log("Audio loaded!");
     }
 
-    private void loadEnsemble(int ens)
+    public void loadEns(int ens)
+    {
+
+
+        ensToLoad = ens;
+        clockWasRunning = clock.isRunning;
+        if (clockWasRunning)
+            playToggle.isOn = false; //clk.stopPlayback();
+
+        Invoke("ldEns", ensChangeDelay);
+    }
+
+    private void ldEns()
     {
         for (int i = 0; i < 28; i++)
         {
 
-            float[] buffer = new float[ensembles[ens][i].samples];
+            float[] buffer = new float[ensembles[ensToLoad][i].samples];
 
             // fill the table
-            ensembles[ens][i].GetData(buffer, 0);
+            ensembles[ensToLoad][i].GetData(buffer, 0);
 
             int tabNoteNum = 27 + (i * 3);
             string tableName = "tab";
@@ -44,6 +69,14 @@ public class audioLoader : MonoBehaviour
             //Debug.Log(tableName);
             pd.FillTableWithFloatBuffer(tableName, buffer);
         }
+        if (clockWasRunning)
+            Invoke("restartClock", ensChangeDelay);
+    }
+
+    private void restartClock()
+    {
+        if (Application.platform == RuntimePlatform.IPhonePlayer || Application.platform == RuntimePlatform.Android)
+            playToggle.isOn = true; //clk.startPlayback();
     }
 
     public void clearSeqTables()

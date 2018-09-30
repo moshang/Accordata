@@ -74,5 +74,26 @@ namespace AccordataStyle
             }
             seqGen.mixer.SetFloat(param, newVal);
         }
+
+        public void resetSFX()
+        {
+            Debug.Log("Boom!");
+            // temperature
+            setVol("cicadaVol", -80, 1);
+            // wind
+            setVol("windLightVol", -80, 1);
+            setVol("windMediumVol", -80, 1);
+            setVol("windHeavyVol", -80, 1);
+            // humidity
+            // rain
+            setVol("rainLightVol", -80, 1);
+            setVol("rainMediumVol", -80, 1);
+            setVol("rainHeavyVol", -80, 1);
+        }
+
+        public void killCoroutines()
+        {
+            StopAllCoroutines();
+        }
     }
 }

@@ -1,0 +1,6 @@
+Marimba samples sourced from:
+http://theremin.music.uiowa.edu/Mismarimba.html
+
+Used under the following understanding (at link):
+http://theremin.music.uiowa.edu/MIS.html
+"Since 1997, these recordings have been freely available on this website and may be downloaded and used for any projects, without restrictions."
