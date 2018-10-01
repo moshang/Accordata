@@ -43,6 +43,33 @@ public class seqGenerator : MonoBehaviour
     // reference to the mixer
     public AudioMixer mixer;
 
+    [Header("Default SFX Clips")]
+    public AudioClip tempLight;
+    public AudioClip tempMedium;
+    public AudioClip tempHeavy;
+    public AudioClip windLight;
+    public AudioClip windMedium;
+    public AudioClip windHeavy;
+    public AudioClip humidityLight;
+    public AudioClip humidityMedium;
+    public AudioClip humidityHeavy;
+    public AudioClip rainLight;
+    public AudioClip rainMedium;
+    public AudioClip rainHeavy;
+
+    public AudioSource tempLightAS;
+    public AudioSource tempMediumAS;
+    public AudioSource tempHeavyAS;
+    public AudioSource windLightAS;
+    public AudioSource windMediumAS;
+    public AudioSource windHeavyAS;
+    public AudioSource humidityLightAS;
+    public AudioSource humidityMediumAS;
+    public AudioSource humidityHeavyAS;
+    public AudioSource rainLightAS;
+    public AudioSource rainMediumAS;
+    public AudioSource rainHeavyAS;
+
     void Start()
     {
         data = GetComponent<dataLoader>();
@@ -134,5 +161,38 @@ public class seqGenerator : MonoBehaviour
             newValuesAtBar = bar + styles[currentStyleIndex].newValuesEveryXBars;
         }
         styles[currentStyleIndex].makeSeq(bar, aqiVal, tempVal, windVal, humidityVal, rainVal);
+    }
+
+    public void resetSFX()
+    {
+        styles[currentStyleIndex].resetSFX();
+    }
+
+    public void resetSfxClips()
+    {
+        tempLightAS.clip = tempLight;
+        tempLightAS.Play();
+        tempMediumAS.clip = tempMedium;
+        tempMediumAS.Play();
+        tempHeavyAS.clip = tempHeavy;
+        tempHeavyAS.Play();
+        windLightAS.clip = windLight;
+        windLightAS.Play();
+        windMediumAS.clip = windMedium;
+        windMediumAS.Play();
+        windHeavyAS.clip = windHeavy;
+        windHeavyAS.Play();
+        humidityLightAS.clip = humidityLight;
+        humidityLightAS.Play();
+        humidityMediumAS.clip = humidityMedium;
+        humidityMediumAS.Play();
+        humidityHeavyAS.clip = humidityHeavy;
+        humidityHeavyAS.Play();
+        rainLightAS.clip = rainLight;
+        rainLightAS.Play();
+        rainMediumAS.clip = rainMedium;
+        rainMediumAS.Play();
+        rainHeavyAS.clip = rainHeavy;
+        rainHeavyAS.Play();
     }
 }

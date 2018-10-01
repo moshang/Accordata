@@ -18,10 +18,15 @@ public class audioLoader : MonoBehaviour
     // to allow for a delay when switching ensembles
     private int ensToLoad;
     private bool clockWasRunning;
-
-    const float ensChangeDelay = 0.3f;
+    private int currentEns;
+    float ensChangeDelay = 0.3f;
 
     public Toggle playToggle;
+
+    public delegate void styleSelectActivation();
+    public static event styleSelectActivation OnStyleSelectActivation;
+    public delegate void styleSelectDeactivation();
+    public static event styleSelectDeactivation OnStyleSelectDeactivation;
 
     private void OnEnable()
     {
@@ -35,14 +40,21 @@ public class audioLoader : MonoBehaviour
         ensembles.Add(piano); // ens 0
         ensembles.Add(pianoDrops); // ens 1
         ensembles.Add(pianoMarimba); // ens 2
-        loadEns(2);
+        if (Application.platform == RuntimePlatform.IPhonePlayer || Application.platform == RuntimePlatform.Android)
+            ensChangeDelay = 0.3f;
+        else
+            ensChangeDelay = 1f;
         Debug.Log("Audio loaded!");
     }
 
     public void loadEns(int ens)
     {
-
-
+        if (ens == currentEns) // don't bother loading the ensemble if we already have the correct one loaded
+            return;
+        else
+            currentEns = ens;
+        CancelInvoke(); // stop any inocations that may already be running
+        deactivateStyleToggles();
         ensToLoad = ens;
         clockWasRunning = clock.isRunning;
         if (clockWasRunning)
@@ -71,12 +83,26 @@ public class audioLoader : MonoBehaviour
         }
         if (clockWasRunning)
             Invoke("restartClock", ensChangeDelay);
+
+        Invoke("reactivateStyleToggles", ensChangeDelay);
     }
 
     private void restartClock()
     {
-        if (Application.platform == RuntimePlatform.IPhonePlayer || Application.platform == RuntimePlatform.Android)
-            playToggle.isOn = true; //clk.startPlayback();
+        //if (Application.platform == RuntimePlatform.IPhonePlayer || Application.platform == RuntimePlatform.Android)
+        playToggle.isOn = true; //clk.startPlayback();
+    }
+
+    public void deactivateStyleToggles()
+    {
+        if (OnStyleSelectDeactivation != null) // tell all style toggles to reactivate
+            OnStyleSelectDeactivation();
+    }
+
+    public void reactivateStyleToggles()
+    {
+        if (OnStyleSelectActivation != null) // tell all style toggles to reactivate
+            OnStyleSelectActivation();
     }
 
     public void clearSeqTables()

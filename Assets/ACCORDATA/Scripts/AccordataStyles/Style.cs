@@ -77,18 +77,24 @@ namespace AccordataStyle
 
         public void resetSFX()
         {
-            Debug.Log("Boom!");
             // temperature
-            setVol("cicadaVol", -80, 1);
+            setVol("tempLightVol", -80, 1);
+            setVol("tempMediumVol", -80, 1);
+            setVol("tempHeavyVol", -80, 1);
             // wind
             setVol("windLightVol", -80, 1);
             setVol("windMediumVol", -80, 1);
             setVol("windHeavyVol", -80, 1);
             // humidity
+            setVol("humLightVol", -80, 1);
+            setVol("humMediumVol", -80, 1);
+            setVol("humHeavyVol", -80, 1);
             // rain
             setVol("rainLightVol", -80, 1);
             setVol("rainMediumVol", -80, 1);
             setVol("rainHeavyVol", -80, 1);
+
+            seqGen.resetSfxClips();
         }
 
         public void killCoroutines()

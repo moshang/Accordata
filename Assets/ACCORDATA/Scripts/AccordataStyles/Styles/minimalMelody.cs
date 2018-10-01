@@ -10,7 +10,7 @@ public class minimalMelody : Style
     {
         // Info about the style to display in the app
         StyleNameEng = "Minimal Melody";
-        StyleNameChTw = "Minimal Melody";
+        StyleNameChTw = "最小的旋律";
         ComposerNameEng = "MoShang";
         ComposerNameChTw = "莫尚";
         StyleInfoEng = "";
@@ -30,14 +30,17 @@ public class minimalMelody : Style
     private int noteDensity = 25; // likelyhood of this 16th note containing a note
     private int[] rmNoteNum;
     private bool melodyExists = false;
+    public AudioClip windLight;
 
     public override void initStyle(int newSeqBar)
     {
-        seq.loadEnsemble(1);
         seq.setBPM(bpm);
+        seq.loadEnsemble(1);
         seqGen.scale = scale;
         newSeqAtBar = newSeqBar;
         resetSFX();
+        seqGen.windLightAS.clip = windLight;
+        seqGen.windLightAS.Play();
     }
 
     public override void makeSeq(int barNum, int aqiVal, float tempVal, float windVal, float humidityVal, float rainVal)
@@ -154,14 +157,14 @@ public class minimalMelody : Style
             {
                 float newVal = (tempVal - 20) / 20;
                 newVal = Mathf.Lerp(-40, -10, newVal);
-                setVol("cicadaVol", newVal, 1);
+                setVol("tempLightVol", newVal, 1);
             }
             else
-                setVol("cicadaVol", -80, 3);
+                setVol("tempLightVol", -80, 3);
         }
         else
         {
-            setVol("cicadaVol", -80, 3);
+            setVol("tempLightVol", -80, 3);
         }
 
         // WIND

@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using AccordataStyle;
 
-public class arper : Style
+public class woodDrops : Style
 {
     // -> ACCORDATA <-
     private void Reset() // override the values in the parent class
     {
         // Info about the style to display in the app
-        StyleNameEng = "Arper";
-        StyleNameChTw = "Arper";
+        StyleNameEng = "WoodDrops";
+        StyleNameChTw = "木滴";
         ComposerNameEng = "MoShang";
         ComposerNameChTw = "莫尚";
         StyleInfoEng = "";
@@ -34,8 +34,8 @@ public class arper : Style
 
     public override void initStyle(int newSeqBar)
     {
-        seq.loadEnsemble(2);
         seq.setBPM(bpm);
+        seq.loadEnsemble(2);
         seqGen.scale = scale;
         newSeqAtBar = newSeqBar;
 
@@ -63,31 +63,84 @@ public class arper : Style
 
         int notesInArp = Mathf.Clamp((int)utils.map(aqiVal % 100, 0, 50, 2, 6), 2, 5);
 
-        if (aqiVal < 50)
+        // AQI determines the scale
+        if (aqiVal <= 50)
             currentSeqGenScale = 0;
-        else if (aqiVal < 100)
+        else if (aqiVal <= 100)
             currentSeqGenScale = 1;
         else
             currentSeqGenScale = 2;
 
         seqGen.scale = (Scale)currentSeqGenScale;
 
-        Debug.Log("AqiVal:" + aqiVal);
-
-        // ARP
-        int scaleIndex = 0;
-        for (int i = 0; i < seqLength; i++)
+        // AQI ARP
+        if (uiCtrl.isActiveAqi)
         {
-            int nnToAdd = rootNote + 36 + seqGen.scales[(int)seqGen.scale, seqGen.triad[scaleIndex % notesInArp]];
-            int velo = 0;
-            if (i % 8 == 0)
-                velo = 127;
-            else if (i % 4 == 0)
-                velo = 90;
+            int scaleIndex = 0;
+            for (int i = 0; i < seqLength; i++)
+            {
+                int nnToAdd = rootNote + 36 + seqGen.scales[(int)seqGen.scale, seqGen.triad[scaleIndex % notesInArp]];
+                int velo = 0;
+                if (i % 8 == 0)
+                    velo = 127;
+                else if (i % 4 == 0)
+                    velo = 90;
+                else
+                    velo = 45 + Random.Range(0, 10) + (int)utils.map(aqiVal, 0, 250, 0, 30);
+                seq.addNote(i, nnToAdd, velo);
+                scaleIndex++;
+            }
+        }
+
+        // TEMPERATURE
+        if (uiCtrl.isActiveTemp)
+        {
+            // MELODY
+            int scaleIndex = 0;
+            int lastNoteIndex = UnityEngine.Random.Range(0, seqGen.scales.GetLength(1));
+
+            while (scaleIndex < seqLength)
+            {
+                int newNoteIndex = UnityEngine.Random.Range(0, 5);
+                seq.addNote(scaleIndex, rootNote + 12 + seqGen.scales[(int)seqGen.scale, newNoteIndex], Random.Range(30, 127));
+                lastNoteIndex = newNoteIndex;
+                scaleIndex += UnityEngine.Random.Range(1, 3);
+            }
+        }
+
+        // WIND
+        if (uiCtrl.isActiveWind)
+        {
+            if (windVal <= 0)
+            {
+                setVol("windLightVol", -80, 3);
+                setVol("windMediumVol", -80, 3);
+                setVol("windHeavyVol", -80, 3);
+            }
+            else if (windVal <= 6.6f)
+            {
+                setVol("windLightVol", 10, 3);
+                setVol("windMediumVol", -80, 3);
+                setVol("windHeavyVol", -80, 3);
+            }
+            else if (windVal <= 13.2f)
+            {
+                setVol("windLightVol", 10, 3);
+                setVol("windMediumVol", -6, 3);
+                setVol("windHeavyVol", -80, 3);
+            }
             else
-                velo = 45;
-            seq.addNote(i, nnToAdd, velo);
-            scaleIndex++;
+            {
+                setVol("windLightVol", 10, 3);
+                setVol("windMediumVol", -12, 3);
+                setVol("windHeavyVol", -20, 3);
+            }
+        }
+        else
+        {
+            setVol("windLightVol", -80, 3);
+            setVol("windMediumVol", -80, 3);
+            setVol("windHeavyVol", -80, 3);
         }
 
         // HUMIDITY (top 2 notes)
@@ -126,16 +179,39 @@ public class arper : Style
             }
         }
 
-        // MELODY
-        scaleIndex = 0;
-        int lastNoteIndex = UnityEngine.Random.Range(0, seqGen.scales.GetLength(1));
-
-        while (scaleIndex < seqLength)
+        // RAIN
+        if (uiCtrl.isActiveRain)
         {
-            int newNoteIndex = UnityEngine.Random.Range(0, 5);
-            seq.addNote(scaleIndex, rootNote + 12 + seqGen.scales[(int)seqGen.scale, newNoteIndex], Random.Range(30, 127));
-            lastNoteIndex = newNoteIndex;
-            scaleIndex += UnityEngine.Random.Range(1, 3);
+            if (rainVal <= 0)
+            {
+                setVol("rainLightVol", -80, 5);
+                setVol("rainMediumVol", -80, 5);
+                setVol("rainHeavyVol", -80, 5);
+            }
+            else if (rainVal <= 20)
+            {
+                setVol("rainLightVol", -6, 3);
+                setVol("rainMediumVol", -80, 3);
+                setVol("rainHeavyVol", -80, 3);
+            }
+            else if (rainVal <= 40)
+            {
+                setVol("rainLightVol", -10, 3);
+                setVol("rainMediumVol", -16, 3);
+                setVol("rainHeavyVol", -80, 3);
+            }
+            else
+            {
+                setVol("rainLightVol", -10, 3);
+                setVol("rainMediumVol", -20, 3);
+                setVol("rainHeavyVol", -25, 3);
+            }
+        }
+        else
+        {
+            setVol("rainLightVol", -80, 5);
+            setVol("rainMediumVol", -80, 5);
+            setVol("rainHeavyVol", -80, 5);
         }
 
         // schedule the next bar to create a new sequence on

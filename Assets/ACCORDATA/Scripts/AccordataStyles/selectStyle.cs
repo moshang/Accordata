@@ -13,16 +13,28 @@ public class selectStyle : MonoBehaviour
 
     private void OnEnable()
     {
+
         if (toggle == null)
             toggle = GetComponent<Toggle>();
         if (seqGen == null)
             seqGen = GameObject.Find("AccordataController").GetComponent<seqGenerator>();
-
+        audioLoader.OnStyleSelectDeactivation += deactivateToggle;
+        audioLoader.OnStyleSelectActivation += activateToggle;
     }
 
     public void setStyle()
     {
         if (toggle.isOn)
             seqGen.switchStyle(styleIndex);
+    }
+
+    private void deactivateToggle()
+    {
+        toggle.interactable = false;
+    }
+
+    private void activateToggle()
+    {
+        toggle.interactable = true;
     }
 }

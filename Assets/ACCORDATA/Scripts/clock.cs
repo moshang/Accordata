@@ -8,6 +8,7 @@ public class clock : MonoBehaviour
     [Header("--> ACCORDATA <--")]
     public bool metronome = true;
     public dataLoader _dataLoader;
+    public audioLoader _audioLoader;
 
     [Header("Time")]
     public string time;
@@ -36,6 +37,8 @@ public class clock : MonoBehaviour
 
     // TEMP
     public samplePlayer sampler;
+
+    public seqGenerator seqGen;
 
     void Start()
     {
@@ -105,9 +108,18 @@ public class clock : MonoBehaviour
     public void togglePlayback()
     {
         if (playToggle.isOn)
+        {
             startPlayback();
+            if (Application.platform != RuntimePlatform.IPhonePlayer && Application.platform != RuntimePlatform.Android)
+                _audioLoader.deactivateStyleToggles();
+        }
         else
+        {
             stopPlayback();
+            seqGen.resetSFX();
+            if (Application.platform != RuntimePlatform.IPhonePlayer && Application.platform != RuntimePlatform.Android)
+                _audioLoader.reactivateStyleToggles();
+        }
     }
 
     public void testAudio()
