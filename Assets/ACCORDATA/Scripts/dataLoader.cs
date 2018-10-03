@@ -26,6 +26,10 @@ public class dataLoader : MonoBehaviour
     public Slider[] rainSlider;
 
     public const int hoursToRead = 72;
+
+    [Header("Help Arrow")]
+    public GameObject helpArrow;
+
     [HideInInspector]
     public bool dataFinishedLoading = false;
 
@@ -60,6 +64,7 @@ public class dataLoader : MonoBehaviour
     WWW www = null;
     string[] splitData;
 
+    [Header("72Hr Colors")]
     public Color lowValColor;
     public Color midValColor;
     public Color highValColor;
@@ -154,6 +159,8 @@ public class dataLoader : MonoBehaviour
         }
 
         loadingWheel.SetActive(false);
+        if (userSettings.firstRun == 1)
+            helpArrow.SetActive(true);
     }
 
     public void getData72HR(int siteIndex)

@@ -22,6 +22,7 @@ public class clock : MonoBehaviour
 
     [Header("Transport")]
     public Toggle playToggle;
+    public Toggle styleToggle;
 
     public delegate void PulseAction(int pulseNum); // a pulse event is sent every 16th note
     public static event PulseAction OnPulse;
@@ -31,12 +32,9 @@ public class clock : MonoBehaviour
     public static event BarAction OnBar;
 
     public static bool isRunning = false;
-
+    public GameObject helpArrow;
     // PD HEAVY
     Hv_AccoPlayer_AudioLib pd;
-
-    // TEMP
-    public samplePlayer sampler;
 
     public seqGenerator seqGen;
 
@@ -109,16 +107,16 @@ public class clock : MonoBehaviour
     {
         if (playToggle.isOn)
         {
+            userSettings.setFirstRun();
+            helpArrow.SetActive(false);
             startPlayback();
-            if (Application.platform != RuntimePlatform.IPhonePlayer && Application.platform != RuntimePlatform.Android)
-                _audioLoader.deactivateStyleToggles();
+            if (styleToggle.isOn)
+                styleToggle.isOn = false;
         }
         else
         {
             stopPlayback();
             seqGen.resetSFX();
-            if (Application.platform != RuntimePlatform.IPhonePlayer && Application.platform != RuntimePlatform.Android)
-                _audioLoader.reactivateStyleToggles();
         }
     }
 

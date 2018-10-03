@@ -23,11 +23,6 @@ public class audioLoader : MonoBehaviour
 
     public Toggle playToggle;
 
-    public delegate void styleSelectActivation();
-    public static event styleSelectActivation OnStyleSelectActivation;
-    public delegate void styleSelectDeactivation();
-    public static event styleSelectDeactivation OnStyleSelectDeactivation;
-
     private void OnEnable()
     {
         pd = GetComponent<Hv_AccoPlayer_AudioLib>();
@@ -54,7 +49,6 @@ public class audioLoader : MonoBehaviour
         else
             currentEns = ens;
         CancelInvoke(); // stop any inocations that may already be running
-        deactivateStyleToggles();
         ensToLoad = ens;
         clockWasRunning = clock.isRunning;
         if (clockWasRunning)
@@ -83,26 +77,12 @@ public class audioLoader : MonoBehaviour
         }
         if (clockWasRunning)
             Invoke("restartClock", ensChangeDelay);
-
-        Invoke("reactivateStyleToggles", ensChangeDelay);
     }
 
     private void restartClock()
     {
         //if (Application.platform == RuntimePlatform.IPhonePlayer || Application.platform == RuntimePlatform.Android)
         playToggle.isOn = true; //clk.startPlayback();
-    }
-
-    public void deactivateStyleToggles()
-    {
-        if (OnStyleSelectDeactivation != null) // tell all style toggles to reactivate
-            OnStyleSelectDeactivation();
-    }
-
-    public void reactivateStyleToggles()
-    {
-        if (OnStyleSelectActivation != null) // tell all style toggles to reactivate
-            OnStyleSelectActivation();
     }
 
     public void clearSeqTables()

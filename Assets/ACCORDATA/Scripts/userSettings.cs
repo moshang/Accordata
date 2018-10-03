@@ -7,7 +7,7 @@ public enum languages { eng, zhTw };
 public class userSettings : MonoBehaviour
 {
     [Header("--> ACCORDATA <--")]
-    public static languages language = languages.eng; // default
+    public static languages language = languages.zhTw; // default
 
     public delegate void LanguageChange();
     public static event LanguageChange OnLanguageChanged;
@@ -16,6 +16,9 @@ public class userSettings : MonoBehaviour
 
     public Toggle EngToggle;
     public Toggle ChTwToggle;
+
+    // should we show the help arrow?
+    public static int firstRun = 1; // 1 = true, 0 = false;
 
     private bool settingsLoaded = false;
 
@@ -54,11 +57,17 @@ public class userSettings : MonoBehaviour
             saveSettings();
             settingsLoaded = true;
         }
+
+        if (PlayerPrefs.HasKey("firstRun"))
+        {
+            firstRun = PlayerPrefs.GetInt("firstRun");
+        }
     }
 
-    private void saveSettings()
+    public static void saveSettings()
     {
         PlayerPrefs.SetInt("language", (int)language);
+        PlayerPrefs.SetInt("firstRun", firstRun);
     }
 
     public void setLanguage(languages lang, bool saveSets = true)
@@ -81,6 +90,15 @@ public class userSettings : MonoBehaviour
     public void setChinese()
     {
         setLanguage(languages.zhTw);
+    }
+
+    public static void setFirstRun()
+    {
+        if (firstRun == 1)
+        {
+            firstRun = 0;
+            saveSettings();
+        }
     }
 }
 
