@@ -12,12 +12,17 @@ public class localization : MonoBehaviour
     public bool insertSiteName = false;
     public uiController uiControl;
     public dataLoader data;
+    public Font fontEn;
+    public Font fontChTw;
+    public bool simplifica;
+
     Text txt;
 
     void OnEnable()
     {
         if (txt == null)
             txt = GetComponent<Text>();
+
         changeUiLanguage();
         userSettings.OnLanguageChanged += changeUiLanguage;
 
@@ -33,6 +38,8 @@ public class localization : MonoBehaviour
         switch (userSettings.language)
         {
             case languages.eng:
+                if (!simplifica)
+                    txt.font = fontEn;
                 if (insertCountyName)
                 {
                     string newTerm = termEnglish.Replace("[county]", uiControl.countiesEn[uiControl.CurrentCountyIndex]);
@@ -47,6 +54,8 @@ public class localization : MonoBehaviour
                     txt.text = termEnglish;
                 break;
             case languages.zhTw:
+                if (!simplifica)
+                    txt.font = fontChTw;
                 if (insertCountyName)
                 {
                     string newTerm = termChinese.Replace("[county]", uiControl.countiesTwn[uiControl.CurrentCountyIndex]);

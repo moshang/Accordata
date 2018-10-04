@@ -79,6 +79,9 @@ MonoBehaviour:
   insertSiteName: 0
   uiControl: {fileID: 0}
   data: {fileID: 0}
+  fontEn: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+  fontChTw: {fileID: 12800000, guid: f0a6967cba1567b498355985892a255c, type: 3}
+  simplifica: 0
 --- !u!114 &114297744681022284
 MonoBehaviour:
   m_ObjectHideFlags: 1

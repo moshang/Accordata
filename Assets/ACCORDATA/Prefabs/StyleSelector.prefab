@@ -437,11 +437,11 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 45
     m_FontStyle: 0
     m_BestFit: 1
-    m_MinSize: 10
-    m_MaxSize: 75
+    m_MinSize: 0
+    m_MaxSize: 45
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -561,6 +561,9 @@ MonoBehaviour:
   insertSiteName: 0
   uiControl: {fileID: 0}
   data: {fileID: 0}
+  fontEn: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+  fontChTw: {fileID: 12800000, guid: f0a6967cba1567b498355985892a255c, type: 3}
+  simplifica: 0
 --- !u!222 &222185245498095090
 CanvasRenderer:
   m_ObjectHideFlags: 1
