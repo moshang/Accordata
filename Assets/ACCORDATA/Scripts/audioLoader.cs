@@ -25,7 +25,8 @@ public class audioLoader : MonoBehaviour
     public AudioClip[] piano;
     public AudioClip[] pianoDrops;
     public AudioClip[] pianoMarimba;
-    public AudioClip cleanerClip;
+
+    public AudioClip cleanerClip; // to clean sequencer tables
 
     private Hv_AccoPlayer_AudioLib pd;
     private clock clk;
@@ -35,8 +36,10 @@ public class audioLoader : MonoBehaviour
     private bool clockWasRunning;
     private int currentEns;
     float ensChangeDelay = 0.3f;
+    public static bool ensIsLoading = false;
 
     public Toggle playToggle;
+    public toggleImage playToggleImage;
 
     private void OnEnable()
     {
@@ -50,7 +53,7 @@ public class audioLoader : MonoBehaviour
         ensembles.Add(piano); // ens 0
         ensembles.Add(pianoDrops); // ens 1
         ensembles.Add(pianoMarimba); // ens 2
-        if (Application.platform == RuntimePlatform.IPhonePlayer || Application.platform == RuntimePlatform.Android)
+        if (Application.platform == RuntimePlatform.Android) // Application.platform == RuntimePlatform.IPhonePlayer || 
             ensChangeDelay = 0.3f;
         else
             ensChangeDelay = 1f;
@@ -59,15 +62,21 @@ public class audioLoader : MonoBehaviour
 
     public void loadEns(int ens)
     {
+        if (ensIsLoading)
+            return;
         if (ens == currentEns) // don't bother loading the ensemble if we already have the correct one loaded
             return;
         else
             currentEns = ens;
         CancelInvoke(); // stop any inocations that may already be running
         ensToLoad = ens;
+        ensIsLoading = true;
         clockWasRunning = clock.isRunning;
         if (clockWasRunning)
             playToggle.isOn = false; //clk.stopPlayback();
+
+        playToggle.interactable = false;
+        playToggleImage.image.color = playToggleImage.nonInteractableColor;
 
         Invoke("ldEns", ensChangeDelay);
     }
@@ -90,16 +99,19 @@ public class audioLoader : MonoBehaviour
             //Debug.Log(tableName);
             pd.FillTableWithFloatBuffer(tableName, buffer);
         }
-        if (clockWasRunning)
-            Invoke("restartClock", ensChangeDelay);
+        ensIsLoading = false;
+        playToggle.interactable = true;
+        playToggleImage.image.color = playToggleImage.interactableColor;
+        //if (clockWasRunning)
+        //    Invoke("restartClock", ensChangeDelay);
     }
-
+    /*
     private void restartClock()
     {
         //if (Application.platform == RuntimePlatform.IPhonePlayer || Application.platform == RuntimePlatform.Android)
         playToggle.isOn = true; //clk.startPlayback();
     }
-
+    */
     public void clearSeqTables()
     {
         for (int i = 0; i < 16; i++)
