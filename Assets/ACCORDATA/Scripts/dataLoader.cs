@@ -84,6 +84,9 @@ public class dataLoader : MonoBehaviour
     public Color midValColor;
     public Color highValColor;
 
+    [Header("Error Message")]
+    public GameObject errorPanel;
+
     private void Start()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep; // don't allow the screen to turn off as this unfortunately also kills audio
@@ -93,18 +96,27 @@ public class dataLoader : MonoBehaviour
         uiCtrl.site72HrToggle.interactable = false;
         uiCtrl.chartIcon.color = uiCtrl.countyTi.nonInteractableColor;
         uiCtrl.playToggle.interactable = false;
+        loadData();
+    }
+
+    public void loadData()
+    {
         StartCoroutine(fetchData());
     }
 
     IEnumerator fetchData()
     {
+        loadingWheel.SetActive(true);
         using (www = new WWW("http://accordata.org/scraper/weather.csv"))
         {
             //Debug.Log("Starting!");
             yield return www;
             //Debug.Log("Done!");
             if (!string.IsNullOrEmpty(www.error))
+            {
                 Debug.Log(www.error);
+                showDataErrorMessage();
+            }
             else
             {
                 string data = www.text;
@@ -290,5 +302,9 @@ public class dataLoader : MonoBehaviour
         return sliderColor;
     }
 
-
+    private void showDataErrorMessage()
+    {
+        loadingWheel.SetActive(false);
+        errorPanel.SetActive(true);
+    }
 }

@@ -122,7 +122,7 @@ PlayerSettings:
     16:10: 0
     16:9: 0
     Others: 0
-  bundleVersion: 1.0
+  bundleVersion: 1.11
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -259,7 +259,7 @@ PlayerSettings:
   m_AndroidBanners:
   - width: 320
     height: 180
-    banner: {fileID: 0}
+    banner: {fileID: 2800000, guid: 7c92217b3711a9e40bd90ab2c0cb851f, type: 3}
   androidGamepadSupportLevel: 0
   resolutionDialogBanner: {fileID: 0}
   m_BuildTargetIcons:
@@ -311,76 +311,40 @@ PlayerSettings:
   - m_BuildTarget: Android
     m_Icons:
     - m_Textures:
-      - {fileID: 2800000, guid: 1559373f63ab5a541ad4e69f6a31d74d, type: 3}
+      - {fileID: 2800000, guid: 35ff518b5a66a8b479320e9aa89535c8, type: 3}
       m_Width: 192
       m_Height: 192
       m_Kind: 1
       m_SubKind: 
     - m_Textures:
-      - {fileID: 0}
+      - {fileID: 2800000, guid: 35ff518b5a66a8b479320e9aa89535c8, type: 3}
       m_Width: 144
       m_Height: 144
       m_Kind: 1
       m_SubKind: 
     - m_Textures:
-      - {fileID: 0}
+      - {fileID: 2800000, guid: 35ff518b5a66a8b479320e9aa89535c8, type: 3}
       m_Width: 96
       m_Height: 96
       m_Kind: 1
       m_SubKind: 
     - m_Textures:
-      - {fileID: 0}
+      - {fileID: 2800000, guid: 35ff518b5a66a8b479320e9aa89535c8, type: 3}
       m_Width: 72
       m_Height: 72
       m_Kind: 1
       m_SubKind: 
     - m_Textures:
-      - {fileID: 0}
+      - {fileID: 2800000, guid: 35ff518b5a66a8b479320e9aa89535c8, type: 3}
       m_Width: 48
       m_Height: 48
       m_Kind: 1
       m_SubKind: 
     - m_Textures:
-      - {fileID: 0}
+      - {fileID: 2800000, guid: 35ff518b5a66a8b479320e9aa89535c8, type: 3}
       m_Width: 36
       m_Height: 36
       m_Kind: 1
-      m_SubKind: 
-    - m_Textures:
-      - {fileID: 2800000, guid: 1559373f63ab5a541ad4e69f6a31d74d, type: 3}
-      m_Width: 192
-      m_Height: 192
-      m_Kind: 0
-      m_SubKind: 
-    - m_Textures:
-      - {fileID: 0}
-      m_Width: 144
-      m_Height: 144
-      m_Kind: 0
-      m_SubKind: 
-    - m_Textures:
-      - {fileID: 0}
-      m_Width: 96
-      m_Height: 96
-      m_Kind: 0
-      m_SubKind: 
-    - m_Textures:
-      - {fileID: 0}
-      m_Width: 72
-      m_Height: 72
-      m_Kind: 0
-      m_SubKind: 
-    - m_Textures:
-      - {fileID: 0}
-      m_Width: 48
-      m_Height: 48
-      m_Kind: 0
-      m_SubKind: 
-    - m_Textures:
-      - {fileID: 0}
-      m_Width: 36
-      m_Height: 36
-      m_Kind: 0
       m_SubKind: 
     - m_Textures:
       - {fileID: 2800000, guid: 8a61190e1782ed14a8cf2917e6b1f0fd, type: 3}
@@ -413,6 +377,42 @@ PlayerSettings:
       m_Width: 81
       m_Height: 81
       m_Kind: 2
+      m_SubKind: 
+    - m_Textures:
+      - {fileID: 2800000, guid: 4ed6b9dcd9a6cde4d92f5312696cecd9, type: 3}
+      m_Width: 192
+      m_Height: 192
+      m_Kind: 0
+      m_SubKind: 
+    - m_Textures:
+      - {fileID: 2800000, guid: 4ed6b9dcd9a6cde4d92f5312696cecd9, type: 3}
+      m_Width: 144
+      m_Height: 144
+      m_Kind: 0
+      m_SubKind: 
+    - m_Textures:
+      - {fileID: 2800000, guid: 4ed6b9dcd9a6cde4d92f5312696cecd9, type: 3}
+      m_Width: 96
+      m_Height: 96
+      m_Kind: 0
+      m_SubKind: 
+    - m_Textures:
+      - {fileID: 2800000, guid: 4ed6b9dcd9a6cde4d92f5312696cecd9, type: 3}
+      m_Width: 72
+      m_Height: 72
+      m_Kind: 0
+      m_SubKind: 
+    - m_Textures:
+      - {fileID: 2800000, guid: 4ed6b9dcd9a6cde4d92f5312696cecd9, type: 3}
+      m_Width: 48
+      m_Height: 48
+      m_Kind: 0
+      m_SubKind: 
+    - m_Textures:
+      - {fileID: 2800000, guid: 4ed6b9dcd9a6cde4d92f5312696cecd9, type: 3}
+      m_Width: 36
+      m_Height: 36
+      m_Kind: 0
       m_SubKind: 
   - m_BuildTarget: iPhone
     m_Icons:
