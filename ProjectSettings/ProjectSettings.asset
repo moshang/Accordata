@@ -63,7 +63,7 @@ PlayerSettings:
   allowedAutorotateToPortraitUpsideDown: 1
   allowedAutorotateToLandscapeRight: 1
   allowedAutorotateToLandscapeLeft: 1
-  useOSAutorotation: 1
+  useOSAutorotation: 0
   use32BitDisplayBuffer: 1
   preserveFramebufferAlpha: 0
   disableDepthAndStencilBuffers: 0
@@ -158,7 +158,7 @@ PlayerSettings:
     Android: com.StoneBell.AirQuality
     iOS: com.StoneBell.Accordata.moshang
   buildNumber:
-    iOS: 8
+    iOS: 10
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 16
   AndroidTargetSdkVersion: 0
