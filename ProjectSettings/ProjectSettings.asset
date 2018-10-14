@@ -122,7 +122,7 @@ PlayerSettings:
     16:10: 0
     16:9: 0
     Others: 0
-  bundleVersion: 1.11
+  bundleVersion: 1.12
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -159,7 +159,7 @@ PlayerSettings:
     iOS: com.StoneBell.Accordata.moshang
   buildNumber:
     iOS: 11
-  AndroidBundleVersionCode: 1011
+  AndroidBundleVersionCode: 1012
   AndroidMinSdkVersion: 16
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
