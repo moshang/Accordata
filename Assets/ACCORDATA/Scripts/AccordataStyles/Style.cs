@@ -116,9 +116,9 @@ namespace AccordataStyle
             if (useDelay)
             {
                 delay.enabled = true;
-                delay.delay = delayTimeMS;
-                delay.wetMix = delayMix;
-                delay.decayRatio = delayDecay;
+                setDelayTime(delayTimeMS);
+                setDelayMix(delayMix);
+                setDelayDecay(delayDecay);
             }
             else
                 delay.enabled = false;
@@ -146,6 +146,21 @@ namespace AccordataStyle
         public void killCoroutines()
         {
             StopAllCoroutines();
+        }
+
+        public void setDelayTime(int dlyTimeMS)
+        {
+            delay.delay = dlyTimeMS;
+        }
+
+        public void setDelayDecay(float dlyDecay)
+        {
+            delay.decayRatio = dlyDecay;
+        }
+
+        public void setDelayMix(float dlyMix)
+        {
+            delay.wetMix = dlyMix;
         }
     }
 }

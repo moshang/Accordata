@@ -25,6 +25,7 @@ public class seq : MonoBehaviour
     public static seq instance;
     static int[] voiceToUse;
     static audioLoader loader;
+
     // Use this for initialization
     private void OnEnable()
     {
@@ -48,7 +49,9 @@ public class seq : MonoBehaviour
         voiceToUse[stepnum] = (voiceToUse[stepnum] + 1) % 8;
     }
 
-    public static void sendNotes()
+    // TODO throttle the sending of notes to the AccoPlayer by buffering the notes in a list
+    /*
+    public static void sendNotes() 
     {
         instance.StartCoroutine(instance.sendNotesThrottled());
     }
@@ -58,7 +61,7 @@ public class seq : MonoBehaviour
 
         yield return null;
     }
-
+    */
     public static void clear()
     {
         loader.clearSeqTables();

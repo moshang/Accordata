@@ -45,22 +45,36 @@ public class reggaeRedux : Style
         useDelay = true;
         delayTimeMS = 865;
         delayDecay = 0.5f;
-        delayMix = 0.0f;
+        delayMix = 0.15f;
     }
 
     // Style Specific Variables
-    bool Bar2ofPair; // the style plays two bars per site and we need to keep track of whether it's the 1st or 2nd bar of the pair
-    private int[,] bass = {
+    public AudioClip tempLight;
+    public AudioClip windLight;
+
+    private bool Bar2ofPair; // the style plays two bars per site and we need to keep track of whether it's the 1st or 2nd bar of the pair
+    private readonly int[,] bass = {
+        // bar 1 of pair
         {33, 0, 0, 0, 45, 0, 0, 0, 33, 0, 0, 0, 0, 0, 0, 0 },
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+        {33, 0, 0, 0, 45, 0, 0, 0, 33, 0, 0, 0, 33, 0, 45, 0 },
+        {33, 33, 33, 0, 45, 0, 0, 0, 33, 0, 0, 0, 0, 0, 33, 0 },
+        {33, 0, 45, 0, 33, 0, 0, 0, 33, 0, 0, 0, 33, 0, 0, 0 },
+        {33, 0, 0, 0, 45, 0, 0, 0, 33, 0, 0, 0, 33, 0, 45, 0 },
+        // bar 2 of pair
+        {33, 0, 0, 0, 45, 0, 33, 0, 45, 45, 45, 45, 40, 0, 40, 0 },
+        {33, 0, 0, 0, 45, 0, 0, 0, 45, 0, 45, 45, 40, 0, 45, 0 },
+        {33, 0, 45, 0, 33, 0,  45, 33, 38, 38, 38, 38, 40, 0, 40, 38 },
+        {33, 0, 45, 0, 33, 0, 0, 0, 33, 0, 0, 0, 33, 0, 0, 0 },
+        {33, 0, 0, 0, 45, 0, 0, 0, 33, 0, 0, 0, 33, 0, 45, 0 }
     };
 
-    private int[,] keys = {
+    private readonly int[,] keys = {
         {0, 0, 57, 0, 0, 0, 57, 0, 0, 0, 57, 0, 0, 0, 57, 0 },
         {0, 0, 60, 0, 0, 0, 60, 0, 0, 0, 60, 0, 0, 0, 60, 0 },
-        {0, 0, 64, 0, 0, 0, 46, 0, 0, 0, 64, 0, 0, 0, 64, 0 },
+        {0, 0, 64, 0, 0, 0, 64, 0, 0, 0, 64, 0, 0, 0, 64, 0 },
+        {0, 0, 57, 0, 0, 0, 57, 0, 0, 0, 64, 0, 0, 0, 62, 0 },
+        {0, 0, 60, 0, 0, 0, 60, 0, 0, 0, 67, 0, 0, 0, 65, 0 },
+        {0, 0, 64, 0, 0, 0, 64, 0, 0, 0, 71, 0, 0, 0, 69, 0 },
     };
 
 
@@ -71,7 +85,13 @@ public class reggaeRedux : Style
         seqGen.scale = scale;
         newSeqAtBar = newSeqBar;
         resetSFX();
+
         // style specific initializations
+        seqGen.windLightAS.clip = windLight;
+        seqGen.windLightAS.Play();
+        seqGen.tempLightAS.clip = tempLight;
+        seqGen.tempLightAS.Play();
+
         Bar2ofPair = false;
     }
 
@@ -93,18 +113,24 @@ public class reggaeRedux : Style
 
         for (int i = 0; i < seqLength; i++)
         {
+            // AQI
             if (uiCtrl.isActiveAqi) // check if the value is active or muted in the ui
             {
                 // kick
-                if (i == 0 || i == 8)
+                if (i == 0 || (i == 8 && aqiVal > 50))
+                    seq.addNote(i, 27, 110);
+                if ((i == 4 || i == 12) && aqiVal > 50)
                     seq.addNote(i, 27, 110);
                 if (i == 14 && Bar2ofPair)
                     seq.addNote(i, 29, 90);
                 // snare
-                if (i == 4 || i == 12)
-                    seq.addNote(i, 30, 110);
-                else if (i % 3 == 0 && Random.Range(0, 100) < 5)
-                    seq.addNote(i, 31, 110);
+                if (aqiVal > 30)
+                {
+                    if (i == 4 || (i == 12 && aqiVal > 50))
+                        seq.addNote(i, 30, 110);
+                    else if (i % 3 == 0 && Random.Range(0, 100) < (aqiVal / 12))
+                        seq.addNote(i, 31, 110);
+                }
                 // hats
                 if (i % 8 == 0)
                     seq.addNote(i, 110, 127);
@@ -113,24 +139,46 @@ public class reggaeRedux : Style
                 else
                     seq.addNote(i, 108, Random.Range(90, 105));
                 // bass
-                seq.addNote(i, bass[0, i], Random.Range(117, 127));
+                if (!Bar2ofPair)
+                {
+                    int bassPhrase = Random.Range(0, 4);
+                    if (bass[bassPhrase, i] != 0)
+                        seq.addNote(i, bass[bassPhrase, i], Random.Range(117, 127));
+                }
+                else
+                {
+                    int bassPhrase = Random.Range(5, 8);
+                    if (bass[bassPhrase, i] != 0)
+                        seq.addNote(i, bass[bassPhrase, i], Random.Range(117, 127));
+                }
             }
-            /*
-            if (uiCtrl.isActiveTemp) // check if the value is active or muted in the ui
-            {
-                seq.addNote(0, 0, 0);
-            }
-            if (uiCtrl.isActiveWind) // check if the value is active or muted in the ui
-            {
-                seq.addNote(0, 0, 0);
-            }
-                       */
+
+            // HUMIDITY
             if (uiCtrl.isActiveHumidity) // check if the value is active or muted in the ui
             {
-                /*
-                for (int j = 0; j < 3; j++) // 3 notes in the triad
-                    seq.addNote(i, keys[j, i], Random.Range(108, 117));
-                    */
+                if ((i == 6 || i == 14) && humidityVal < 85)
+                {
+                    // do nothing
+                }
+                else
+                {
+                    if (!Bar2ofPair)
+                    {
+                        for (int j = 0; j < 3; j++) // 3 notes in the triad
+                        {
+                            if (keys[j, i] != 0)
+                                seq.addNote(i, keys[j, i], (int)Random.Range(90, (90 + (humidityVal - 85))));
+                        }
+                    }
+                    else
+                    {
+                        for (int j = 3; j < 6; j++) // 3 notes in the triad
+                        {
+                            if (keys[j, i] != 0)
+                                seq.addNote(i, keys[j, i], (int)Random.Range(90, (90 + (humidityVal - 85))));
+                        }
+                    }
+                }
             }
             /*
             if (uiCtrl.isActiveRain) // check if the value is active or muted in the ui
@@ -139,6 +187,64 @@ public class reggaeRedux : Style
             }
             */
         }
+
+        // TEMPERATURE
+        if (uiCtrl.isActiveTemp)
+        {
+            if (tempVal > 20)
+            {
+                float newVal = (tempVal - 20) / 20;
+                newVal = Mathf.Lerp(-20, 0, newVal);
+                setVol("tempLightVol", newVal, 1);
+            }
+            else
+                setVol("tempLightVol", -80, 3);
+        }
+        else
+        {
+            setVol("tempLightVol", -80, 3);
+        }
+
+        // WIND
+        if (uiCtrl.isActiveWind)
+        {
+            if (windVal <= 0)
+            {
+                setVol("windLightVol", -80, 3);
+                setVol("windMediumVol", -80, 3);
+                setVol("windHeavyVol", -80, 3);
+            }
+            else if (windVal <= 6.6f)
+            {
+                setVol("windLightVol", -24, 3);
+                setVol("windMediumVol", -80, 3);
+                setVol("windHeavyVol", -80, 3);
+            }
+            else if (windVal <= 13.2f)
+            {
+                setVol("windLightVol", -18, 3);
+                setVol("windMediumVol", -6, 3);
+                setVol("windHeavyVol", -80, 3);
+            }
+            else
+            {
+                setVol("windLightVol", -12, 3);
+                setVol("windMediumVol", -12, 3);
+                setVol("windHeavyVol", -20, 3);
+            }
+        }
+        else
+        {
+            setVol("windLightVol", -80, 3);
+            setVol("windMediumVol", -80, 3);
+            setVol("windHeavyVol", -80, 3);
+        }
+
+
+        if (uiCtrl.isActiveRain)
+            setDelayMix(Easings.QuadraticEaseOut(utils.map(Mathf.Clamp(rainVal, 0, 60), 0, 60, 0.15f, 0.75f)));
+        else
+            setDelayMix(0.15f);
 
         // schedule the next bar at which to create a new sequence
         newSeqAtBar += newSeqEveryXBars;
