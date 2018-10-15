@@ -23299,6 +23299,7 @@ GameObject:
   - component: {fileID: 421176153}
   - component: {fileID: 421176154}
   - component: {fileID: 421176155}
+  - component: {fileID: 421176156}
   m_Layer: 0
   m_Name: Styles
   m_TagString: Untagged
@@ -23344,6 +23345,12 @@ MonoBehaviour:
   seqGen: {fileID: 0}
   uiCtrl: {fileID: 0}
   newSeqAtBar: 0
+  useReverb: 1
+  revrbPreset: 10
+  useDelay: 0
+  delayTimeMS: 500
+  delayDecay: 0.5
+  delayMix: 0.8
   windLight: {fileID: 8300000, guid: 200de98059a110348879cfb6cb2c6e33, type: 3}
 --- !u!114 &421176154
 MonoBehaviour:
@@ -23370,6 +23377,12 @@ MonoBehaviour:
   seqGen: {fileID: 0}
   uiCtrl: {fileID: 0}
   newSeqAtBar: 0
+  useReverb: 1
+  revrbPreset: 10
+  useDelay: 0
+  delayTimeMS: 500
+  delayDecay: 0.5
+  delayMix: 0.8
   originalRootNote: 48
 --- !u!114 &421176155
 MonoBehaviour:
@@ -23396,6 +23409,43 @@ MonoBehaviour:
   seqGen: {fileID: 0}
   uiCtrl: {fileID: 0}
   newSeqAtBar: 0
+  useReverb: 1
+  revrbPreset: 10
+  useDelay: 0
+  delayTimeMS: 500
+  delayDecay: 0.5
+  delayMix: 0.8
+--- !u!114 &421176156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 421176151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc93dfb9210cf6f4f8c38d67a91325f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StyleNameEng: Reggae Redux
+  StyleNameChTw: "\u96F7\u9B3C\u89E3\u69CB"
+  ComposerNameEng: MoShang
+  ComposerNameChTw: "\u83AB\u5C1A"
+  StyleInfoEng: 
+  StyleInfoChTw: 
+  bpm: 86
+  scale: 3
+  seqLength: 16
+  newValuesEveryXBars: 2
+  newSeqEveryXBars: 1
+  seqGen: {fileID: 0}
+  uiCtrl: {fileID: 0}
+  newSeqAtBar: 0
+  useReverb: 1
+  revrbPreset: 3
+  useDelay: 1
+  delayTimeMS: 865
+  delayDecay: 0.5
+  delayMix: 0
 --- !u!1 &422348687
 GameObject:
   m_ObjectHideFlags: 0
@@ -112284,6 +112334,7 @@ GameObject:
   - component: {fileID: 2056665327}
   - component: {fileID: 2056665328}
   - component: {fileID: 2056665330}
+  - component: {fileID: 2056665331}
   m_Layer: 0
   m_Name: AccoPlayer
   m_TagString: Untagged
@@ -112590,6 +112641,35 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 73ddb3733aa1e934b98904d163ad686b, type: 3}
   - {fileID: 8300000, guid: 6c958f5268ad92c4dbc66b05567f498c, type: 3}
   - {fileID: 8300000, guid: 58e56648c736db34cabd9d64d760e8f3, type: 3}
+  reggaeRedux:
+  - {fileID: 8300000, guid: 018669aab571b874489f1cb5e45239cd, type: 3}
+  - {fileID: 8300000, guid: f763d92ea6095954e9b7eab2425991ad, type: 3}
+  - {fileID: 8300000, guid: 5775e63beacd996429991c43f80c594d, type: 3}
+  - {fileID: 8300000, guid: 0b69946f32f85e747be84828362a4168, type: 3}
+  - {fileID: 8300000, guid: 85e134cfaaa143f42a58a2cd7342bf3f, type: 3}
+  - {fileID: 8300000, guid: 61a0fc9ffc4900948aabdda96d053bda, type: 3}
+  - {fileID: 8300000, guid: 4f53767f190ce1c4baa193a5e7e66657, type: 3}
+  - {fileID: 8300000, guid: 1fa1b9566e6b69a49a7153c25fe1efc1, type: 3}
+  - {fileID: 8300000, guid: ae02d5413ba31674db98a6afa66dc227, type: 3}
+  - {fileID: 8300000, guid: e651d721f32ec274987c2ad708e17b5c, type: 3}
+  - {fileID: 8300000, guid: edb9752e5595f3b4fb86591391ffb1b8, type: 3}
+  - {fileID: 8300000, guid: f9841c6c7c2510a45a744d5e0477a2d4, type: 3}
+  - {fileID: 8300000, guid: 0ca779b37dbd8894998c9bdeac1a9321, type: 3}
+  - {fileID: 8300000, guid: 3ab7dcf2cf735ae498ce83afcfb8de27, type: 3}
+  - {fileID: 8300000, guid: 771f9a32782eda5469185c85cd85d50e, type: 3}
+  - {fileID: 8300000, guid: de00e2a189b6f6b4587ea4a3ce0add7d, type: 3}
+  - {fileID: 8300000, guid: 711fa7e5feac1c646b4c562ac358c797, type: 3}
+  - {fileID: 8300000, guid: 956815b46f699c04ca9029c690214178, type: 3}
+  - {fileID: 8300000, guid: d397dc048b2df784985a53b565255b28, type: 3}
+  - {fileID: 8300000, guid: d416618ac12b6e54a8ae3c379778aa00, type: 3}
+  - {fileID: 8300000, guid: cd85d6a3504b49c40a36e68a99b578ec, type: 3}
+  - {fileID: 8300000, guid: c56159ca71f983841a8aa4298679bb87, type: 3}
+  - {fileID: 8300000, guid: f807bec5f3ec88545be38a1e4590ef5c, type: 3}
+  - {fileID: 8300000, guid: 9e50f6a1b5cc346408b6b4e580fa4d25, type: 3}
+  - {fileID: 8300000, guid: 9b31950fa02fb5b46ad6b3103e61a4c8, type: 3}
+  - {fileID: 8300000, guid: 73ddb3733aa1e934b98904d163ad686b, type: 3}
+  - {fileID: 8300000, guid: 6c958f5268ad92c4dbc66b05567f498c, type: 3}
+  - {fileID: 8300000, guid: 6e11f01c901c05040b129ce92fa90324, type: 3}
   cleanerClip: {fileID: 8300000, guid: 9183905767e4172438f14467eaae4d00, type: 3}
   playToggle: {fileID: 866871710}
   playToggleImage: {fileID: 866871711}
@@ -112615,6 +112695,17 @@ AudioReverbFilter:
   m_LFReference: 250
   m_ReflectionsDelay: 0
   m_ReverbPreset: 10
+--- !u!168 &2056665331
+AudioEchoFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2056665323}
+  m_Enabled: 0
+  m_Delay: 500
+  m_DecayRatio: 0.5
+  m_WetMix: 1
+  m_DryMix: 1
 --- !u!1 &2058444995
 GameObject:
   m_ObjectHideFlags: 0

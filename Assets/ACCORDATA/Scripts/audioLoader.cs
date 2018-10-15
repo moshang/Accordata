@@ -25,6 +25,7 @@ public class audioLoader : MonoBehaviour
     public AudioClip[] piano;
     public AudioClip[] pianoDrops;
     public AudioClip[] pianoMarimba;
+    public AudioClip[] reggaeRedux;
 
     public AudioClip cleanerClip; // to clean sequencer tables
 
@@ -53,6 +54,7 @@ public class audioLoader : MonoBehaviour
         ensembles.Add(piano); // ens 0
         ensembles.Add(pianoDrops); // ens 1
         ensembles.Add(pianoMarimba); // ens 2
+        ensembles.Add(reggaeRedux); // ens 3
         if (Application.platform == RuntimePlatform.Android) // Application.platform == RuntimePlatform.IPhonePlayer || 
             ensChangeDelay = 0.3f;
         else

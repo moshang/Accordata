@@ -39,6 +39,13 @@ public class minimalMelody : Style
                                             this value needs to be smaller than the newValuesEveryXBars value, or we will skip over new data
                                             setting to 1 to regenerates the sequence with the current data every bar, even if the data hasn't changed
                                             setting to more than 1 repeats the previously generated bar */
+        // Accoplayer  Global FX (ie. affects everything on the accoplayer audiosource, but not on other Unity mixer channels)
+        useReverb = true;
+        revrbPreset = AudioReverbPreset.Arena;
+        useDelay = false;
+        delayTimeMS = 500;
+        delayDecay = 0.5f;
+        delayMix = 0.8f;
     }
 
     // Style Specific Variables

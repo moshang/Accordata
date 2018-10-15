@@ -50,11 +50,24 @@ namespace AccordataStyle
         public seqGenerator seqGen;
         public uiController uiCtrl;
         public int newSeqAtBar = 0;
+        private AudioReverbFilter reverb;
+        private AudioEchoFilter delay;
+
+        public bool useReverb = true;
+        public AudioReverbPreset revrbPreset = AudioReverbPreset.Arena;
+        public bool useDelay = false;
+        public int delayTimeMS = 500;
+        public float delayDecay = 0.5f;
+        public float delayMix = 0.8f;
+
 
         private void OnEnable()
         {
             seqGen = GetComponentInParent<seqGenerator>();
             uiCtrl = seqGen.uiCtrl;
+            GameObject accoPlayer = GameObject.Find("AccoPlayer");
+            reverb = accoPlayer.GetComponent<AudioReverbFilter>();
+            delay = accoPlayer.GetComponent<AudioEchoFilter>();
         }
 
         public virtual void makeSeq(int barNum, int aqiVal, float tempVal, float windVal, float humidityVal, float rainVal)
@@ -92,6 +105,24 @@ namespace AccordataStyle
 
         public void resetSFX()
         {
+            if (useReverb)
+            {
+                reverb.enabled = true;
+                reverb.reverbPreset = revrbPreset;
+            }
+            else
+                reverb.enabled = false;
+
+            if (useDelay)
+            {
+                delay.enabled = true;
+                delay.delay = delayTimeMS;
+                delay.wetMix = delayMix;
+                delay.decayRatio = delayDecay;
+            }
+            else
+                delay.enabled = false;
+
             // temperature
             setVol("tempLightVol", -80, 1);
             setVol("tempMediumVol", -80, 1);

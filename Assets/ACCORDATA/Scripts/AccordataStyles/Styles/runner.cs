@@ -39,6 +39,13 @@ public class runner : Style
                                             this value needs to be smaller than the newValuesEveryXBars value, or we will skip over new data
                                             set to 1 to regenerate the sequence with the current data every bar, even if the data hasn't changed
                                             set to more than 1 to repeat the previously generated bar */
+                                        // Accoplayer  Global FX (ie. affects everything on the accoplayer audiosource, but not on other Unity mixer channels)
+        useReverb = true;
+        revrbPreset = AudioReverbPreset.Arena;
+        useDelay = false;
+        delayTimeMS = 500;
+        delayDecay = 0.5f;
+        delayMix = 0.8f;
     }
 
     // Style Specific Variables
