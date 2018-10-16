@@ -63,9 +63,9 @@ public class reggaeRedux : Style
         // bar 2 of pair
         {33, 0, 0, 0, 45, 0, 33, 0, 45, 45, 45, 45, 40, 0, 40, 0 },
         {33, 0, 0, 0, 45, 0, 0, 0, 45, 0, 45, 45, 40, 0, 45, 0 },
-        {33, 0, 45, 0, 33, 0,  45, 33, 38, 38, 38, 38, 40, 0, 40, 38 },
-        {33, 0, 45, 0, 33, 0, 0, 0, 33, 0, 0, 0, 33, 0, 0, 0 },
-        {33, 0, 0, 0, 45, 0, 0, 0, 33, 0, 0, 0, 33, 0, 45, 0 }
+        {33, 0, 45, 0, 33, 0, 45, 33, 38, 38, 38, 38, 40, 0, 40, 38 },
+        {33, 0, 0, 0, 33, 0, 45, 33, 38, 38, 38, 38, 40, 0, 45, 0  },
+        {33, 0, 0, 0, 45, 0, 0, 0, 38, 0, 38, 38, 45, 0, 40, 0  }
     };
 
     private readonly int[,] keys = {
@@ -111,6 +111,13 @@ public class reggaeRedux : Style
             return;
         seq.clear();
 
+        int bassPhrase;
+
+        if (!Bar2ofPair)
+            bassPhrase = Random.Range(0, 4);
+        else
+            bassPhrase = Random.Range(5, 10);
+
         for (int i = 0; i < seqLength; i++)
         {
             // AQI
@@ -139,18 +146,8 @@ public class reggaeRedux : Style
                 else
                     seq.addNote(i, 108, Random.Range(90, 105));
                 // bass
-                if (!Bar2ofPair)
-                {
-                    int bassPhrase = Random.Range(0, 4);
-                    if (bass[bassPhrase, i] != 0)
-                        seq.addNote(i, bass[bassPhrase, i], Random.Range(117, 127));
-                }
-                else
-                {
-                    int bassPhrase = Random.Range(5, 8);
-                    if (bass[bassPhrase, i] != 0)
-                        seq.addNote(i, bass[bassPhrase, i], Random.Range(117, 127));
-                }
+                if (bass[bassPhrase, i] != 0)
+                    seq.addNote(i, bass[bassPhrase, i], Random.Range(117, 127));
             }
 
             // HUMIDITY
@@ -180,12 +177,22 @@ public class reggaeRedux : Style
                     }
                 }
             }
-            /*
+            // RAIN
             if (uiCtrl.isActiveRain) // check if the value is active or muted in the ui
             {
-                seq.addNote(0, 0, 0);
+                if (rainVal > 10 && i % 2 == 0)
+                {
+                    int nn = seqGen.scales[1, (15 - i) % 8] + 98;
+                    if (nn <= 107 && nn >= 96)
+                        seq.addNote(i, nn, Mathf.Clamp((int)Random.Range(80, 90 + (rainVal / 2)), 0, 127));
+                }
+                if (rainVal > 20 && i % 2 != 0)
+                {
+                    int nn = seqGen.scales[1, Random.Range(0, 8)] + 98;
+                    if (nn <= 107 && nn >= 96)
+                        seq.addNote(i, nn, Mathf.Clamp((int)Random.Range(80, 90 + (rainVal / 2)), 0, 127));
+                }
             }
-            */
         }
 
         // TEMPERATURE
@@ -240,7 +247,7 @@ public class reggaeRedux : Style
             setVol("windHeavyVol", -80, 3);
         }
 
-
+        // RAIN
         if (uiCtrl.isActiveRain)
             setDelayMix(Easings.QuadraticEaseOut(utils.map(Mathf.Clamp(rainVal, 0, 60), 0, 60, 0.15f, 0.75f)));
         else
