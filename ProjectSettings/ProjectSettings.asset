@@ -158,7 +158,8 @@ PlayerSettings:
     Android: com.StoneBell.AirQuality
     iOS: com.StoneBell.Accordata.moshang
   buildNumber:
-    iOS: 12
+    Standalone: 13
+    iOS: 13
   AndroidBundleVersionCode: 1013
   AndroidMinSdkVersion: 16
   AndroidTargetSdkVersion: 0
