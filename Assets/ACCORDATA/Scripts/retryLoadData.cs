@@ -21,10 +21,12 @@ public class retryLoadData : MonoBehaviour
 {
     public dataLoader dLoader;
     public GameObject errorPanel;
+    public bool retryButton;
 
     public void retryGetData()
     {
-        dLoader.loadData();
+        if (retryButton)
+            dLoader.loadData();
         errorPanel.SetActive(false);
     }
 }

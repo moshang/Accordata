@@ -114,8 +114,7 @@ public class dataLoader : MonoBehaviour
             //Debug.Log("Done!");
             if (!string.IsNullOrEmpty(www.error))
             {
-                Debug.Log(www.error);
-                showDataErrorMessage();
+                useFallbackData();
             }
             else
             {
@@ -129,10 +128,22 @@ public class dataLoader : MonoBehaviour
         }
     }
 
+    private void useFallbackData()
+    {
+        string data = Resources.Load<TextAsset>("fallbackWeather").text;
+        splitData = data.Split('\n');
+        showDataErrorMessage();
+        populateData(splitData);
+    }
+
     private void populateData(string[] data) // 78 sites for the most recent hour only
     {
         int numHours = data.Length / 78;
-
+        if (numHours < 72)
+        {
+            useFallbackData();
+            return;
+        }
         sites = new Sites[numHours, numSites];
         // int hoursToRead = numHours; // to read all sites
         int hoursToRead = 1; // to read just the most recent hour
@@ -199,7 +210,7 @@ public class dataLoader : MonoBehaviour
     {
         dataFinishedLoading = false;
         int numHours = data.Length / 78;
-
+        Debug.Log("numHours: " + numHours);
         for (int i = 0; i < hoursToRead; i++)
         {
             string[] siteData = data[(i * numSites) + siteIndex].Split(',');
