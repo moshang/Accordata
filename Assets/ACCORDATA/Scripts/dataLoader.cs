@@ -56,6 +56,7 @@ public class dataLoader : MonoBehaviour
 
     public struct Sites
     {
+        public DateTime timestamp;
         public string EnglishName;
         public string ChineseName;
         public float lat;
@@ -156,7 +157,7 @@ public class dataLoader : MonoBehaviour
             for (int j = 0; j < numSites; j++)
             {
                 string[] siteData = data[(i * 78) + j].Split(',');
-
+                sites[i, j].timestamp = getTimestamp(siteData[0]);
                 sites[i, j].ChineseName = ChineseNames[j];
                 sites[i, j].EnglishName = siteData[1];
                 float.TryParse(siteData[2], out sites[i, j].lat);
@@ -202,6 +203,17 @@ public class dataLoader : MonoBehaviour
         loadingWheel.SetActive(false);
         if (userSettings.firstRun == 1)
             helpArrow.SetActive(true);
+    }
+
+    private DateTime getTimestamp(string timestring)
+    {
+        DateTime dt = DateTime.Now;
+        long seconds;
+        long.TryParse(timestring, out seconds);
+        Debug.Log(seconds);
+        Debug.Log(DateTimeOffset.FromUnixTimeMilliseconds(seconds));
+        //Debug.Log(dt);
+        return dt;
     }
 
     public void getData72HR(int siteIndex)
