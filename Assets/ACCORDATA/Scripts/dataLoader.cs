@@ -107,7 +107,10 @@ public class dataLoader : MonoBehaviour
     IEnumerator fetchData()
     {
         loadingWheel.SetActive(true);
-        using (www = new WWW("http://accordata.org/scraper/weather.csv"))
+        String baseUrl = "http://accordata.org/scraper/weather.csv";
+        string newUrl = baseUrl + "?param=value&dummy=" + (int)UnityEngine.Random.Range(0, 999999999);
+        Debug.Log(newUrl);
+        using (www = new WWW(newUrl))
         {
             //Debug.Log("Starting!");
             yield return www;
