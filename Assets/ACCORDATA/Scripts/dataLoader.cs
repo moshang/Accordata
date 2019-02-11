@@ -119,6 +119,7 @@ public class dataLoader : MonoBehaviour
             if (!string.IsNullOrEmpty(www.error))
             {
                 useFallbackData();
+                Debug.Log("Can't fetch data - using fallback data.");
             }
             else
             {
@@ -140,24 +141,46 @@ public class dataLoader : MonoBehaviour
         populateData(splitData);
     }
 
-    private void populateData(string[] data) // 78 sites for the most recent hour only
+    private void populateData(string[] data) // 78 sites for the most recent hour only <- nope, we're getting all hours here
     {
         int numHours = data.Length / 78;
+        Debug.Log("Number of hours available: " + numHours);
+
+        /*
         if (numHours < 72)
         {
             useFallbackData();
-            return;
+           Debug.Log("Less than 72hrs - using fallback data.");
+           return;
         }
-        sites = new Sites[numHours, numSites];
-        // int hoursToRead = numHours; // to read all sites
-        int hoursToRead = 1; // to read just the most recent hour
+        */
+        sites = new Sites[72, numSites];
+        int hoursToRead = numHours; // to read all hours
+        // int hoursToRead = 1; // to read just the most recent hour
 
         for (int i = 0; i < hoursToRead; i++)
         {
+            bool hourWasChecked = false;
             for (int j = 0; j < numSites; j++)
             {
                 string[] siteData = data[(i * 78) + j].Split(',');
-                sites[i, j].timestamp = getTimestamp(siteData[0]);
+
+                if (!hourWasChecked)
+                {
+                    sites[i, j].timestamp = getTimestamp(siteData[0]);
+                    //Debug.Log(sites[i, j].timestamp);
+                    if (i > 0)
+                    {
+                        System.TimeSpan diff1 = sites[i - 1, j].timestamp - sites[i, j].timestamp;
+                        //Debug.Log("difference: " + diff1.ToString());
+                        if (diff1 > new System.TimeSpan(0, 80, 0))
+                        {
+                            Debug.Log(diff1);
+                            Debug.Log(" --------------------------------------------------------------> Need to add " + (diff1.Hours - 1) + " set(s) of records.");
+                        }
+                    }
+                    hourWasChecked = true;
+                }
                 sites[i, j].ChineseName = ChineseNames[j];
                 sites[i, j].EnglishName = siteData[1];
                 float.TryParse(siteData[2], out sites[i, j].lat);
@@ -193,12 +216,13 @@ public class dataLoader : MonoBehaviour
                     sites[i, j].marker.name = sites[i, j].EnglishName;
                     sites[i, j].marker.GetComponent<Image>().color = uiCtrl.getAqiColor(sites[i, j].aqi);
                 }
-                dataFinishedLoading = true;
-                uiCtrl.site72HrToggle.interactable = true;
-                uiCtrl.chartIcon.color = uiCtrl.countyTi.interactableColor;
-                uiCtrl.playToggle.interactable = true;
             }
         }
+
+        dataFinishedLoading = true;
+        uiCtrl.site72HrToggle.interactable = true;
+        uiCtrl.chartIcon.color = uiCtrl.countyTi.interactableColor;
+        uiCtrl.playToggle.interactable = true;
 
         loadingWheel.SetActive(false);
         if (userSettings.firstRun == 1)
@@ -207,13 +231,13 @@ public class dataLoader : MonoBehaviour
 
     private DateTime getTimestamp(string timestring)
     {
-        DateTime dt = DateTime.Now;
         long seconds;
         long.TryParse(timestring, out seconds);
-        Debug.Log(seconds);
-        Debug.Log(DateTimeOffset.FromUnixTimeMilliseconds(seconds));
-        //Debug.Log(dt);
-        return dt;
+        DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(seconds);
+        DateTime dateTime = dateTimeOffset.UtcDateTime.ToLocalTime();
+        //Debug.Log(dateTime);
+        //Debug.Log(dateTime.Hour);
+        return dateTime;
     }
 
     public void getData72HR(int siteIndex)
